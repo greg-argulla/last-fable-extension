@@ -1,0 +1,94 @@
+#root {
+  /* max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center; */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.outline {
+  color: #ffd433;
+  font-size: 13px;
+  text-shadow: #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px,
+    #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dice-result {
+  color: #ffd433;
+  font-size: 12px;
+  font-weight: 800;
+  text-shadow: #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px,
+    #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.button-dice {
+  width: 40px;
+  height: 25px;
+  font-size: 10px;
+  padding: 0;
+  color: #ffd433;
+  background-color: #222;
+}
+
+.crit {
+  position: relative;
+  font-size: 13px;
+  color: #fff;
+  animation: explode 1s linear infinite alternate;
+}
+
+@keyframes explode {
+  0% {
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+    transform: scale(1);
+  }
+  20% {
+    text-shadow: 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
+    transform: scale(1.05);
+  }
+  40% {
+    text-shadow: 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    display: none;
+  }
+}
