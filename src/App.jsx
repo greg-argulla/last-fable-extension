@@ -141,6 +141,7 @@ function App() {
     });
 
     setPreparedDice(newPreparedDice);
+    saveStats({ preparedDice: newPreparedDice });
     clearDice();
   };
 
@@ -189,13 +190,27 @@ function App() {
         setChat(currentChat);
       });
 
-      OBR.action.onOpenChange((isOpen) => {
+      OBR.action.onOpenChange(async (isOpen) => {
         // React to the action opening or closing
         if (isOpen) {
           setUnreadCount(0);
           OBR.action.setBadgeText(undefined);
         }
       });
+
+      const stats = JSON.parse(
+        localStorage.getItem("last.fable.extension/metadata")
+      );
+
+      if (stats) {
+        setDex(stats.dex);
+        setIns(stats.ins);
+        setMig(stats.mig);
+        setWil(stats.wil);
+        setDamage(stats.damage);
+        setBonus(stats.bonus);
+        setPreparedDice(stats.preparedDice);
+      }
     }
   }, [isOBRReady]);
 
@@ -370,30 +385,55 @@ function App() {
     }
   };
 
+  const saveStats = async (replace) => {
+    localStorage.setItem(
+      "last.fable.extension/metadata",
+      JSON.stringify({
+        dex,
+        ins,
+        mig,
+        wil,
+        damage,
+        bonus,
+        preparedDice,
+        ...replace,
+      })
+    );
+  };
+
   const changeDex = (evt) => {
     setDex(evt.target.value);
+    saveStats({ dex: evt.target.value });
   };
   const changeIns = (evt) => {
     setIns(evt.target.value);
+    saveStats({ ins: evt.target.value });
   };
   const changeMig = (evt) => {
     setMig(evt.target.value);
+    saveStats({ mig: evt.target.value });
   };
   const changeWil = (evt) => {
     setWil(evt.target.value);
+    saveStats({ wil: evt.target.value });
   };
+
   const changeBonus = (evt) => {
     if (evt.target.value != "") {
       setBonus(parseInt(evt.target.value));
+      saveStats({ bonus: parseInt(evt.target.value) });
     } else {
       setBonus("");
+      saveStats({ bonus: "" });
     }
   };
   const changeDamage = (evt) => {
     if (evt.target.value != "") {
       setDamage(parseInt(evt.target.value));
+      saveStats({ damage: parseInt(evt.target.value) });
     } else {
       setDamage("");
+      saveStats({ damage: "" });
     }
   };
 
