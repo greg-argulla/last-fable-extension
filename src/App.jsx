@@ -433,7 +433,7 @@ function App() {
 
   const changeBonus = (evt) => {
     if (evt.target.value != "") {
-      setBonus(parseInt(evt.target.value));
+      setBonus(parseInt(evt.target.value.replace(/\D/g, "")));
       saveStats({ bonus: parseInt(evt.target.value) });
     } else {
       setBonus("");
@@ -442,7 +442,7 @@ function App() {
   };
   const changeDamage = (evt) => {
     if (evt.target.value != "") {
-      setDamage(parseInt(evt.target.value));
+      setDamage(parseInt(evt.target.value.replace(/\D/g, "")));
       saveStats({ damage: parseInt(evt.target.value) });
     } else {
       setDamage("");
