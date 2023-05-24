@@ -44,6 +44,8 @@ function App() {
   const setToPM = (user) => {
     if (name === "GM") {
       setText("[" + user + "]");
+      const input = document.querySelector("#chatbox");
+      input.focus();
     }
   };
 
@@ -1022,6 +1024,7 @@ function App() {
           </div>
           <div style={{ marginTop: 5, display: "inline-flex" }}>
             <input
+              id="chatbox"
               style={{
                 color: "#FFF",
                 width: 280,
