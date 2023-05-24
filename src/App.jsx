@@ -331,8 +331,21 @@ function App() {
     updateMessages();
   }, [chat]);
 
+  function getSubstring(str, start, end) {
+    const char1 = str.indexOf(start) + 1;
+    const char2 = str.lastIndexOf(end);
+    return str.substring(char1, char2);
+  }
+
   const addMessage = async () => {
     if (text !== "") {
+      if (text.charAt(0) === "[") {
+        const target = getSubstring(text, "[", "]");
+        console.log(target);
+        addWhisper(target);
+        return;
+      }
+
       const newMessage = { user: name, message: text };
       const newChat = [...chat, newMessage];
       OBR.room.setMetadata({
@@ -350,9 +363,14 @@ function App() {
     }
   };
 
-  const addWhisper = async () => {
+  const addWhisper = async (target) => {
     if (text !== "") {
-      const newMessage = { user: name, message: text, whisper: true };
+      const newMessage = {
+        user: name,
+        message: text,
+        whisper: true,
+        whisperTarget: target,
+      };
       const newChat = [...chat, newMessage];
       OBR.room.setMetadata({
         "last.fable.extension/metadata": {
@@ -988,7 +1006,7 @@ function App() {
                 }}
                 onClick={() => addWhisper()}
               >
-                Whisper GM
+                TEST
               </button>
             </div>
           </div>
