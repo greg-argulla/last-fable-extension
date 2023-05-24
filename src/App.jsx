@@ -404,7 +404,7 @@ function App() {
 
   const addWhisper = async (target) => {
     if (text !== "") {
-      const message = target ? text.replace("[" + target + "] ", "") : text;
+      const message = target ? text.replace("[" + target + "]", "") : text;
 
       const newMessage = {
         user: name,
