@@ -229,7 +229,9 @@ function App() {
     const updateMessages = async () => {
       const lastMessage = chat[chat.length - 1];
 
-      if (lastMessage && !cooldown && isOBRReady) {
+      const isOpen = await OBR.action.isOpen();
+
+      if (lastMessage && !cooldown && isOBRReady && !isOpen) {
         if (lastMessage.message) {
           OBR.notification.show(
             lastMessage.user + ": " + lastMessage.message,
