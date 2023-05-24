@@ -154,6 +154,7 @@ function App() {
 
   const clearPreparedDice = () => {
     setPreparedDice([]);
+    saveStats({ preparedDice: [] });
     clearAllDice();
   };
 
