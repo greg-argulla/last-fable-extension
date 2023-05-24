@@ -161,6 +161,10 @@ function App() {
 
       OBR.action.setBadgeBackgroundColor("orange");
       setName(await OBR.player.getName());
+
+      OBR.player.onChange(async (player) => {
+        setName(await OBR.player.getName());
+      });
     });
   }, []);
 
