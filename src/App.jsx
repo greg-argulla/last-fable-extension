@@ -48,7 +48,9 @@ function App() {
         return (
           <div className="outline" style={{ textAlign: "right" }}>
             <div>{item.user}</div>
-            <span style={{ color: "#FFF" }}>{item.message}</span>
+            <span style={{ color: "#FFF" }}>
+              {item.message} {item.whisper ? "(WHISPER)" : ""}
+            </span>
           </div>
         );
       }
