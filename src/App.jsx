@@ -148,13 +148,17 @@ function App() {
   useEffect(() => {
     OBR.onReady(async () => {
       const metadata = await OBR.room.getMetadata();
-      const currentChat = metadata["last.fable.extension/metadata"].currentChat;
-      setChat(currentChat);
+      if (metadata["last.fable.extension/metadata"]) {
+        const currentChat =
+          metadata["last.fable.extension/metadata"].currentChat;
+        setChat(currentChat);
+      }
       setIsOBRReady(true);
       setTimeout(() => {
         var objDiv = document.getElementById("chatbox");
         objDiv.scrollTop = objDiv.scrollHeight;
       }, 100);
+
       OBR.action.setBadgeBackgroundColor("orange");
       setName(await OBR.player.getName());
     });
