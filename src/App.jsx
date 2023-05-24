@@ -73,7 +73,8 @@ function App() {
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
-              {item.message} {item.target ? " - " + item.target : ""}
+              {item.message}
+              {item.whisperTarget ? " - " + item.whisperTarget : ""}
               {item.whisper ? "*" : ""}
             </span>
           </div>
