@@ -677,7 +677,7 @@ function App() {
             flexDirection: "row",
             paddingLeft: 40,
             paddingRight: 20,
-            paddingTop: 25,
+            paddingTop: 20,
           }}
         >
           <div>
