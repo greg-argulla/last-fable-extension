@@ -665,7 +665,7 @@ function App() {
       style={{
         backgroundImage: `url(${landingBG})`,
         backgroundSize: "contain",
-        height: 800,
+        height: 620,
         width: 400,
         overflow: "hidden",
       }}
