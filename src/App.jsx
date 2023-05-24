@@ -44,12 +44,31 @@ function App() {
   const ChatInstance = (props) => {
     const { item, index } = props;
     if (item.message) {
+      if (item.message === "/line") {
+        return <hr></hr>;
+      }
+
+      if (item.message === "/newround") {
+        return (
+          <div
+            className="outline"
+            style={{ textAlign: "center", fontSize: 14 }}
+          >
+            <hr></hr>
+            New Round
+            <hr></hr>
+          </div>
+        );
+      }
+
       if (item.user === name) {
         return (
           <div className="outline" style={{ textAlign: "right" }}>
             <div>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*whisper*" : ""} {item.message}
+              {item.whisper ? "*" : ""}
+              {item.message}
+              {item.whisper ? "*" : ""}
             </span>
           </div>
         );
@@ -60,7 +79,9 @@ function App() {
           <div className="outline">
             <div>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*whisper*" : ""} {item.message}
+              {item.whisper ? "*" : ""}
+              {item.message}
+              {item.whisper ? "*" : ""}
             </span>
           </div>
         );
@@ -71,8 +92,9 @@ function App() {
           <div className="outline">
             <div>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*whisper*" : ""}
+              {item.whisper ? "*" : ""}
               {item.message}
+              {item.whisper ? "*" : ""}
             </span>
           </div>
         );
@@ -339,14 +361,25 @@ function App() {
 
   const addMessage = async () => {
     if (text !== "") {
-      if (text.charAt(0) === "[") {
-        const target = getSubstring(text, "[", "]");
-        console.log(target);
-        addWhisper(target);
-        return;
+      if (name === "GM") {
+        if (text.charAt(0) === "[") {
+          const target = getSubstring(text, "[", "]");
+          addWhisper(target);
+          return;
+        }
+
+        if (text === "/clearchat") {
+          OBR.room.setMetadata({
+            "last.fable.extension/metadata": {
+              currentChat: [],
+            },
+          });
+          setText("");
+          return;
+        }
       }
 
-      const newMessage = { user: name, message: text };
+      const newMessage = { user: name, message: text.trim() };
       const newChat = [...chat, newMessage];
       OBR.room.setMetadata({
         "last.fable.extension/metadata": {
@@ -365,9 +398,11 @@ function App() {
 
   const addWhisper = async (target) => {
     if (text !== "") {
+      const message = target ? text.replace("[" + target + "] ", "") : text;
+
       const newMessage = {
         user: name,
-        message: text,
+        message: message.trim(),
         whisper: true,
         whisperTarget: target,
       };
