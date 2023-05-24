@@ -142,7 +142,7 @@ function App() {
 
     setPreparedDice(newPreparedDice);
     saveStats({ preparedDice: newPreparedDice });
-    clearDice();
+    clearAllDice();
   };
 
   useEffect(() => {
