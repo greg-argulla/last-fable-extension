@@ -66,7 +66,7 @@ function App() {
         );
       }
 
-      if (item.whisper || item.whisperTarget === name) {
+      if (item.whisper && item.whisperTarget === name) {
         return (
           <div className="outline">
             <div>{item.user}</div>
@@ -1006,7 +1006,7 @@ function App() {
                 }}
                 onClick={() => addWhisper()}
               >
-                TEST
+                Whisper GM
               </button>
             </div>
           </div>
