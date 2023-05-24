@@ -33,8 +33,13 @@ function App() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [name, setName] = useState("");
   const [preparedDice, setPreparedDice] = useState([]);
+  const [useHR, setUseHR] = useState(true);
 
   const [chat, setChat] = useState([]);
+
+  const toggleHR = () => {
+    setUseHR(!useHR);
+  };
 
   const ChatInstance = (props) => {
     const { item, index } = props;
@@ -83,7 +88,9 @@ function App() {
               {item.diceOneResult + item.diceTwoResult + item.bonus}
             </span>
           )}
-          {parseInt(item.damage) > 0 ? ` HR: ${HR} DMG:` : ""}
+          {parseInt(item.damage) > 0
+            ? (item.useHR ? ` HR: ${HR} ` : " ") + "DMG:"
+            : ""}
           {parseInt(item.damage) > 0 ? (
             <span
               style={{
@@ -93,7 +100,7 @@ function App() {
                 fontSize: 14,
               }}
             >
-              {HR + item.damage}
+              {item.useHR ? HR + item.damage : item.damage}
             </span>
           ) : (
             ""
@@ -142,6 +149,11 @@ function App() {
 
     setPreparedDice(newPreparedDice);
     saveStats({ preparedDice: newPreparedDice });
+    clearAllDice();
+  };
+
+  const clearPreparedDice = () => {
+    setPreparedDice([]);
     clearAllDice();
   };
 
@@ -268,7 +280,10 @@ function App() {
               (lastMessage.damage !== 0 &&
               lastMessage.damage !== "" &&
               !isFumble
-                ? " DMG: " + (HR + lastMessage.damage)
+                ? " DMG: " +
+                  (lastMessage.useHR
+                    ? HR + lastMessage.damage
+                    : lastMessage.damage)
                 : ""),
             isCrit ? "WARNING" : isFumble ? "ERROR" : "INFO"
           );
@@ -337,6 +352,7 @@ function App() {
         diceTwoResult,
         damage,
         bonus,
+        useHR,
       },
     ];
     OBR.room.setMetadata({
@@ -545,7 +561,7 @@ function App() {
           >
             {diceOneResult + diceTwoResult + bonus}
           </span>
-          {parseInt(damage) > 0 ? ` HR: ${HR} DMG: ` : ""}
+          {parseInt(damage) > 0 ? (useHR ? `HR: ${HR} ` : " " + "DMG: ") : ""}
           {parseInt(damage) > 0 ? (
             <span
               style={{
@@ -555,7 +571,7 @@ function App() {
                 fontSize: 14,
               }}
             >
-              {HR + damage}
+              {useHR ? HR + damage : damage}
             </span>
           ) : (
             ""
@@ -689,7 +705,6 @@ function App() {
               style={{ display: "flex", flexDirection: "row", marginRight: 2 }}
             >
               <div style={{ width: 50 }}>
-                <Text>DEX</Text>
                 <select
                   style={{
                     backgroundColor: "#333",
@@ -713,7 +728,6 @@ function App() {
                 </button>
               </div>
               <div style={{ width: 50 }}>
-                <Text>INS</Text>
                 <select
                   style={{
                     backgroundColor: "#333",
@@ -737,7 +751,6 @@ function App() {
                 </button>
               </div>
               <div style={{ width: 50 }}>
-                <Text>MIG</Text>
                 <select
                   style={{
                     backgroundColor: "#333",
@@ -761,7 +774,6 @@ function App() {
                 </button>
               </div>
               <div style={{ width: 50 }}>
-                <Text>WIL</Text>
                 <select
                   style={{
                     backgroundColor: "#333",
@@ -785,40 +797,60 @@ function App() {
                 </button>
               </div>
               <div style={{ width: 45 }}>
-                <Text>+/DMG</Text>
-                <div style={{ marginTop: -0.5 }}>
-                  <input
-                    type="number"
-                    style={{
-                      width: 34,
-                      height: 17,
-                      backgroundColor: "#333",
-                      color: "#ffd433",
-                      fontSize: 12,
-                      border: 4,
-                      paddingLeft: 4,
-                    }}
-                    value={bonus}
-                    onChange={changeBonus}
-                  />
-                </div>
-                <div style={{ marginTop: -0.5 }}>
-                  <input
-                    type="number"
-                    style={{
-                      width: 34,
-                      height: 17,
-                      backgroundColor: "#333",
-                      color: "#ffd433",
-                      fontSize: 12,
-                      border: 4,
-                      paddingLeft: 4,
-                    }}
-                    value={damage}
-                    onChange={changeDamage}
-                  />
-                </div>
+                <button
+                  className="button-dice"
+                  onClick={() => clearPreparedDice()}
+                >
+                  Reset
+                </button>
+                <button className="button-dice" onClick={() => toggleHR()}>
+                  {useHR ? "With HR" : "No HR"}
+                </button>
               </div>
+            </div>
+
+            <div
+              style={{
+                marginTop: 5,
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <span className="dice-result">Bonus</span>
+              <input
+                type="number"
+                style={{
+                  width: 38,
+                  height: 17,
+                  backgroundColor: "#333",
+                  color: "#ffd433",
+                  fontSize: 12,
+                  border: 4,
+                  paddingLeft: 4,
+                  marginLeft: 6,
+                }}
+                value={bonus}
+                onChange={changeBonus}
+              />
+              <span className="dice-result" style={{ marginLeft: 6 }}>
+                Damage
+              </span>
+              <input
+                type="number"
+                style={{
+                  width: 38,
+                  height: 17,
+                  backgroundColor: "#333",
+                  color: "#ffd433",
+                  fontSize: 12,
+                  border: 4,
+                  paddingLeft: 4,
+                  marginLeft: 6,
+                }}
+                value={damage}
+                onChange={changeDamage}
+              />
+              <span className="checkbox-container"></span>
             </div>
           </div>
 

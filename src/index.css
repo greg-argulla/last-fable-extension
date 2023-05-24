@@ -68,30 +68,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-.word {
-  position: relative;
-  font-size: 50px;
-  color: #fff;
-  animation: explode 1s linear;
-  opacity: 0;
-}
-
-@keyframes explode {
-  0% {
-    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
-    transform: scale(1);
-  }
-  20% {
-    text-shadow: 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
-    transform: scale(1.05);
-  }
-  40% {
-    text-shadow: 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
