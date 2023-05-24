@@ -44,8 +44,6 @@ function App() {
   const setToPM = (user) => {
     if (name === "GM") {
       setText("[" + user + "]");
-      const input = document.querySelector("#chatbox");
-      input.focus();
     }
   };
 
