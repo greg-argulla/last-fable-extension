@@ -665,7 +665,7 @@ function App() {
       style={{
         backgroundImage: `url(${landingBG})`,
         backgroundSize: "contain",
-        height: 620,
+        height: 600,
         width: 400,
         overflow: "hidden",
       }}
@@ -677,7 +677,7 @@ function App() {
             flexDirection: "row",
             paddingLeft: 40,
             paddingRight: 20,
-            paddingTop: 20,
+            paddingTop: 25,
           }}
         >
           <div>
