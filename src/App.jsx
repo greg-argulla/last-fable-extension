@@ -53,12 +53,15 @@ function App() {
         );
       }
 
-      return (
-        <div className="outline">
-          <div>{item.user}</div>
-          <span style={{ color: "#FFF" }}>{item.message}</span>
-        </div>
-      );
+      if (!item.whisper || name === "GM") {
+        return (
+          <div className="outline">
+            <div>{item.user}</div>
+            <span style={{ color: "#FFF" }}>{item.message}</span>
+          </div>
+        );
+      }
+      return "";
     } else {
       const HR =
         item.diceOneResult > item.diceTwoResult
@@ -250,10 +253,15 @@ function App() {
 
       if (lastMessage && !cooldown && isOBRReady && !isOpen) {
         if (lastMessage.message) {
-          OBR.notification.show(
-            lastMessage.user + ": " + lastMessage.message,
-            "DEFAULT"
-          );
+          if (!lastMessage.whisper || name === "GM") {
+            OBR.notification.show(
+              lastMessage.user +
+                ": " +
+                lastMessage.message +
+                (lastMessage.whisper ? " (WHISPER)" : ""),
+              "DEFAULT"
+            );
+          }
         } else {
           const HR =
             lastMessage.diceOneResult > lastMessage.diceTwoResult
@@ -293,8 +301,10 @@ function App() {
         if (isOBRReady) {
           const isOpen = await OBR.action.isOpen();
           if (!isOpen) {
-            setUnreadCount(unreadCount + 1);
-            OBR.action.setBadgeText("" + (unreadCount + 1));
+            if (!lastMessage.whisper || name === "GM") {
+              setUnreadCount(unreadCount + 1);
+              OBR.action.setBadgeText("" + (unreadCount + 1));
+            }
           }
         }
       }
@@ -308,6 +318,25 @@ function App() {
   const addMessage = async () => {
     if (text !== "") {
       const newMessage = { user: name, message: text };
+      const newChat = [...chat, newMessage];
+      OBR.room.setMetadata({
+        "last.fable.extension/metadata": {
+          currentChat: newChat.splice(-messageLimit),
+        },
+      });
+
+      setText("");
+
+      setTimeout(() => {
+        var objDiv = document.getElementById("chatbox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }, 100);
+    }
+  };
+
+  const addWhisper = async () => {
+    if (text !== "") {
+      const newMessage = { user: name, message: text, whisper: true };
       const newChat = [...chat, newMessage];
       OBR.room.setMetadata({
         "last.fable.extension/metadata": {
@@ -915,7 +944,7 @@ function App() {
               <ChatInstance key={index} item={item} index={index} />
             ))}
           </div>
-          <div style={{ marginTop: 5 }}>
+          <div style={{ marginTop: 5, display: "inline-flex" }}>
             <input
               style={{
                 color: "#FFF",
@@ -931,19 +960,21 @@ function App() {
               }}
               onKeyDown={handleKeyDown}
             ></input>
-            <button
-              style={{
-                width: 48,
-                height: 28,
-                fontSize: 12,
-                padding: 0,
-                color: "#ffd433",
-                backgroundColor: "#222",
-              }}
-              onClick={() => addMessage()}
-            >
-              Send
-            </button>
+            <div style={{ marginTop: -5 }}>
+              <button
+                style={{
+                  width: 48,
+                  height: 32,
+                  fontSize: 10,
+                  padding: 0,
+                  color: "#ffd433",
+                  backgroundColor: "#222",
+                }}
+                onClick={() => addWhisper()}
+              >
+                Whisper GM
+              </button>
+            </div>
           </div>
         </div>
       </div>
