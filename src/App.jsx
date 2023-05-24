@@ -301,13 +301,18 @@ function App() {
       if (lastMessage && !cooldown && isOBRReady && !isOpen) {
         if (lastMessage.message) {
           if (!lastMessage.whisper || name === "GM") {
-            OBR.notification.show(
-              lastMessage.user +
-                ": " +
-                lastMessage.message +
-                (lastMessage.whisper ? " (WHISPER)" : ""),
-              "DEFAULT"
-            );
+            if (
+              lastMessage.message !== "/line" &&
+              lastMessage.message !== "/newround"
+            ) {
+              OBR.notification.show(
+                lastMessage.user +
+                  ": " +
+                  lastMessage.message +
+                  (lastMessage.whisper ? " (WHISPER)" : ""),
+                "DEFAULT"
+              );
+            }
           }
         } else {
           const HR =
@@ -349,8 +354,13 @@ function App() {
           const isOpen = await OBR.action.isOpen();
           if (!isOpen) {
             if (!lastMessage.whisper || name === "GM") {
-              setUnreadCount(unreadCount + 1);
-              OBR.action.setBadgeText("" + (unreadCount + 1));
+              if (
+                lastMessage.message !== "/line" &&
+                lastMessage.message !== "/newround"
+              ) {
+                setUnreadCount(unreadCount + 1);
+                OBR.action.setBadgeText("" + (unreadCount + 1));
+              }
             }
           }
         }
