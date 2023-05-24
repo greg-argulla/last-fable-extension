@@ -41,6 +41,10 @@ function App() {
     setUseHR(!useHR);
   };
 
+  const setToPM = (user) => {
+    setText("[" + user + "]");
+  };
+
   const ChatInstance = (props) => {
     const { item, index } = props;
     if (item.message) {
@@ -64,7 +68,7 @@ function App() {
       if (item.user === name) {
         return (
           <div className="outline" style={{ textAlign: "right" }}>
-            <div>{item.user}</div>
+            <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
               {item.message}
@@ -77,7 +81,7 @@ function App() {
       if (!item.whisper || name === "GM") {
         return (
           <div className="outline">
-            <div>{item.user}</div>
+            <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
               {item.message}
@@ -90,7 +94,7 @@ function App() {
       if (item.whisper && item.whisperTarget === name) {
         return (
           <div className="outline">
-            <div>{item.user}</div>
+            <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
               {item.message}
