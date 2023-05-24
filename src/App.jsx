@@ -48,8 +48,8 @@ function App() {
         return (
           <div className="outline" style={{ textAlign: "right" }}>
             <div>{item.user}</div>
-            <span style={{ color: item.whisper ? "purple" : "#FFF" }}>
-              {item.message} {item.whisper ? "*whisper*" : ""}
+            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+              {item.whisper ? "*whisper*" : ""} {item.message}
             </span>
           </div>
         );
@@ -59,8 +59,8 @@ function App() {
         return (
           <div className="outline">
             <div>{item.user}</div>
-            <span style={{ color: item.whisper ? "purple" : "#FFF" }}>
-              {item.message} {item.whisper ? "*whisper*" : ""}
+            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+              {item.whisper ? "*whisper*" : ""} {item.message}
             </span>
           </div>
         );
@@ -70,8 +70,9 @@ function App() {
         return (
           <div className="outline">
             <div>{item.user}</div>
-            <span style={{ color: item.whisper ? "purple" : "#FFF" }}>
-              {item.message} {item.whisper ? "*whisper*" : ""}
+            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+              {item.whisper ? "*whisper*" : ""}
+              {item.message}
             </span>
           </div>
         );
