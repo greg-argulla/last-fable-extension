@@ -42,7 +42,9 @@ function App() {
   };
 
   const setToPM = (user) => {
-    setText("[" + user + "]");
+    if (name === "GM") {
+      setText("[" + user + "]");
+    }
   };
 
   const ChatInstance = (props) => {
