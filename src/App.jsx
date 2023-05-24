@@ -886,6 +886,7 @@ function App() {
                 height: 24,
                 marginRight: 2,
                 paddingLeft: 4,
+                backgroundColor: "#333",
               }}
               value={text}
               onChange={(evt) => {
