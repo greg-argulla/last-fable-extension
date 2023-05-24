@@ -160,7 +160,7 @@ function App() {
     });
   }, []);
 
-  const clearDice = () => {
+  const clearAllDice = () => {
     setDiceOne("");
     setDiceTwo("");
     setDiceLabelOne("");
@@ -169,6 +169,13 @@ function App() {
     setDiceTwoResult(0);
     setDamage("");
     setBonus("");
+  };
+
+  const clearSetDice = () => {
+    setDiceOne("");
+    setDiceTwo("");
+    setDiceLabelOne("");
+    setDiceLabelTwo("");
   };
 
   const handleKeyDown = (event) => {
@@ -563,7 +570,7 @@ function App() {
         <button
           className="button-dice"
           style={{ marginLeft: 5, width: 40 }}
-          onClick={() => clearDice()}
+          onClick={() => clearAllDice()}
         >
           Clear
         </button>
@@ -637,7 +644,7 @@ function App() {
           <button
             className="button-dice"
             style={{ marginLeft: 5 }}
-            onClick={() => clearDice()}
+            onClick={() => clearSetDice()}
           >
             Clear
           </button>
