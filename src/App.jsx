@@ -57,7 +57,9 @@ function App() {
         return (
           <div className="outline">
             <div>{item.user}</div>
-            <span style={{ color: "#FFF" }}>{item.message}</span>
+            <span style={{ color: "#FFF" }}>
+              {item.message} {item.whisper ? "(WHISPER)" : ""}
+            </span>
           </div>
         );
       }
