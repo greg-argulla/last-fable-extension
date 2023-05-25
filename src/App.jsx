@@ -909,6 +909,7 @@ function App() {
                 <button
                   className="button-dice"
                   onClick={() => clearPreparedDice()}
+                  style={{ backgroundColor: "#445871" }}
                 >
                   Reset
                 </button>
