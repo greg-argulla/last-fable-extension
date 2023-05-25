@@ -240,13 +240,6 @@ function App() {
     setBonus("");
   };
 
-  const clearSetDice = () => {
-    setDiceOne("");
-    setDiceTwo("");
-    setDiceLabelOne("");
-    setDiceLabelTwo("");
-  };
-
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       addMessage();
@@ -786,7 +779,7 @@ function App() {
           <button
             className="button-dice"
             style={{ marginLeft: 5 }}
-            onClick={() => clearSetDice()}
+            onClick={() => clearAllDice()}
           >
             Clear
           </button>
