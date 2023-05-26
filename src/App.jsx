@@ -1017,7 +1017,7 @@ function App() {
               backgroundColor: "#333",
               padding: 10,
               overflow: "scroll",
-              height: 365,
+              height: 335,
             }}
           >
             {chat.map((item, index) => (
