@@ -789,6 +789,25 @@ function App() {
     );
   };
 
+  const [windowInnerHeight, setWindowInnerHeight] = useState(
+    window.innerHeight
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    function autoResize() {
+      setWindowInnerHeight(window.innerHeight);
+    }
+
+    window.addEventListener("resize", autoResize);
+
+    // Return a function to disconnect the event listener
+    return () => window.removeEventListener("resize", autoResize);
+  }, []);
+
   return (
     <div
       style={{
@@ -799,263 +818,250 @@ function App() {
         overflow: "hidden",
       }}
     >
-      <div style={{}}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            paddingLeft: 40,
-            paddingRight: 20,
-            paddingTop: 25,
-          }}
-        >
-          <div>
-            <div
-              style={{ display: "flex", flexDirection: "row", marginRight: 2 }}
-            >
-              <div style={{ width: 50 }}>
-                <select
-                  style={{
-                    backgroundColor: "#333",
-                    color: "#ffd433",
-                    fontSize: 12,
-                    padding: 1,
-                  }}
-                  value={dex}
-                  onChange={changeDex}
-                >
-                  <option value="d12">d12</option>
-                  <option value="d10">d10</option>
-                  <option value="d8">d8</option>
-                  <option value="d6">d6</option>
-                </select>
-                <button
-                  className="button-dice"
-                  onClick={() => clickDice("dex")}
-                >
-                  DEX
-                </button>
-              </div>
-              <div style={{ width: 50 }}>
-                <select
-                  style={{
-                    backgroundColor: "#333",
-                    color: "#ffd433",
-                    fontSize: 12,
-                    padding: 1,
-                  }}
-                  value={ins}
-                  onChange={changeIns}
-                >
-                  <option value="d12">d12</option>
-                  <option value="d10">d10</option>
-                  <option value="d8">d8</option>
-                  <option value="d6">d6</option>
-                </select>
-                <button
-                  className="button-dice"
-                  onClick={() => clickDice("ins")}
-                >
-                  INS
-                </button>
-              </div>
-              <div style={{ width: 50 }}>
-                <select
-                  style={{
-                    backgroundColor: "#333",
-                    color: "#ffd433",
-                    fontSize: 12,
-                    padding: 1,
-                  }}
-                  value={mig}
-                  onChange={changeMig}
-                >
-                  <option value="d12">d12</option>
-                  <option value="d10">d10</option>
-                  <option value="d8">d8</option>
-                  <option value="d6">d6</option>
-                </select>
-                <button
-                  className="button-dice"
-                  onClick={() => clickDice("mig")}
-                >
-                  MIG
-                </button>
-              </div>
-              <div style={{ width: 50 }}>
-                <select
-                  style={{
-                    backgroundColor: "#333",
-                    color: "#ffd433",
-                    fontSize: 12,
-                    padding: 1,
-                  }}
-                  value={wil}
-                  onChange={changeWil}
-                >
-                  <option value="d12">d12</option>
-                  <option value="d10">d10</option>
-                  <option value="d8">d8</option>
-                  <option value="d6">d6</option>
-                </select>
-                <button
-                  className="button-dice"
-                  onClick={() => clickDice("wil")}
-                >
-                  WIL
-                </button>
-              </div>
-              <div style={{ width: 45 }}>
-                <button
-                  className="button-dice"
-                  onClick={() => clearPreparedDice()}
-                  style={{ backgroundColor: "#6F0509", color: "#F7E7CE" }}
-                >
-                  Reset
-                </button>
-                <button className="button-dice" onClick={() => toggleHR()}>
-                  {useHR ? "With HR" : "No HR"}
-                </button>
-              </div>
-            </div>
-
-            <div
-              style={{
-                marginTop: 5,
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              <span className="dice-result">Bonus</span>
-              <input
-                type="number"
-                style={{
-                  width: 38,
-                  height: 17,
-                  backgroundColor: "#333",
-                  color: "#ffd433",
-                  fontSize: 12,
-                  border: 4,
-                  paddingLeft: 4,
-                  marginLeft: 6,
-                }}
-                value={bonus}
-                onChange={changeBonus}
-              />
-              <span className="dice-result" style={{ marginLeft: 6 }}>
-                Damage
-              </span>
-              <input
-                type="number"
-                style={{
-                  width: 38,
-                  height: 17,
-                  backgroundColor: "#333",
-                  color: "#ffd433",
-                  fontSize: 12,
-                  border: 4,
-                  paddingLeft: 4,
-                  marginLeft: 6,
-                }}
-                value={damage}
-                onChange={changeDamage}
-              />
-              <span className="checkbox-container"></span>
-            </div>
-          </div>
-
-          <div>
-            <div>
-              <button
-                className="button-dice"
-                style={{ marginRight: 2 }}
-                onClick={() => clickDice("d4")}
-              >
-                d4
-              </button>
-              <button className="button-dice" onClick={() => clickDice("d6")}>
-                d6
-              </button>
-            </div>
-            <div>
-              <button
-                className="button-dice"
-                style={{ marginRight: 2 }}
-                onClick={() => clickDice("d8")}
-              >
-                d8
-              </button>
-              <button className="button-dice" onClick={() => clickDice("d10")}>
-                d10
-              </button>
-            </div>
-            <div>
-              <button
-                className="button-dice"
-                style={{ marginRight: 2 }}
-                onClick={() => clickDice("d12")}
-              >
-                d12
-              </button>
-              <button className="button-dice" onClick={() => clickDice("d20")}>
-                d20
-              </button>
-            </div>
-          </div>
-        </div>
-        {diceOneResult !== 0 ? <Result /> : <RollInput />}
-        <div
-          style={{
-            marginLeft: 30,
-            marginRight: 30,
-            marginTop: 10,
-          }}
-        >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          paddingLeft: 40,
+          paddingRight: 20,
+          paddingTop: 25,
+        }}
+      >
+        <div>
           <div
-            id="chatbox"
+            style={{ display: "flex", flexDirection: "row", marginRight: 2 }}
+          >
+            <div style={{ width: 50 }}>
+              <select
+                style={{
+                  backgroundColor: "#333",
+                  color: "#ffd433",
+                  fontSize: 12,
+                  padding: 1,
+                }}
+                value={dex}
+                onChange={changeDex}
+              >
+                <option value="d12">d12</option>
+                <option value="d10">d10</option>
+                <option value="d8">d8</option>
+                <option value="d6">d6</option>
+              </select>
+              <button className="button-dice" onClick={() => clickDice("dex")}>
+                DEX
+              </button>
+            </div>
+            <div style={{ width: 50 }}>
+              <select
+                style={{
+                  backgroundColor: "#333",
+                  color: "#ffd433",
+                  fontSize: 12,
+                  padding: 1,
+                }}
+                value={ins}
+                onChange={changeIns}
+              >
+                <option value="d12">d12</option>
+                <option value="d10">d10</option>
+                <option value="d8">d8</option>
+                <option value="d6">d6</option>
+              </select>
+              <button className="button-dice" onClick={() => clickDice("ins")}>
+                INS
+              </button>
+            </div>
+            <div style={{ width: 50 }}>
+              <select
+                style={{
+                  backgroundColor: "#333",
+                  color: "#ffd433",
+                  fontSize: 12,
+                  padding: 1,
+                }}
+                value={mig}
+                onChange={changeMig}
+              >
+                <option value="d12">d12</option>
+                <option value="d10">d10</option>
+                <option value="d8">d8</option>
+                <option value="d6">d6</option>
+              </select>
+              <button className="button-dice" onClick={() => clickDice("mig")}>
+                MIG
+              </button>
+            </div>
+            <div style={{ width: 50 }}>
+              <select
+                style={{
+                  backgroundColor: "#333",
+                  color: "#ffd433",
+                  fontSize: 12,
+                  padding: 1,
+                }}
+                value={wil}
+                onChange={changeWil}
+              >
+                <option value="d12">d12</option>
+                <option value="d10">d10</option>
+                <option value="d8">d8</option>
+                <option value="d6">d6</option>
+              </select>
+              <button className="button-dice" onClick={() => clickDice("wil")}>
+                WIL
+              </button>
+            </div>
+            <div style={{ width: 45 }}>
+              <button
+                className="button-dice"
+                onClick={() => clearPreparedDice()}
+                style={{ backgroundColor: "#6F0509", color: "#F7E7CE" }}
+              >
+                Reset
+              </button>
+              <button className="button-dice" onClick={() => toggleHR()}>
+                {useHR ? "With HR" : "No HR"}
+              </button>
+            </div>
+          </div>
+
+          <div
             style={{
-              backgroundColor: "#333",
-              padding: 10,
-              overflow: "scroll",
-              height: 315,
+              marginTop: 5,
+              display: "flex",
+              flexDirection: "row",
             }}
           >
-            {chat.map((item, index) => (
-              <ChatInstance key={index} item={item} index={index} />
-            ))}
-          </div>
-          <div style={{ marginTop: 5, display: "inline-flex" }}>
+            <span className="dice-result">Bonus</span>
             <input
-              id="chatbox"
+              type="number"
               style={{
-                color: "#FFF",
-                width: 280,
-                height: 24,
-                marginRight: 2,
-                paddingLeft: 4,
+                width: 38,
+                height: 17,
                 backgroundColor: "#333",
+                color: "#ffd433",
+                fontSize: 12,
+                border: 4,
+                paddingLeft: 4,
+                marginLeft: 6,
               }}
-              value={text}
-              onChange={(evt) => {
-                setText(evt.target.value);
+              value={bonus}
+              onChange={changeBonus}
+            />
+            <span className="dice-result" style={{ marginLeft: 6 }}>
+              Damage
+            </span>
+            <input
+              type="number"
+              style={{
+                width: 38,
+                height: 17,
+                backgroundColor: "#333",
+                color: "#ffd433",
+                fontSize: 12,
+                border: 4,
+                paddingLeft: 4,
+                marginLeft: 6,
               }}
-              onKeyDown={handleKeyDown}
-            ></input>
-            <div style={{ marginTop: -5 }}>
-              <button
-                style={{
-                  width: 48,
-                  height: 32,
-                  fontSize: 10,
-                  padding: 0,
-                  color: "#ffd433",
-                  backgroundColor: "#222",
-                }}
-                onClick={() => addWhisper()}
-              >
-                Whisper GM
-              </button>
-            </div>
+              value={damage}
+              onChange={changeDamage}
+            />
+            <span className="checkbox-container"></span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <button
+              className="button-dice"
+              style={{ marginRight: 2 }}
+              onClick={() => clickDice("d4")}
+            >
+              d4
+            </button>
+            <button className="button-dice" onClick={() => clickDice("d6")}>
+              d6
+            </button>
+          </div>
+          <div>
+            <button
+              className="button-dice"
+              style={{ marginRight: 2 }}
+              onClick={() => clickDice("d8")}
+            >
+              d8
+            </button>
+            <button className="button-dice" onClick={() => clickDice("d10")}>
+              d10
+            </button>
+          </div>
+          <div>
+            <button
+              className="button-dice"
+              style={{ marginRight: 2 }}
+              onClick={() => clickDice("d12")}
+            >
+              d12
+            </button>
+            <button className="button-dice" onClick={() => clickDice("d20")}>
+              d20
+            </button>
+          </div>
+        </div>
+      </div>
+      {diceOneResult !== 0 ? <Result /> : <RollInput />}
+      <div
+        style={{
+          marginLeft: 30,
+          marginRight: 30,
+          marginTop: 10,
+          height: "100%",
+        }}
+      >
+        <div
+          id="chatbox"
+          style={{
+            backgroundColor: "#333",
+            padding: 10,
+            overflow: "scroll",
+            height: windowInnerHeight - 220,
+          }}
+        >
+          {chat.map((item, index) => (
+            <ChatInstance key={index} item={item} index={index} />
+          ))}
+        </div>
+        <div style={{ marginTop: 5, display: "inline-flex" }}>
+          <input
+            id="chatbox"
+            style={{
+              color: "#FFF",
+              width: 280,
+              height: 24,
+              marginRight: 2,
+              paddingLeft: 4,
+              backgroundColor: "#333",
+            }}
+            value={text}
+            onChange={(evt) => {
+              setText(evt.target.value);
+            }}
+            onKeyDown={handleKeyDown}
+          ></input>
+          <div style={{ marginTop: -5 }}>
+            <button
+              style={{
+                width: 48,
+                height: 32,
+                fontSize: 10,
+                padding: 0,
+                color: "#ffd433",
+                backgroundColor: "#222",
+              }}
+              onClick={() => addWhisper()}
+            >
+              Whisper GM
+            </button>
           </div>
         </div>
       </div>
