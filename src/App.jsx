@@ -116,8 +116,12 @@ function App() {
         <div className="outline" style={{ textAlign: "center" }}>
           * {item.user} Rolled{" "}
           <span style={{ color: "#FFF" }}>{item.result}</span>
-          {item.diceOneResult}
-          {item.diceTwoResult !== 0 ? <>{` + ${item.diceTwoResult}`}</> : ""}
+          {item.diceOneResult} {item.diceLabelOne}
+          {item.diceTwoResult !== 0 ? (
+            <>{` + ${item.diceTwoResult} ${item.diceLabelTwo}`}</>
+          ) : (
+            ""
+          )}
           {parseInt(item.bonus) > 0 ? " + " + item.bonus : ""}
           {item.diceTwoResult !== 0 && ` = `}
           {item.diceTwoResult !== 0 && (
@@ -459,6 +463,8 @@ function App() {
         user: name,
         diceOneResult,
         diceTwoResult,
+        diceLabelOne,
+        diceLabelTwo,
         damage,
         bonus,
         useHR,
@@ -617,14 +623,14 @@ function App() {
         style={{
           margin: 10,
           marginTop: 5,
-          marginLeft: 40,
+          marginLeft: 30,
           marginRight: 25,
           display: "flex",
           alignItems: "center",
         }}
         className="dice-result"
       >
-        {diceOneResult}
+        {diceOneResult} {diceLabelOne}
         <button
           className="button-dice"
           style={{
@@ -639,7 +645,7 @@ function App() {
         <>
           {diceTwoResult !== 0 ? (
             <>
-              {`+ ${diceTwoResult}`}
+              {`+ ${diceTwoResult} ${diceLabelTwo}`}
               <button
                 className="button-dice"
                 style={{
@@ -822,7 +828,7 @@ function App() {
         style={{
           display: "flex",
           flexDirection: "row",
-          paddingLeft: 40,
+          paddingLeft: 30,
           paddingRight: 20,
           paddingTop: 25,
         }}
@@ -831,7 +837,7 @@ function App() {
           <div
             style={{ display: "flex", flexDirection: "row", marginRight: 2 }}
           >
-            <div style={{ width: 50 }}>
+            <div style={{ width: 52 }}>
               <select
                 style={{
                   backgroundColor: "#333",
@@ -851,7 +857,7 @@ function App() {
                 DEX
               </button>
             </div>
-            <div style={{ width: 50 }}>
+            <div style={{ width: 52 }}>
               <select
                 style={{
                   backgroundColor: "#333",
@@ -871,7 +877,7 @@ function App() {
                 INS
               </button>
             </div>
-            <div style={{ width: 50 }}>
+            <div style={{ width: 52 }}>
               <select
                 style={{
                   backgroundColor: "#333",
@@ -891,7 +897,7 @@ function App() {
                 MIG
               </button>
             </div>
-            <div style={{ width: 50 }}>
+            <div style={{ width: 52 }}>
               <select
                 style={{
                   backgroundColor: "#333",
@@ -911,7 +917,7 @@ function App() {
                 WIL
               </button>
             </div>
-            <div style={{ width: 45 }}>
+            <div style={{ width: 45, marginLeft: 3 }}>
               <button
                 className="button-dice"
                 onClick={() => clearPreparedDice()}
@@ -970,7 +976,7 @@ function App() {
           </div>
         </div>
 
-        <div>
+        <div style={{ marginLeft: 3 }}>
           <div>
             <button
               className="button-dice"
