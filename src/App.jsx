@@ -34,6 +34,7 @@ function App() {
   const [name, setName] = useState("");
   const [preparedDice, setPreparedDice] = useState([]);
   const [useHR, setUseHR] = useState(true);
+  const [role, setRole] = useState("PLAYER");
 
   const [chat, setChat] = useState([]);
 
@@ -42,7 +43,7 @@ function App() {
   };
 
   const setToPM = (user) => {
-    if (name === "GM") {
+    if (role === "GM") {
       setText("[" + user + "]");
     }
   };
@@ -81,7 +82,7 @@ function App() {
         );
       }
 
-      if (!item.whisper || name === "GM") {
+      if (!item.whisper || role === "GM") {
         return (
           <div className="outline">
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
@@ -230,6 +231,8 @@ function App() {
       OBR.player.onChange(async (player) => {
         setName(await OBR.player.getName());
       });
+
+      setRole(await OBR.player.getRole());
     });
   }, []);
 
@@ -295,7 +298,7 @@ function App() {
 
       if (lastMessage && !cooldown && isOBRReady && !isOpen) {
         if (lastMessage.message) {
-          if (!lastMessage.whisper || name === "GM") {
+          if (!lastMessage.whisper || role === "GM") {
             if (
               lastMessage.message !== "/line" &&
               lastMessage.message !== "/newround"
@@ -348,7 +351,7 @@ function App() {
         if (isOBRReady) {
           const isOpen = await OBR.action.isOpen();
           if (!isOpen) {
-            if (!lastMessage.whisper || name === "GM") {
+            if (!lastMessage.whisper || role === "GM") {
               if (
                 lastMessage.message !== "/line" &&
                 lastMessage.message !== "/newround"
@@ -375,7 +378,7 @@ function App() {
 
   const addMessage = async () => {
     if (text !== "") {
-      if (name === "GM") {
+      if (role === "GM") {
         if (text.charAt(0) === "[") {
           const target = getSubstring(text, "[", "]");
           addWhisper(target);
