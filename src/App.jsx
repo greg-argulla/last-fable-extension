@@ -624,7 +624,6 @@ function App() {
     return (
       <div
         style={{
-          margin: 10,
           marginTop: 5,
           marginLeft: 30,
           marginRight: 25,
