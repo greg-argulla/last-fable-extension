@@ -636,6 +636,10 @@ function App() {
 
   const Result = () => {
     const HR = diceOneResult > diceTwoResult ? diceOneResult : diceTwoResult;
+
+    console.log(bonus);
+    console.log(!isNaN(parseInt(bonus)));
+    console.log(parseInt(bonus) !== 0);
     return (
       <div
         style={{
