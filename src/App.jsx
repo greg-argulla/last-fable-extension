@@ -729,23 +729,28 @@ function App() {
     return (
       <Text>
         <span style={{ fontSize: 11 }}>Prepared:</span>
-        {preparedDice.map((item, index) => (
-          <button
-            key={index}
-            className="button-dice"
-            style={{ marginLeft: 5, width: "auto" }}
-            onClick={() => {
-              rollPreparedDice(index);
-            }}
-          >
-            【{item.diceLabelOne} + {item.diceLabelTwo}
-            {parseInt(item.bonus) !== NaN && parseInt(item.bonus) !== 0
-              ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
-                Math.abs(item.bonus)
-              : ""}
-            】{item.damage != "" ? "【HR +" + item.damage + "】" : ""}
-          </button>
-        ))}
+        {preparedDice.map((item, index) => {
+          console.log(item);
+          console.log(parseInt(item.bonus) !== NaN);
+          console.log(parseInt(item.bonus) !== 0);
+          return (
+            <button
+              key={index}
+              className="button-dice"
+              style={{ marginLeft: 5, width: "auto" }}
+              onClick={() => {
+                rollPreparedDice(index);
+              }}
+            >
+              【{item.diceLabelOne} + {item.diceLabelTwo}
+              {parseInt(item.bonus) !== NaN && parseInt(item.bonus) !== 0
+                ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
+                  Math.abs(item.bonus)
+                : ""}
+              】{item.damage != "" ? "【HR +" + item.damage + "】" : ""}
+            </button>
+          );
+        })}
       </Text>
     );
   };
