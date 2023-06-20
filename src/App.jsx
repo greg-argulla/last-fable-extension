@@ -460,10 +460,6 @@ function App() {
   };
 
   const addRoll = async () => {
-    if (role === "GM") {
-      setText("[" + user + "]");
-    }
-
     const newChat = [
       ...chat,
       {
