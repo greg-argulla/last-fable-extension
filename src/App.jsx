@@ -123,7 +123,9 @@ function App() {
           ) : (
             ""
           )}
-          {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
+          {!isNaN(parseInt(item.bonus)) &&
+          parseInt(item.bonus) !== 0 &&
+          item.diceTwoResult !== 0
             ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
             : ""}
           {item.diceTwoResult !== 0 && ` = `}
