@@ -123,7 +123,7 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(item.bonus) !== NaN
+          {parseInt(item.bonus) !== NaN && parseInt(bonus) !== 0
             ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
             : ""}
           {item.diceTwoResult !== 0 && ` = `}
@@ -665,7 +665,7 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(bonus) !== NaN
+          {parseInt(bonus) !== NaN && parseInt(bonus) !== 0
             ? (parseInt(bonus) > -1 ? " + " : " - ") + Math.abs(bonus)
             : ""}
           {` = `}
@@ -739,7 +739,7 @@ function App() {
             }}
           >
             【{item.diceLabelOne} + {item.diceLabelTwo}
-            {parseInt(item.bonus) !== NaN
+            {parseInt(item.bonus) !== NaN && parseInt(bonus) !== 0
               ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
                 Math.abs(item.bonus)
               : ""}
