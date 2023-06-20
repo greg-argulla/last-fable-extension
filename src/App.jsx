@@ -129,17 +129,19 @@ function App() {
           {(item.diceTwoResult !== 0 ||
             (!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0)) &&
             ` = `}
-          {item.diceTwoResult !== 0 && (
-            <span
-              style={{
-                marginRight: 2,
-                marginLeft: 2,
-                fontSize: 14,
-              }}
-            >
-              {item.diceOneResult + item.bonus}
-            </span>
-          )}
+          {item.diceTwoResult === 0 &&
+            !isNaN(parseInt(item.bonus)) &&
+            parseInt(item.bonus) !== 0 && (
+              <span
+                style={{
+                  marginRight: 2,
+                  marginLeft: 2,
+                  fontSize: 14,
+                }}
+              >
+                {item.diceOneResult + item.bonus}
+              </span>
+            )}
           {item.diceTwoResult !== 0 && (
             <span
               style={{
@@ -636,10 +638,6 @@ function App() {
 
   const Result = () => {
     const HR = diceOneResult > diceTwoResult ? diceOneResult : diceTwoResult;
-
-    console.log(bonus);
-    console.log(!isNaN(parseInt(bonus)));
-    console.log(parseInt(bonus) !== 0);
     return (
       <div
         style={{
