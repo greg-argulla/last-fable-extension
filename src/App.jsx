@@ -123,7 +123,7 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(item.bonus) !== NaN && parseInt(item.bonus) !== 0
+          {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
             ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
             : ""}
           {item.diceTwoResult !== 0 && ` = `}
@@ -665,7 +665,7 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(bonus) !== NaN && parseInt(bonus) !== 0
+          {isNaN(parseInt(bonus)) && parseInt(bonus) !== 0
             ? (parseInt(bonus) > -1 ? " + " : " - ") + Math.abs(bonus)
             : ""}
           {` = `}
@@ -730,9 +730,6 @@ function App() {
       <Text>
         <span style={{ fontSize: 11 }}>Prepared:</span>
         {preparedDice.map((item, index) => {
-          console.log(item);
-          console.log(parseInt(item.bonus) !== NaN);
-          console.log(parseInt(item.bonus) !== 0);
           return (
             <button
               key={index}
@@ -743,7 +740,7 @@ function App() {
               }}
             >
               【{item.diceLabelOne} + {item.diceLabelTwo}
-              {parseInt(item.bonus) !== NaN && parseInt(item.bonus) !== 0
+              {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
                 ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
                   Math.abs(item.bonus)
                 : ""}
