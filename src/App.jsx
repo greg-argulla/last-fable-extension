@@ -460,14 +460,18 @@ function App() {
   };
 
   const addRoll = async () => {
+    if (role === "GM") {
+      setText("[" + user + "]");
+    }
+
     const newChat = [
       ...chat,
       {
         user: name,
         diceOneResult,
         diceTwoResult,
-        diceLabelOne,
-        diceLabelTwo,
+        diceLabelOne: role === "GM" ? "" : diceLabelOne,
+        diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
         damage,
         bonus,
         useHR,
