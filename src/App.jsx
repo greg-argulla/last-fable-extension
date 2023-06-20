@@ -48,11 +48,40 @@ function App() {
     }
   };
 
+  function evaluateMath(str) {
+    for (var i = 0; i < str.length; i++) {
+      if (isNaN(str[i]) && !["+", "-", "/", "*", "%", "**"].includes(str[i])) {
+        return NaN;
+      }
+    }
+
+    try {
+      return eval(str);
+    } catch (e) {
+      if (e.name !== "SyntaxError") throw e;
+      return NaN;
+    }
+  }
+
   const ChatInstance = (props) => {
     const { item, index } = props;
     if (item.message) {
       if (item.message === "/line") {
         return <hr></hr>;
+      }
+
+      if (text.charAt(0) === "=") {
+        const mathToEvaluate = text.substring(1, text.length - 1);
+        return (
+          <div className="outline">
+            <div onClick={() => setToPM(item.user)}>{item.user}</div>
+            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+              {item.whisper ? "*" : ""}
+              {mathToEvaluate + "= " + evaluateMath(mathToEvaluate)}
+              {item.whisper ? "*" : ""}
+            </span>
+          </div>
+        );
       }
 
       if (item.message === "/newround") {
