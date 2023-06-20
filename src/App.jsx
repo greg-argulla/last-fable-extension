@@ -70,15 +70,13 @@ function App() {
         return <hr></hr>;
       }
 
-      if (text.charAt(0) === "=") {
-        const mathToEvaluate = text.substring(1, text.length - 1);
+      if (item.message.charAt(0) === "=") {
+        const mathToEvaluate = item.message.substring(1, item.message.length);
         return (
           <div className="outline">
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
-            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*" : ""}
+            <span style={{ color: "#D2691E" }}>
               {mathToEvaluate + "= " + evaluateMath(mathToEvaluate)}
-              {item.whisper ? "*" : ""}
             </span>
           </div>
         );
