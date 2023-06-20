@@ -665,7 +665,7 @@ function App() {
           ) : (
             ""
           )}
-          {isNaN(parseInt(bonus)) && parseInt(bonus) !== 0
+          {!isNaN(parseInt(bonus)) && parseInt(bonus) !== 0
             ? (parseInt(bonus) > -1 ? " + " : " - ") + Math.abs(bonus)
             : ""}
           {` = `}
