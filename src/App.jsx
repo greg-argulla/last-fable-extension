@@ -76,7 +76,7 @@ function App() {
           <div className="outline">
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: "#D2691E" }}>
-              {mathToEvaluate + "= " + evaluateMath(mathToEvaluate)}
+              {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
             </span>
           </div>
         );
