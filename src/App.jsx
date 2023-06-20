@@ -123,7 +123,9 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(item.bonus) > 0 ? " + " + item.bonus : ""}
+          {parseInt(item.bonus) !== NaN
+            ? (bonus > -1 ? " + " : " - ") + item.bonus
+            : ""}
           {item.diceTwoResult !== 0 && ` = `}
           {item.diceTwoResult !== 0 && (
             <span
@@ -663,7 +665,9 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(bonus) > 0 ? `+ ${bonus}` : ""}
+          {parseInt(item.bonus) !== NaN
+            ? (bonus > -1 ? " + " : " - ") + item.bonus
+            : ""}
           {` = `}
           <span
             style={{
@@ -735,8 +739,10 @@ function App() {
             }}
           >
             【{item.diceLabelOne} + {item.diceLabelTwo}
-            {item.bonus != 0 ? " + " + item.bonus : ""}】
-            {item.damage != "" ? "【HR +" + item.damage + "】" : ""}
+            {parseInt(item.bonus) !== NaN
+              ? (bonus > -1 ? " + " : " - ") + item.bonus
+              : ""}
+            】{item.damage != "" ? "【HR +" + item.damage + "】" : ""}
           </button>
         ))}
       </Text>
@@ -761,8 +767,10 @@ function App() {
           <div className="dice-result">
             【{diceLabelOne}
             {diceLabelTwo != 0 ? " + " + diceLabelTwo : ""}
-            {bonus != 0 ? " + " + bonus : ""}】
-            {damage != "" ? " 【HR + " + damage + "】" : ""}
+            {parseInt(item.bonus) !== NaN
+              ? (bonus > -1 ? " + " : " - ") + item.bonus
+              : ""}
+            】{damage != "" ? " 【HR + " + damage + "】" : ""}
           </div>
         )}
         {hasDice && (
