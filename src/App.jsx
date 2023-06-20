@@ -123,7 +123,9 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(item.bonus) > 0 ? " + " + item.bonus : ""}
+          {parseInt(item.bonus) !== NaN
+            ? (parseInt(item.bonus) > -1 ? " + " : " - ") + item.bonus
+            : ""}
           {item.diceTwoResult !== 0 && ` = `}
           {item.diceTwoResult !== 0 && (
             <span
@@ -663,7 +665,9 @@ function App() {
           ) : (
             ""
           )}
-          {parseInt(bonus) > 0 ? `+ ${bonus}` : ""}
+          {parseInt(bonus) !== NaN
+            ? (parseInt(bonus) > -1 ? " + " : " - ") + bonus
+            : ""}
           {` = `}
           <span
             style={{
@@ -735,8 +739,10 @@ function App() {
             }}
           >
             【{item.diceLabelOne} + {item.diceLabelTwo}
-            {item.bonus != 0 ? " + " + item.bonus : ""}】
-            {item.damage != "" ? "【HR +" + item.damage + "】" : ""}
+            {parseInt(item.bonus) !== NaN
+              ? (parseInt(item.bonus) > -1 ? " + " : " - ") + item.bonus
+              : ""}
+            】{item.damage != "" ? "【HR +" + item.damage + "】" : ""}
           </button>
         ))}
       </Text>
