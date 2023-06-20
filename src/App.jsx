@@ -50,7 +50,7 @@ function App() {
 
   function evaluateMath(str) {
     for (var i = 0; i < str.length; i++) {
-      if (isNaN(str[i]) && !["+", "-", "/", "*", "%", "**"].includes(str[i])) {
+      if (isNaN(str[i]) && !["+", "-", "/", "*"].includes(str[i])) {
         return NaN;
       }
     }
