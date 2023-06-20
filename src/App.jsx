@@ -126,7 +126,7 @@ function App() {
           {parseInt(item.bonus) !== NaN
             ? (parseInt(item.bonus) > -1 ? "+" : "") + item.bonus
             : ""}
-          {item.diceTwoResult !== 0 && `=`}
+          {item.diceTwoResult !== 0 && ` = `}
           {item.diceTwoResult !== 0 && (
             <span
               style={{
@@ -668,7 +668,7 @@ function App() {
           {parseInt(bonus) !== NaN
             ? (parseInt(bonus) > -1 ? "+" : "") + bonus
             : ""}
-          {`=`}
+          {` = `}
           <span
             style={{
               color:
