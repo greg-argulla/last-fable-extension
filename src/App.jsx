@@ -571,7 +571,7 @@ function App() {
 
   const changeBonus = (evt) => {
     if (evt.target.value != "") {
-      setBonus(parseInt(evt.target.value.replace(/\D/g, "")));
+      setBonus(parseInt(evt.target.value, ""));
       saveStats({ bonus: parseInt(evt.target.value) });
     } else {
       setBonus("");
@@ -940,7 +940,7 @@ function App() {
               flexDirection: "row",
             }}
           >
-            <span className="dice-result">Bonus</span>
+            <span className="dice-result">Bonus/Penalty</span>
             <input
               type="number"
               style={{
