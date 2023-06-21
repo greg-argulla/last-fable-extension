@@ -318,9 +318,13 @@ function App() {
         if (missingMessages.length) {
           console.log("FOUND MISSING MESSAGES");
           console.log(missingMessages);
+          const newChat = [...currentChat, ...missingMessages].sort(
+            (a, b) => a.id - b.id
+          );
+
           OBR.room.setMetadata({
             "last.fable.extension/metadata": {
-              currentChat: [...currentChat, ...missingMessages],
+              currentChat: newChat,
             },
           });
         } else {
