@@ -32,11 +32,13 @@ function App() {
   const [cooldown, setCoolDown] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [name, setName] = useState("");
+  const [id, setId] = useState("");
   const [preparedDice, setPreparedDice] = useState([]);
   const [useHR, setUseHR] = useState(true);
   const [role, setRole] = useState("PLAYER");
 
   const [chat, setChat] = useState([]);
+  const [myChat, setMyChat] = useState([]);
 
   const toggleHR = () => {
     setUseHR(!useHR);
@@ -259,8 +261,7 @@ function App() {
     OBR.onReady(async () => {
       const metadata = await OBR.scene.getMetadata();
       if (metadata["last.fable.extension/metadata"]) {
-        const currentChat =
-          metadata["last.fable.extension/metadata"].currentChat;
+        const currentChat = createChatArray(metadata);
         setChat(currentChat);
       }
       setIsOBRReady(true);
@@ -271,6 +272,7 @@ function App() {
 
       OBR.action.setBadgeBackgroundColor("orange");
       setName(await OBR.player.getName());
+      setId(await OBR.player.getId());
 
       OBR.player.onChange(async (player) => {
         setName(await OBR.player.getName());
@@ -297,13 +299,23 @@ function App() {
     }
   };
 
+  const createChatArray = (metadata) => {
+    const metadata = metadata["last.fable.extension/metadata"];
+    const messages = [];
+    const keys = Object.keys(metadata);
+
+    keys.forEach((key) => {
+      messages.concat(metadata[key]);
+    });
+    return messages.sort((a, b) => {
+      a.id - b.id;
+    });
+  };
+
   useEffect(() => {
     if (isOBRReady) {
       OBR.scene.onMetadataChange((metadata) => {
-        const currentChat =
-          metadata["last.fable.extension/metadata"].currentChat;
-
-        // Compare here
+        const currentChat = createChatArray(metadata);
 
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
@@ -444,11 +456,13 @@ function App() {
       }
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
-      const newChat = [...chat, newMessage];
+      const newChat = [...myChat, newMessage];
+
+      let metadataChange = {};
+      metadataChange[id] = newChat;
+
       OBR.scene.setMetadata({
-        "last.fable.extension/metadata": {
-          currentChat: newChat.splice(-messageLimit),
-        },
+        "last.fable.extension/metadata": metadataChange,
       });
 
       setText("");
@@ -471,11 +485,13 @@ function App() {
         whisper: true,
         whisperTarget: target,
       };
-      const newChat = [...chat, newMessage];
+      const newChat = [...myChat, newMessage];
+
+      let metadataChange = {};
+      metadataChange[id] = newChat;
+
       OBR.scene.setMetadata({
-        "last.fable.extension/metadata": {
-          currentChat: newChat.splice(-messageLimit),
-        },
+        "last.fable.extension/metadata": metadataChange,
       });
 
       setText("");
@@ -508,24 +524,24 @@ function App() {
   };
 
   const addRoll = () => {
-    const newChat = [
-      ...chat,
-      {
-        id: Date.now(),
-        user: name,
-        diceOneResult,
-        diceTwoResult,
-        diceLabelOne: role === "GM" ? "" : diceLabelOne,
-        diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
-        damage,
-        bonus,
-        useHR,
-      },
-    ];
+    const newMessage = {
+      id: Date.now(),
+      user: name,
+      diceOneResult,
+      diceTwoResult,
+      diceLabelOne: role === "GM" ? "" : diceLabelOne,
+      diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
+      damage,
+      bonus,
+      useHR,
+    };
+    const newChat = [...myChat, newMessage];
+
+    let metadataChange = {};
+    metadataChange[id] = newChat;
+
     OBR.scene.setMetadata({
-      "last.fable.extension/metadata": {
-        currentChat: newChat.splice(-messageLimit),
-      },
+      "last.fable.extension/metadata": metadataChange,
     });
 
     setTimeout(() => {
