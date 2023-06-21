@@ -317,7 +317,10 @@ function App() {
         }, 100);
 
         const newMessage = metadata["last.fable.extension/metadata"].newMessage;
-        setChat([...chat, newMessage]);
+
+        const newChat = [...chat];
+        newChat.push(newMessage);
+        setChat(newChat);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
