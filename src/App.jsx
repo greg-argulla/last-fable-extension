@@ -444,7 +444,8 @@ function App() {
       }
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
-      const newChat = [...chat, newMessage];
+      const currentChat = await OBR.scene.getMetadata();
+      const newChat = [...currentChat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
@@ -471,7 +472,8 @@ function App() {
         whisper: true,
         whisperTarget: target,
       };
-      const newChat = [...chat, newMessage];
+      const currentChat = await OBR.scene.getMetadata();
+      const newChat = [...currentChat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
@@ -508,20 +510,19 @@ function App() {
   };
 
   const addRoll = async () => {
-    const newChat = [
-      ...chat,
-      {
-        id: Date.now(),
-        user: name,
-        diceOneResult,
-        diceTwoResult,
-        diceLabelOne: role === "GM" ? "" : diceLabelOne,
-        diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
-        damage,
-        bonus,
-        useHR,
-      },
-    ];
+    const newMessage = {
+      id: Date.now(),
+      user: name,
+      diceOneResult,
+      diceTwoResult,
+      diceLabelOne: role === "GM" ? "" : diceLabelOne,
+      diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
+      damage,
+      bonus,
+      useHR,
+    };
+    const currentChat = await OBR.scene.getMetadata();
+    const newChat = [...currentChat, newMessage];
     OBR.scene.setMetadata({
       "last.fable.extension/metadata": {
         currentChat: newChat.splice(-messageLimit),
