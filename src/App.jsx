@@ -262,12 +262,6 @@ function App() {
         const currentChat =
           metadata["last.fable.extension/metadata"].currentChat;
         setChat(currentChat);
-      } else {
-        OBR.scene.setMetadata({
-          "last.fable.extension/metadata": {
-            currentChat: [],
-          },
-        });
       }
       setIsOBRReady(true);
       setTimeout(() => {
@@ -450,9 +444,7 @@ function App() {
       }
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
-      const metadata = await OBR.scene.getMetadata();
-      const currentChat = metadata["last.fable.extension/metadata"].currentChat;
-      const newChat = [...currentChat, newMessage];
+      const newChat = [...chat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
@@ -479,9 +471,7 @@ function App() {
         whisper: true,
         whisperTarget: target,
       };
-      const metadata = await OBR.scene.getMetadata();
-      const currentChat = metadata["last.fable.extension/metadata"].currentChat;
-      const newChat = [...currentChat, newMessage];
+      const newChat = [...chat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
@@ -518,20 +508,20 @@ function App() {
   };
 
   const addRoll = async () => {
-    const newMessage = {
-      id: Date.now(),
-      user: name,
-      diceOneResult,
-      diceTwoResult,
-      diceLabelOne: role === "GM" ? "" : diceLabelOne,
-      diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
-      damage,
-      bonus,
-      useHR,
-    };
-    const metadata = await OBR.scene.getMetadata();
-    const currentChat = metadata["last.fable.extension/metadata"].currentChat;
-    const newChat = [...currentChat, newMessage];
+    const newChat = [
+      ...chat,
+      {
+        id: Date.now(),
+        user: name,
+        diceOneResult,
+        diceTwoResult,
+        diceLabelOne: role === "GM" ? "" : diceLabelOne,
+        diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
+        damage,
+        bonus,
+        useHR,
+      },
+    ];
     OBR.scene.setMetadata({
       "last.fable.extension/metadata": {
         currentChat: newChat.splice(-messageLimit),
