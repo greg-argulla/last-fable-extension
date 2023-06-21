@@ -316,6 +316,8 @@ function App() {
         }, 100);
 
         if (missingMessages.length) {
+          console.log("FOUND MISSING MESSAGES");
+          console.log(missingMessages);
           OBR.room.setMetadata({
             "last.fable.extension/metadata": {
               currentChat: [...currentChat, ...missingMessages],
