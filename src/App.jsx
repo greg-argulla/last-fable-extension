@@ -327,6 +327,7 @@ function App() {
               currentChat: newChat,
             },
           });
+          setChat(newChat);
         } else {
           const newChat = currentChat.sort((a, b) => a.id - b.id);
           setChat(newChat);
