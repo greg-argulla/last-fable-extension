@@ -324,7 +324,7 @@ function App() {
 
           OBR.room.setMetadata({
             "last.fable.extension/metadata": {
-              currentChat: newChat,
+              currentChat: newChat.splice(-messageLimit),
             },
           });
           setChat(newChat);
