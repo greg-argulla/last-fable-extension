@@ -262,6 +262,12 @@ function App() {
         const currentChat =
           metadata["last.fable.extension/metadata"].currentChat;
         setChat(currentChat);
+      } else {
+        OBR.scene.setMetadata({
+          "last.fable.extension/metadata": {
+            currentChat: [],
+          },
+        });
       }
       setIsOBRReady(true);
       setTimeout(() => {
@@ -444,7 +450,8 @@ function App() {
       }
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
-      const currentChat = await OBR.scene.getMetadata();
+      const metadata = await OBR.scene.getMetadata();
+      const currentChat = metadata["last.fable.extension/metadata"].currentChat;
       const newChat = [...currentChat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
@@ -472,7 +479,8 @@ function App() {
         whisper: true,
         whisperTarget: target,
       };
-      const currentChat = await OBR.scene.getMetadata();
+      const metadata = await OBR.scene.getMetadata();
+      const currentChat = metadata["last.fable.extension/metadata"].currentChat;
       const newChat = [...currentChat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
@@ -521,7 +529,8 @@ function App() {
       bonus,
       useHR,
     };
-    const currentChat = await OBR.scene.getMetadata();
+    const metadata = await OBR.scene.getMetadata();
+    const currentChat = metadata["last.fable.extension/metadata"].currentChat;
     const newChat = [...currentChat, newMessage];
     OBR.scene.setMetadata({
       "last.fable.extension/metadata": {
