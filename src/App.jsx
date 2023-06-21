@@ -7,17 +7,6 @@ import "./App.css";
 
 document.body.style.overflow = "hidden";
 
-Array.prototype.unique = function () {
-  var a = this.concat();
-  for (var i = 0; i < a.length; ++i) {
-    for (var j = i + 1; j < a.length; ++j) {
-      if (a[i] === a[j]) a.splice(j--, 1);
-    }
-  }
-
-  return a;
-};
-
 const Text = (props) => {
   const { children } = props;
   return <span className="outline">{children}</span>;
@@ -268,7 +257,7 @@ function App() {
 
   useEffect(() => {
     OBR.onReady(async () => {
-      const metadata = await OBR.room.getMetadata();
+      const metadata = await OBR.scene.getMetadata();
       if (metadata["last.fable.extension/metadata"]) {
         const currentChat =
           metadata["last.fable.extension/metadata"].currentChat;
@@ -310,17 +299,18 @@ function App() {
 
   useEffect(() => {
     if (isOBRReady) {
-      OBR.room.onMetadataChange((metadata) => {
+      OBR.scene.onMetadataChange((metadata) => {
+        const currentChat =
+          metadata["last.fable.extension/metadata"].currentChat;
+
+        // Compare here
+
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        const newMessage = metadata["last.fable.extension/metadata"].newMessage;
-
-        const newChat = [...chat];
-        newChat.push(newMessage);
-        setChat(newChat);
+        setChat(currentChat);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
@@ -443,7 +433,7 @@ function App() {
         }
 
         if (text === "/clearchat") {
-          OBR.room.setMetadata({
+          OBR.scene.setMetadata({
             "last.fable.extension/metadata": {
               currentChat: [],
             },
@@ -455,10 +445,9 @@ function App() {
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
       const newChat = [...chat, newMessage];
-      OBR.room.setMetadata({
+      OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
-          newMessage: newMessage,
         },
       });
 
@@ -483,10 +472,9 @@ function App() {
         whisperTarget: target,
       };
       const newChat = [...chat, newMessage];
-      OBR.room.setMetadata({
+      OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
-          newMessage: newMessage,
         },
       });
 
@@ -520,23 +508,23 @@ function App() {
   };
 
   const addRoll = async () => {
-    const newMessage = {
-      id: Date.now(),
-      user: name,
-      diceOneResult,
-      diceTwoResult,
-      diceLabelOne: role === "GM" ? "" : diceLabelOne,
-      diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
-      damage,
-      bonus,
-      useHR,
-    };
-
-    const newChat = [...chat, newMessage];
-    OBR.room.setMetadata({
+    const newChat = [
+      ...chat,
+      {
+        id: Date.now(),
+        user: name,
+        diceOneResult,
+        diceTwoResult,
+        diceLabelOne: role === "GM" ? "" : diceLabelOne,
+        diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
+        damage,
+        bonus,
+        useHR,
+      },
+    ];
+    OBR.scene.setMetadata({
       "last.fable.extension/metadata": {
         currentChat: newChat.splice(-messageLimit),
-        newMessage: newMessage,
       },
     });
 
