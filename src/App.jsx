@@ -315,7 +315,11 @@ function App() {
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        setChat([...currentChat, ...missingMessages]);
+        const newChat = [...currentChat, ...missingMessages].sort(
+          (a, b) => a.id - b.id
+        );
+
+        setChat(newChat);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
