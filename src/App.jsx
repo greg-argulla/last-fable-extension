@@ -313,7 +313,7 @@ function App() {
         setChat(currentChat);
       });
 
-      OBR.action.onOpenChange(async (isOpen) => {
+      OBR.action.onOpenChange((isOpen) => {
         // React to the action opening or closing
         if (isOpen) {
           setUnreadCount(0);
@@ -423,7 +423,7 @@ function App() {
     return str.substring(char1, char2);
   }
 
-  const addMessage = async () => {
+  const addMessage = () => {
     if (text !== "") {
       if (role === "GM") {
         if (text.charAt(0) === "[") {
@@ -460,7 +460,7 @@ function App() {
     }
   };
 
-  const addWhisper = async (target) => {
+  const addWhisper = (target) => {
     if (text !== "") {
       const message = target ? text.replace("[" + target + "]", "") : text;
 
@@ -487,7 +487,7 @@ function App() {
     }
   };
 
-  const rollPreparedDice = async (index) => {
+  const rollPreparedDice = (index) => {
     const prepared = preparedDice[index];
 
     if (prepared.diceOne != "") {
@@ -507,7 +507,7 @@ function App() {
     setBonus(prepared.bonus);
   };
 
-  const addRoll = async () => {
+  const addRoll = () => {
     const newChat = [
       ...chat,
       {
@@ -585,7 +585,7 @@ function App() {
     }
   };
 
-  const saveStats = async (replace) => {
+  const saveStats = (replace) => {
     localStorage.setItem(
       "last.fable.extension/metadata",
       JSON.stringify({
