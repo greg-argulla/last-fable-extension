@@ -314,16 +314,32 @@ function App() {
         const currentChat =
           metadata["last.fable.extension/metadata"].currentChat;
 
+        const missingMessages = chat.filter((message) => {
+          if (!currentChat.find((item) => message.id === item.id)) {
+            return true;
+          }
+          return false;
+        });
+
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        const newChat = chat
-          .concat(currentChat)
-          .unique()
-          .sort((a, b) => a.id - b.id);
-        setChat(newChat);
+        if (missingMessages.length) {
+          console.log("FOUND MISSING MESSAGES");
+          console.log(missingMessages);
+          const newChat = currentChat.concat(chat).unique();
+
+          OBR.room.setMetadata({
+            "last.fable.extension/metadata": {
+              currentChat: newChat.splice(-messageLimit),
+            },
+          });
+        } else {
+          const newChat = currentChat.sort((a, b) => a.id - b.id);
+          setChat(newChat);
+        }
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
@@ -464,8 +480,6 @@ function App() {
         },
       });
 
-      setChat(newChat);
-
       setText("");
 
       setTimeout(() => {
@@ -492,8 +506,6 @@ function App() {
           currentChat: newChat.splice(-messageLimit),
         },
       });
-
-      setChat(newChat);
 
       setText("");
 
@@ -544,8 +556,6 @@ function App() {
         currentChat: newChat.splice(-messageLimit),
       },
     });
-
-    setChat(newChat);
 
     setTimeout(() => {
       var objDiv = document.getElementById("chatbox");
