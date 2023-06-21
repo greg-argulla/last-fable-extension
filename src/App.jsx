@@ -302,12 +302,20 @@ function App() {
       OBR.room.onMetadataChange((metadata) => {
         const currentChat =
           metadata["last.fable.extension/metadata"].currentChat;
+
+        const missingMessages = chat.filter((message) => {
+          if (!currentChat.find((item) => message.id === item.id)) {
+            return true;
+          }
+          return false;
+        });
+
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        setChat(currentChat);
+        setChat([...currentChat, ...missingMessages]);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
@@ -440,7 +448,7 @@ function App() {
         }
       }
 
-      const newMessage = { user: name, message: text.trim() };
+      const newMessage = { id: Date.now(), user: name, message: text.trim() };
       const newChat = [...chat, newMessage];
       OBR.room.setMetadata({
         "last.fable.extension/metadata": {
@@ -462,6 +470,7 @@ function App() {
       const message = target ? text.replace("[" + target + "]", "") : text;
 
       const newMessage = {
+        id: Date.now(),
         user: name,
         message: message.trim(),
         whisper: true,
@@ -507,6 +516,7 @@ function App() {
     const newChat = [
       ...chat,
       {
+        id: Date.now(),
         user: name,
         diceOneResult,
         diceTwoResult,
