@@ -311,35 +311,13 @@ function App() {
   useEffect(() => {
     if (isOBRReady) {
       OBR.room.onMetadataChange((metadata) => {
-        const currentChat =
-          metadata["last.fable.extension/metadata"].currentChat;
-
-        const missingMessages = chat.filter((message) => {
-          if (!currentChat.find((item) => message.id === item.id)) {
-            return true;
-          }
-          return false;
-        });
-
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        if (missingMessages.length) {
-          console.log("FOUND MISSING MESSAGES");
-          console.log(missingMessages);
-          const newChat = currentChat.concat(chat).unique();
-
-          OBR.room.setMetadata({
-            "last.fable.extension/metadata": {
-              currentChat: newChat.splice(-messageLimit),
-            },
-          });
-        } else {
-          const newChat = currentChat.sort((a, b) => a.id - b.id);
-          setChat(newChat);
-        }
+        const newMessage = metadata["last.fable.extension/metadata"].newMessage;
+        setChat([...chat, newMessage]);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
@@ -477,6 +455,7 @@ function App() {
       OBR.room.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
+          newMessage: newMessage,
         },
       });
 
@@ -504,6 +483,7 @@ function App() {
       OBR.room.setMetadata({
         "last.fable.extension/metadata": {
           currentChat: newChat.splice(-messageLimit),
+          newMessage: newMessage,
         },
       });
 
@@ -537,23 +517,23 @@ function App() {
   };
 
   const addRoll = async () => {
-    const newChat = [
-      ...chat,
-      {
-        id: Date.now(),
-        user: name,
-        diceOneResult,
-        diceTwoResult,
-        diceLabelOne: role === "GM" ? "" : diceLabelOne,
-        diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
-        damage,
-        bonus,
-        useHR,
-      },
-    ];
+    const newMessage = {
+      id: Date.now(),
+      user: name,
+      diceOneResult,
+      diceTwoResult,
+      diceLabelOne: role === "GM" ? "" : diceLabelOne,
+      diceLabelTwo: role === "GM" ? "" : diceLabelTwo,
+      damage,
+      bonus,
+      useHR,
+    };
+
+    const newChat = [...chat, newMessage];
     OBR.room.setMetadata({
       "last.fable.extension/metadata": {
         currentChat: newChat.splice(-messageLimit),
+        newMessage: newMessage,
       },
     });
 
