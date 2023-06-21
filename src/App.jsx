@@ -464,6 +464,8 @@ function App() {
         },
       });
 
+      setChat(newChat);
+
       setText("");
 
       setTimeout(() => {
@@ -490,6 +492,8 @@ function App() {
           currentChat: newChat.splice(-messageLimit),
         },
       });
+
+      setChat(newChat);
 
       setText("");
 
@@ -540,6 +544,8 @@ function App() {
         currentChat: newChat.splice(-messageLimit),
       },
     });
+
+    setChat(newChat);
 
     setTimeout(() => {
       var objDiv = document.getElementById("chatbox");
