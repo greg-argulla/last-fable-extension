@@ -39,6 +39,7 @@ function App() {
 
   const [chat, setChat] = useState([]);
   const [myChat, setMyChat] = useState([]);
+  const [metadata, setMetadata] = useState([]);
 
   const toggleHR = () => {
     setUseHR(!useHR);
@@ -299,29 +300,36 @@ function App() {
     }
   };
 
-  const createChatArray = (metadata) => {
-    const metadata = metadata["last.fable.extension/metadata"];
-    const messages = [];
-    const keys = Object.keys(metadata);
+  const createChatArray = async (metadata) => {
+    const metadataGet = metadata["last.fable.extension/metadata"];
+    setMetadata(metadataGet);
+    let messages = [];
+    const keys = Object.keys(metadataGet);
+
+    const playerId = await OBR.player.getId();
+    setId(playerId);
 
     keys.forEach((key) => {
-      messages.concat(metadata[key]);
+      messages = messages.concat(metadataGet[key]);
+      if (key === playerId) {
+        setMyChat(metadataGet[key]);
+      }
     });
-    return messages.sort((a, b) => {
-      a.id - b.id;
-    });
+
+    return messages.sort((a, b) => a.id - b.id);
   };
 
   useEffect(() => {
     if (isOBRReady) {
-      OBR.scene.onMetadataChange((metadata) => {
-        const currentChat = createChatArray(metadata);
+      OBR.scene.onMetadataChange(async (metadata) => {
+        const currentChat = await createChatArray(metadata);
 
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
+        console.log(currentChat);
         setChat(currentChat);
       });
 
@@ -435,6 +443,20 @@ function App() {
     return str.substring(char1, char2);
   }
 
+  const clearChat = () => {
+    const keys = Object.keys(metadata);
+
+    let clearedMetaData = { ...metadata };
+
+    keys.forEach((key) => {
+      clearedMetaData[key] = [];
+    });
+
+    OBR.scene.setMetadata({
+      "last.fable.extension/metadata": clearedMetaData,
+    });
+  };
+
   const addMessage = () => {
     if (text !== "") {
       if (role === "GM") {
@@ -445,11 +467,7 @@ function App() {
         }
 
         if (text === "/clearchat") {
-          OBR.scene.setMetadata({
-            "last.fable.extension/metadata": {
-              currentChat: [],
-            },
-          });
+          clearChat();
           setText("");
           return;
         }
@@ -458,7 +476,7 @@ function App() {
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
       const newChat = [...myChat, newMessage];
 
-      let metadataChange = {};
+      let metadataChange = { ...metadata };
       metadataChange[id] = newChat;
 
       OBR.scene.setMetadata({
@@ -487,7 +505,7 @@ function App() {
       };
       const newChat = [...myChat, newMessage];
 
-      let metadataChange = {};
+      let metadataChange = { ...metadata };
       metadataChange[id] = newChat;
 
       OBR.scene.setMetadata({
@@ -537,7 +555,7 @@ function App() {
     };
     const newChat = [...myChat, newMessage];
 
-    let metadataChange = {};
+    let metadataChange = { ...metadata };
     metadataChange[id] = newChat;
 
     OBR.scene.setMetadata({
