@@ -329,7 +329,6 @@ function App() {
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        console.log(currentChat);
         setChat(currentChat);
       });
 
