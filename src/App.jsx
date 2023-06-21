@@ -315,11 +315,16 @@ function App() {
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        const newChat = [...currentChat, ...missingMessages].sort(
-          (a, b) => a.id - b.id
-        );
-
-        setChat(newChat);
+        if (missingMessages.length) {
+          OBR.room.setMetadata({
+            "last.fable.extension/metadata": {
+              currentChat: [...currentChat, ...missingMessages],
+            },
+          });
+        } else {
+          const newChat = currentChat.sort((a, b) => a.id - b.id);
+          setChat(newChat);
+        }
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
