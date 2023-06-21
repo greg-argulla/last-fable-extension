@@ -7,6 +7,17 @@ import "./App.css";
 
 document.body.style.overflow = "hidden";
 
+Array.prototype.unique = function () {
+  var a = this.concat();
+  for (var i = 0; i < a.length; ++i) {
+    for (var j = i + 1; j < a.length; ++j) {
+      if (a[i] === a[j]) a.splice(j--, 1);
+    }
+  }
+
+  return a;
+};
+
 const Text = (props) => {
   const { children } = props;
   return <span className="outline">{children}</span>;
@@ -303,35 +314,16 @@ function App() {
         const currentChat =
           metadata["last.fable.extension/metadata"].currentChat;
 
-        const missingMessages = chat.filter((message) => {
-          if (!currentChat.find((item) => message.id === item.id)) {
-            return true;
-          }
-          return false;
-        });
-
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        if (missingMessages.length) {
-          console.log("FOUND MISSING MESSAGES");
-          console.log(missingMessages);
-          const newChat = [...currentChat, ...missingMessages].sort(
-            (a, b) => a.id - b.id
-          );
-
-          OBR.room.setMetadata({
-            "last.fable.extension/metadata": {
-              currentChat: newChat.splice(-messageLimit),
-            },
-          });
-          setChat(newChat);
-        } else {
-          const newChat = currentChat.sort((a, b) => a.id - b.id);
-          setChat(newChat);
-        }
+        const newChat = chat
+          .concat(currentChat)
+          .unique()
+          .sort((a, b) => a.id - b.id);
+        setChat(newChat);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
