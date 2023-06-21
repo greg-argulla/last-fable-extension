@@ -447,7 +447,7 @@ function App() {
       const newChat = [...chat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
-          currentChat: newChat,
+          currentChat: newChat.splice(-messageLimit),
         },
       });
 
@@ -474,7 +474,7 @@ function App() {
       const newChat = [...chat, newMessage];
       OBR.scene.setMetadata({
         "last.fable.extension/metadata": {
-          currentChat: newChat,
+          currentChat: newChat.splice(-messageLimit),
         },
       });
 
@@ -524,7 +524,7 @@ function App() {
     ];
     OBR.scene.setMetadata({
       "last.fable.extension/metadata": {
-        currentChat: newChat,
+        currentChat: newChat.splice(-messageLimit),
       },
     });
 
