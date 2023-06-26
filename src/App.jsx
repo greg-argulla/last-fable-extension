@@ -259,29 +259,27 @@ function App() {
   };
 
   useEffect(() => {
-    OBR.scene.onReadyChange(async (ready) => {
-      if (ready) {
-        const metadata = await OBR.scene.getMetadata();
-        if (metadata["last.fable.extension/metadata"]) {
-          const currentChat = createChatArray(metadata);
-          setChat(currentChat);
-        }
-        setIsOBRReady(true);
-        setTimeout(() => {
-          var objDiv = document.getElementById("chatbox");
-          objDiv.scrollTop = objDiv.scrollHeight;
-        }, 100);
-
-        OBR.action.setBadgeBackgroundColor("orange");
-        setName(await OBR.player.getName());
-        setId(await OBR.player.getId());
-
-        OBR.player.onChange(async (player) => {
-          setName(await OBR.player.getName());
-        });
-
-        setRole(await OBR.player.getRole());
+    OBR.onReady(async () => {
+      const metadata = await OBR.scene.getMetadata();
+      if (metadata["last.fable.extension/metadata"]) {
+        const currentChat = createChatArray(metadata);
+        setChat(currentChat);
       }
+      setIsOBRReady(true);
+      setTimeout(() => {
+        var objDiv = document.getElementById("chatbox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }, 100);
+
+      OBR.action.setBadgeBackgroundColor("orange");
+      setName(await OBR.player.getName());
+      setId(await OBR.player.getId());
+
+      OBR.player.onChange(async (player) => {
+        setName(await OBR.player.getName());
+      });
+
+      setRole(await OBR.player.getRole());
     });
   }, []);
 
