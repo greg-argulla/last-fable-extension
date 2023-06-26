@@ -1124,9 +1124,10 @@ function App() {
             height: windowInnerHeight - 220,
           }}
         >
-          {chat.map((item, index) => (
-            <ChatInstance key={index} item={item} index={index} />
-          ))}
+          {chat.length &&
+            chat.map((item, index) => (
+              <ChatInstance key={index} item={item} index={index} />
+            ))}
         </div>
         <div style={{ marginTop: 5, display: "inline-flex" }}>
           <input
