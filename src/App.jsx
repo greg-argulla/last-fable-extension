@@ -39,7 +39,7 @@ function App() {
 
   const [chat, setChat] = useState([]);
   const [myChat, setMyChat] = useState([]);
-  const [metadata, setMetadata] = useState([]);
+  const [metadata, setMetadata] = useState({});
 
   const toggleHR = () => {
     setUseHR(!useHR);
