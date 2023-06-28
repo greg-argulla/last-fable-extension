@@ -1124,6 +1124,7 @@ function App() {
       >
         <div
           id="chatbox"
+          className="scrollable-container"
           style={{
             backgroundColor: "#333",
             padding: 10,

@@ -41,6 +41,10 @@
   color: #888;
 }
 
+.scrollable-container::-webkit-scrollbar {
+  display: none;
+}
+
 .outline {
   color: #ffd433;
   font-size: 13px;
