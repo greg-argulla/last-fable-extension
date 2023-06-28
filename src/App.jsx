@@ -15,6 +15,9 @@ const Text = (props) => {
 function App() {
   const messageLimit = 100;
 
+  const [skillName, setSkillName] = useState("");
+  const [info, setInfo] = useState("");
+  const [detail, setDetail] = useState("");
   const [dex, setDex] = useState("d8");
   const [ins, setIns] = useState("d8");
   const [mig, setMig] = useState("d8");
@@ -36,7 +39,8 @@ function App() {
   const [preparedDice, setPreparedDice] = useState([]);
   const [useHR, setUseHR] = useState(true);
   const [role, setRole] = useState("PLAYER");
-
+  const [rollData, setRollData] = useState(null);
+  const [skillData, setSkillData] = useState(null);
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
@@ -67,13 +71,147 @@ function App() {
     }
   }
 
+  const testData = {
+    bonus: 0,
+    damage: 12,
+    diceLabelOne: "DEX",
+    diceLabelTwo: "DEX",
+    diceOneResult: 6,
+    diceTwoResult: 4,
+    useHR: true,
+    user: "GM",
+    skillName: "Acceleration",
+    info: "20MP One creature Scene",
+    detail:
+      "You bend the fabric of time. Until this spell ends, the target gains the ability to perform a single additional action during each of their turns. Once the target has performed a total of two additional actions granted by this spell, this spell ends.",
+  };
+
+  const rollInstance = (item, index) => {
+    const HR =
+      item.diceOneResult > item.diceTwoResult
+        ? item.diceOneResult
+        : item.diceTwoResult;
+    return (
+      <div className="roll-detail" style={{ textAlign: "center" }}>
+        * {item.user} Rolled{" "}
+        <span style={{ color: "#FFF" }}>{item.result}</span>
+        {item.diceOneResult} {item.diceLabelOne}
+        {item.diceTwoResult !== 0 ? (
+          <>{` + ${item.diceTwoResult} ${item.diceLabelTwo}`}</>
+        ) : (
+          ""
+        )}
+        {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
+          ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
+          : ""}
+        {(item.diceTwoResult !== 0 ||
+          (!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0)) &&
+          ` = `}
+        {item.diceTwoResult === 0 &&
+          !isNaN(parseInt(item.bonus)) &&
+          parseInt(item.bonus) !== 0 && (
+            <span
+              style={{
+                marginRight: 2,
+                marginLeft: 2,
+                fontSize: 11,
+              }}
+            >
+              {item.diceOneResult + item.bonus}
+            </span>
+          )}
+        {item.diceTwoResult !== 0 && (
+          <span
+            style={{
+              color:
+                (item.diceOneResult + item.diceTwoResult + item.bonus) % 2 === 0
+                  ? "lightgreen"
+                  : "lightblue",
+              marginRight: 2,
+              marginLeft: 2,
+              fontSize: 11,
+            }}
+          >
+            {item.diceOneResult + item.diceTwoResult + item.bonus}
+          </span>
+        )}
+        {parseInt(item.damage) > 0
+          ? (item.useHR ? ` HR: ${HR} ` : " ") + "DMG:"
+          : ""}
+        {parseInt(item.damage) > 0 ? (
+          <span
+            style={{
+              color: "red",
+              marginRight: 2,
+              marginLeft: 2,
+              fontSize: 11,
+            }}
+          >
+            {item.useHR ? HR + item.damage : item.damage}
+          </span>
+        ) : (
+          ""
+        )}
+        {item.diceOneResult === item.diceTwoResult &&
+          item.diceOneResult > 5 && (
+            <>
+              <span
+                style={{ color: "#FF4500" }}
+                className={index > chat.length - 8 ? "crit" : ""}
+              >
+                CRITICAL
+              </span>
+            </>
+          )}
+        {item.diceOneResult === item.diceTwoResult &&
+          item.diceOneResult < 6 &&
+          item.diceOneResult > 1 && (
+            <span style={{ color: "orange" }}>FRENZY</span>
+          )}
+        {item.diceOneResult === item.diceTwoResult &&
+          item.diceOneResult === 1 && (
+            <span
+              style={{ color: "lightgrey" }}
+              className={index > chat.length - 8 ? "crit" : ""}
+            >
+              FUMBLE
+            </span>
+          )}
+      </div>
+    );
+  };
+
   const ChatInstance = (props) => {
     const { item, index } = props;
-    if (item.message) {
-      if (item.message === "/line") {
-        return <hr></hr>;
-      }
 
+    if (item.skillName) {
+      return (
+        <div>
+          <div className="outline">
+            <div onClick={() => setToPM(item.user)}>{item.user}</div>
+          </div>
+          <div className="skill-detail">
+            <div style={{ fontSize: 13, color: "darkorange" }}>
+              {item.skillName}
+            </div>
+            <div style={{ color: "darkgrey" }}>{item.info}</div>
+            <hr
+              style={{
+                marginTop: 4,
+                marginBottom: 4,
+                borderColor: "grey",
+                backgroundColor: "grey",
+                color: "grey",
+              }}
+            ></hr>
+            <div>{item.detail}</div>
+            {item.diceOneResult && rollInstance(item)}
+          </div>
+        </div>
+      );
+    }
+
+    if (item.message) {
       if (item.message.charAt(0) === "=") {
         const mathToEvaluate = item.message.substring(1, item.message.length);
         return (
@@ -82,19 +220,6 @@ function App() {
             <span style={{ color: "#D2691E" }}>
               {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
             </span>
-          </div>
-        );
-      }
-
-      if (item.message === "/newround") {
-        return (
-          <div
-            className="outline"
-            style={{ textAlign: "center", fontSize: 14 }}
-          >
-            <hr></hr>
-            New Round
-            <hr></hr>
           </div>
         );
       }
@@ -140,99 +265,7 @@ function App() {
       }
       return "";
     } else {
-      const HR =
-        item.diceOneResult > item.diceTwoResult
-          ? item.diceOneResult
-          : item.diceTwoResult;
-      return (
-        <div className="outline" style={{ textAlign: "center" }}>
-          * {item.user} Rolled{" "}
-          <span style={{ color: "#FFF" }}>{item.result}</span>
-          {item.diceOneResult} {item.diceLabelOne}
-          {item.diceTwoResult !== 0 ? (
-            <>{` + ${item.diceTwoResult} ${item.diceLabelTwo}`}</>
-          ) : (
-            ""
-          )}
-          {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
-            ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
-            : ""}
-          {(item.diceTwoResult !== 0 ||
-            (!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0)) &&
-            ` = `}
-          {item.diceTwoResult === 0 &&
-            !isNaN(parseInt(item.bonus)) &&
-            parseInt(item.bonus) !== 0 && (
-              <span
-                style={{
-                  marginRight: 2,
-                  marginLeft: 2,
-                  fontSize: 14,
-                }}
-              >
-                {item.diceOneResult + item.bonus}
-              </span>
-            )}
-          {item.diceTwoResult !== 0 && (
-            <span
-              style={{
-                color:
-                  (item.diceOneResult + item.diceTwoResult + item.bonus) % 2 ===
-                  0
-                    ? "lightgreen"
-                    : "lightblue",
-                marginRight: 2,
-                marginLeft: 2,
-                fontSize: 14,
-              }}
-            >
-              {item.diceOneResult + item.diceTwoResult + item.bonus}
-            </span>
-          )}
-          {parseInt(item.damage) > 0
-            ? (item.useHR ? ` HR: ${HR} ` : " ") + "DMG:"
-            : ""}
-          {parseInt(item.damage) > 0 ? (
-            <span
-              style={{
-                color: "red",
-                marginRight: 2,
-                marginLeft: 2,
-                fontSize: 14,
-              }}
-            >
-              {item.useHR ? HR + item.damage : item.damage}
-            </span>
-          ) : (
-            ""
-          )}
-          {item.diceOneResult === item.diceTwoResult &&
-            item.diceOneResult > 5 && (
-              <>
-                <span
-                  style={{ color: "#FF4500" }}
-                  className={index > chat.length - 8 ? "crit" : ""}
-                >
-                  CRITICAL
-                </span>
-              </>
-            )}
-          {item.diceOneResult === item.diceTwoResult &&
-            item.diceOneResult < 6 &&
-            item.diceOneResult > 1 && (
-              <span style={{ color: "orange" }}>FRENZY</span>
-            )}
-          {item.diceOneResult === item.diceTwoResult &&
-            item.diceOneResult === 1 && (
-              <span
-                style={{ color: "lightgrey" }}
-                className={index > chat.length - 8 ? "crit" : ""}
-              >
-                FUMBLE
-              </span>
-            )}
-        </div>
-      );
+      return rollInstance(item, index);
     }
   };
 
@@ -293,6 +326,9 @@ function App() {
     setDiceTwoResult(0);
     setDamage("");
     setBonus("");
+    setInfo("");
+    setSkillName("");
+    setDetail("");
   };
 
   const handleKeyDown = (event) => {
@@ -320,8 +356,63 @@ function App() {
     return messages.sort((a, b) => a.id - b.id);
   };
 
+  const checkForRolls = async (metadata) => {
+    const rollData = metadata["ultimate.story.extension/sendroll"];
+    setRollData(rollData);
+  };
+
+  const checkForSkills = async (metadata) => {
+    const skillData = metadata["ultimate.story.extension/sendskill"];
+    setSkillData(skillData);
+  };
+
   useEffect(() => {
-    if (chatToCheckChanges.length > chat.length) {
+    if (rollData) {
+      if (rollData.userId === id) {
+        const previousRoll = JSON.parse(
+          localStorage.getItem("last.fable.extension/rolldata")
+        );
+
+        if (previousRoll) {
+          if (previousRoll.id !== rollData.id) {
+            clearAllDice();
+            rollSkillDice(rollData);
+          }
+        } else {
+          rollSkillDice(rollData);
+        }
+        localStorage.setItem(
+          "last.fable.extension/rolldata",
+          JSON.stringify(rollData)
+        );
+      }
+    }
+  }, [rollData]);
+
+  useEffect(() => {
+    if (skillData) {
+      if (skillData.userId === id) {
+        const previousSkill = JSON.parse(
+          localStorage.getItem("last.fable.extension/skilldata")
+        );
+
+        if (previousSkill) {
+          if (previousSkill.id !== skillData.id) {
+            addSkillMessage(skillData);
+          }
+        } else {
+          addSkillMessage(skillData);
+        }
+        localStorage.setItem(
+          "last.fable.extension/skilldata",
+          JSON.stringify(skillData)
+        );
+      }
+    }
+  }, [skillData]);
+
+  useEffect(() => {
+    if (chatToCheckChanges.length !== chat.length) {
       setChat(chatToCheckChanges);
     }
   }, [chatToCheckChanges]);
@@ -330,6 +421,8 @@ function App() {
     if (isOBRReady) {
       OBR.scene.onMetadataChange(async (metadata) => {
         const currentChat = await createChatArray(metadata);
+        checkForRolls(metadata);
+        checkForSkills(metadata);
 
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
@@ -372,18 +465,13 @@ function App() {
       if (lastMessage && !cooldown && isOBRReady && !isOpen) {
         if (lastMessage.message) {
           if (!lastMessage.whisper || role === "GM") {
-            if (
-              lastMessage.message !== "/line" &&
-              lastMessage.message !== "/newround"
-            ) {
-              OBR.notification.show(
-                lastMessage.user +
-                  ": " +
-                  lastMessage.message +
-                  (lastMessage.whisper ? " (WHISPER)" : ""),
-                "DEFAULT"
-              );
-            }
+            OBR.notification.show(
+              lastMessage.user +
+                ": " +
+                lastMessage.message +
+                (lastMessage.whisper ? " (WHISPER)" : ""),
+              "DEFAULT"
+            );
           }
         } else {
           const HR =
@@ -480,7 +568,7 @@ function App() {
       }
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
-      const newChat = [...myChat, newMessage];
+      const newChat = [...myChat, newMessage].splice(-messageLimit);
 
       let metadataChange = { ...metadata };
       metadataChange[id] = newChat;
@@ -527,9 +615,31 @@ function App() {
     }
   };
 
+  const addSkillMessage = (skill) => {
+    const newMessage = {
+      id: Date.now(),
+      user: name,
+      skillName: skill.skillName,
+      info: skill.info,
+      detail: skill.detail,
+    };
+    const newChat = [...myChat, newMessage].splice(-messageLimit);
+
+    let metadataChange = { ...metadata };
+    metadataChange[id] = newChat;
+
+    OBR.scene.setMetadata({
+      "last.fable.extension/metadata": metadataChange,
+    });
+
+    setTimeout(() => {
+      var objDiv = document.getElementById("chatbox");
+      objDiv.scrollTop = objDiv.scrollHeight;
+    }, 100);
+  };
+
   const rollPreparedDice = (index) => {
     const prepared = preparedDice[index];
-
     if (prepared.diceOne != "") {
       const result1 = getRandomNumberByDice(prepared.diceOne);
       setDiceOneResult(result1);
@@ -547,6 +657,33 @@ function App() {
     setBonus(prepared.bonus);
   };
 
+  const rollSkillDice = (roll) => {
+    if (roll.diceOne != "") {
+      const result1 = getRandomNumberByDice(roll.diceOne);
+      setDiceOneResult(result1);
+    }
+
+    if (roll.diceTwo != "") {
+      const result2 = getRandomNumberByDice(roll.diceTwo);
+      setDiceTwoResult(result2);
+    }
+
+    setSkillName(roll.skillName);
+    setInfo(roll.info);
+    setDetail(roll.detail);
+    setDex(roll.dex);
+    setIns(roll.ins);
+    setMig(roll.mig);
+    setWil(roll.wil);
+    setUseHR(roll.useHR);
+    setDiceOne(roll.diceOne);
+    setDiceTwo(roll.diceTwo);
+    setDiceLabelOne(roll.diceLabelOne);
+    setDiceLabelTwo(roll.diceLabelTwo);
+    setDamage(roll.damage);
+    setBonus(roll.bonus);
+  };
+
   const addRoll = () => {
     const newMessage = {
       id: Date.now(),
@@ -558,8 +695,11 @@ function App() {
       damage,
       bonus,
       useHR,
+      info,
+      skillName,
+      detail,
     };
-    const newChat = [...myChat, newMessage];
+    const newChat = [...myChat, newMessage].splice(-messageLimit);
 
     let metadataChange = { ...metadata };
     metadataChange[id] = newChat;
@@ -713,7 +853,6 @@ function App() {
     return (
       <div
         style={{
-          marginTop: 5,
           marginLeft: 30,
           marginRight: 25,
           display: "flex",
@@ -764,7 +903,7 @@ function App() {
                   : "lightblue",
               marginRight: 2,
               marginLeft: 2,
-              fontSize: 14,
+              fontSize: 13,
             }}
           >
             {diceOneResult + diceTwoResult + bonus}
@@ -776,7 +915,7 @@ function App() {
                 color: "red",
                 marginRight: 2,
                 marginLeft: 2,
-                fontSize: 14,
+                fontSize: 13,
               }}
             >
               {useHR ? HR + damage : damage}
@@ -928,7 +1067,7 @@ function App() {
           flexDirection: "row",
           paddingLeft: 30,
           paddingRight: 20,
-          paddingTop: 25,
+          paddingTop: 20,
         }}
       >
         <div>
@@ -1148,6 +1287,7 @@ function App() {
               marginRight: 2,
               paddingLeft: 4,
               backgroundColor: "#333",
+              fontSize: 12,
             }}
             value={text}
             onChange={(evt) => {

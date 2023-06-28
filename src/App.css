@@ -51,7 +51,7 @@
 
 .outline {
   color: #ffd433;
-  font-size: 13px;
+  font-size: 12px;
   text-shadow: #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px,
     #000 0px 0px 1px, #000 0px 0px 1px, #000 0px 0px 1px;
   -webkit-font-smoothing: antialiased;
@@ -75,9 +75,24 @@
   background-color: #222;
 }
 
+.skill-detail {
+  font-size: 10px;
+  background-color: #111;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.roll-detail {
+  font-size: 11px;
+  background-color: #222;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
 .crit {
   position: relative;
-  font-size: 13px;
+  font-size: 11px;
   color: #fff;
   animation: explode 1s linear infinite alternate;
 }
