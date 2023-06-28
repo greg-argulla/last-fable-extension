@@ -38,6 +38,7 @@ function App() {
   const [role, setRole] = useState("PLAYER");
 
   const [chat, setChat] = useState([]);
+  const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
   const [metadata, setMetadata] = useState({});
 
@@ -320,6 +321,12 @@ function App() {
   };
 
   useEffect(() => {
+    if (chatToCheckChanges.length > chat.length) {
+      setChat(chatToCheckChanges);
+    }
+  }, [chatToCheckChanges]);
+
+  useEffect(() => {
     if (isOBRReady) {
       OBR.scene.onMetadataChange(async (metadata) => {
         const currentChat = await createChatArray(metadata);
@@ -329,9 +336,7 @@ function App() {
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        if (currentChat != chat) {
-          setChat(currentChat);
-        }
+        setChatToCheckChanges(currentChat);
       });
 
       OBR.action.onOpenChange((isOpen) => {
