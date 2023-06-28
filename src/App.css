@@ -45,6 +45,10 @@
   display: none;
 }
 
+.scrollable-container {
+  scrollbar-width: none;
+}
+
 .outline {
   color: #ffd433;
   font-size: 13px;
