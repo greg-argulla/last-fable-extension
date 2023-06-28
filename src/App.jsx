@@ -329,7 +329,9 @@ function App() {
           objDiv.scrollTop = objDiv.scrollHeight;
         }, 100);
 
-        setChat(currentChat);
+        if (currentChat != chat) {
+          setChat(currentChat);
+        }
       });
 
       OBR.action.onOpenChange((isOpen) => {
