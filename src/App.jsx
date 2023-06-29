@@ -41,8 +41,6 @@ function App() {
   const [role, setRole] = useState("PLAYER");
   const [rollData, setRollData] = useState(null);
   const [previousRoll, setPreviousRoll] = useState(null);
-  const [skillData, setSkillData] = useState(null);
-  const [previousSkill, setPreviousSkill] = useState(null);
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
@@ -375,16 +373,9 @@ function App() {
             clearAllDice();
             rollSkillDice(rollData);
           }
-        } else if (previousRoll) {
-          if (previousRoll.id !== rollData.id) {
-            clearAllDice();
-            rollSkillDice(rollData);
-          }
         } else {
           rollSkillDice(rollData);
         }
-
-        setPreviousRoll(rollData);
         localStorage.setItem(
           "last.fable.extension/rolldata",
           JSON.stringify(rollData)
@@ -404,15 +395,9 @@ function App() {
           if (localSkillData.id !== skillData.id) {
             addSkillMessage(skillData);
           }
-        } else if (previousSkill) {
-          if (previousSkill.id !== skillData.id) {
-            addSkillMessage(skillData);
-          }
         } else {
           addSkillMessage(skillData);
         }
-
-        setPreviousSkill(skillData);
         localStorage.setItem(
           "last.fable.extension/skilldata",
           JSON.stringify(skillData)
