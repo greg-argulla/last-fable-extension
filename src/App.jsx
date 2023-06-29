@@ -71,21 +71,6 @@ function App() {
     }
   }
 
-  const testData = {
-    bonus: 0,
-    damage: 12,
-    diceLabelOne: "DEX",
-    diceLabelTwo: "DEX",
-    diceOneResult: 6,
-    diceTwoResult: 4,
-    useHR: true,
-    user: "GM",
-    skillName: "Acceleration",
-    info: "20MP One creature Scene",
-    detail:
-      "You bend the fabric of time. Until this spell ends, the target gains the ability to perform a single additional action during each of their turns. Once the target has performed a total of two additional actions granted by this spell, this spell ends.",
-  };
-
   const rollInstance = (item, index) => {
     const HR =
       item.diceOneResult > item.diceTwoResult
