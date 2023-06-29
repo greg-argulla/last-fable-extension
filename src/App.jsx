@@ -270,9 +270,9 @@ function App() {
   };
 
   const clickPrepareDice = () => {
-    if (preparedDice.length > 1) preparedDice.shift();
+    if (preparedDice.length > 1) preparedDice.pop();
     const newPreparedDice = [...preparedDice];
-    newPreparedDice.push({
+    newPreparedDice.unshift({
       diceOne,
       diceTwo,
       diceLabelOne,
@@ -283,7 +283,6 @@ function App() {
 
     setPreparedDice(newPreparedDice);
     saveStats({ preparedDice: newPreparedDice });
-    clearAllDice();
   };
 
   const clearPreparedDice = () => {
@@ -734,6 +733,7 @@ function App() {
   const rollDice = () => {
     rollDiceOne();
     rollDiceTwo();
+    clickPrepareDice();
   };
 
   useEffect(() => {
@@ -957,7 +957,7 @@ function App() {
   const renderPreparedDice = () => {
     return (
       <Text>
-        <span style={{ fontSize: 11 }}>Prepared:</span>
+        <span style={{ fontSize: 11 }}>Previous:</span>
         {preparedDice.map((item, index) => {
           return (
             <button
@@ -982,7 +982,6 @@ function App() {
   };
 
   const RollInput = () => {
-    const isReadyToPrepare = diceOne != "" && diceTwo != "";
     const hasDice = diceOne != "";
     return (
       <div
@@ -1010,15 +1009,6 @@ function App() {
             onClick={() => rollDice()}
           >
             Roll
-          </button>
-        )}
-        {isReadyToPrepare && (
-          <button
-            className="button-dice"
-            style={{ marginLeft: 5 }}
-            onClick={() => clickPrepareDice()}
-          >
-            Prepare
           </button>
         )}
         {hasDice && (
