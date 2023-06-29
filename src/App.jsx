@@ -40,7 +40,7 @@ function App() {
   const [useHR, setUseHR] = useState(true);
   const [role, setRole] = useState("PLAYER");
   const [rollData, setRollData] = useState(null);
-  const [previousRoll, setPreviousRoll] = useState(null);
+  const [skillData, setSkillData] = useState(null);
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
