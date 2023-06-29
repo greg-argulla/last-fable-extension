@@ -40,7 +40,9 @@ function App() {
   const [useHR, setUseHR] = useState(true);
   const [role, setRole] = useState("PLAYER");
   const [rollData, setRollData] = useState(null);
+  const [previousRoll, setPreviousRoll] = useState(null);
   const [skillData, setSkillData] = useState(null);
+  const [previousSkill, setPreviousSkill] = useState(null);
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
@@ -294,11 +296,6 @@ function App() {
 
   useEffect(() => {
     OBR.onReady(async () => {
-      const metadata = await OBR.scene.getMetadata();
-      if (metadata["last.fable.extension/metadata"]) {
-        const currentChat = createChatArray(metadata);
-        setChat(currentChat);
-      }
       setIsOBRReady(true);
       setTimeout(() => {
         var objDiv = document.getElementById("chatbox");
@@ -369,11 +366,16 @@ function App() {
   useEffect(() => {
     if (rollData) {
       if (rollData.userId === id) {
-        const previousRoll = JSON.parse(
+        const localRollData = JSON.parse(
           localStorage.getItem("last.fable.extension/rolldata")
         );
 
-        if (previousRoll) {
+        if (localRollData) {
+          if (localRollData.id !== rollData.id) {
+            clearAllDice();
+            rollSkillDice(rollData);
+          }
+        } else if (previousRoll) {
           if (previousRoll.id !== rollData.id) {
             clearAllDice();
             rollSkillDice(rollData);
@@ -381,6 +383,8 @@ function App() {
         } else {
           rollSkillDice(rollData);
         }
+
+        setPreviousRoll(rollData);
         localStorage.setItem(
           "last.fable.extension/rolldata",
           JSON.stringify(rollData)
@@ -392,17 +396,23 @@ function App() {
   useEffect(() => {
     if (skillData) {
       if (skillData.userId === id) {
-        const previousSkill = JSON.parse(
+        const localSkillData = JSON.parse(
           localStorage.getItem("last.fable.extension/skilldata")
         );
 
-        if (previousSkill) {
+        if (localSkillData) {
+          if (localSkillData.id !== skillData.id) {
+            addSkillMessage(skillData);
+          }
+        } else if (previousSkill) {
           if (previousSkill.id !== skillData.id) {
             addSkillMessage(skillData);
           }
         } else {
           addSkillMessage(skillData);
         }
+
+        setPreviousSkill(skillData);
         localStorage.setItem(
           "last.fable.extension/skilldata",
           JSON.stringify(skillData)
@@ -432,11 +442,19 @@ function App() {
         setChatToCheckChanges(currentChat);
       });
 
-      OBR.action.onOpenChange((isOpen) => {
+      OBR.action.onOpenChange(async (isOpen) => {
         // React to the action opening or closing
         if (isOpen) {
           setUnreadCount(0);
           OBR.action.setBadgeText(undefined);
+
+          if (currentChat.length === 0) {
+            const metadata = await OBR.scene.getMetadata();
+            if (metadata["last.fable.extension/metadata"]) {
+              const currentChat = createChatArray(metadata);
+              setChat(currentChat);
+            }
+          }
         }
       });
 
@@ -473,7 +491,7 @@ function App() {
               "DEFAULT"
             );
           }
-        } else {
+        } else if (lastMessage.diceOneResult) {
           const HR =
             lastMessage.diceOneResult > lastMessage.diceTwoResult
               ? lastMessage.diceOneResult
