@@ -207,7 +207,7 @@ function App() {
               }}
             ></hr>
             <div>{item.detail}</div>
-            {item.diceOneResult && rollInstance(item)}
+            {item.diceOneResult && rollInstance(item, index)}
           </div>
         </div>
       );
