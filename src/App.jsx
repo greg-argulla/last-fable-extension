@@ -400,8 +400,6 @@ function App() {
     if (isOBRReady) {
       OBR.scene.onMetadataChange(async (metadata) => {
         const currentChat = await createChatArray(metadata);
-        checkForRolls(metadata);
-        checkForSkills(metadata);
 
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
@@ -409,6 +407,11 @@ function App() {
         }, 100);
 
         setChatToCheckChanges(currentChat);
+      });
+
+      OBR.room.onMetadataChange(async (metadata) => {
+        checkForRolls(metadata);
+        checkForSkills(metadata);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
