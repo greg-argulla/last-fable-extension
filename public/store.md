@@ -28,4 +28,4 @@ manifest: https://fabula-ultima-extension.onrender.com/manifest.json
 
 **Support**
 
-If you need support for this extension you can reach me in discord Alyx (username: alyx323)
+If you need support for this extension you can reach me in discord Alyx (username: alyx323) Special thanks to kirachi and xio for testing!
