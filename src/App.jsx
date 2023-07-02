@@ -1089,6 +1089,7 @@ function App() {
           marginRight: 30,
           display: "flex",
           alignItems: "center",
+          minHeight: 25,
         }}
       >
         {hasDice && (
