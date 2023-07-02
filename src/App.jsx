@@ -44,7 +44,6 @@ function App() {
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
-  const [metadata, setMetadata] = useState({});
 
   const toggleHR = () => {
     setUseHR(!useHR);
@@ -318,7 +317,6 @@ function App() {
 
   const createChatArray = async (metadata) => {
     const metadataGet = metadata["last.fable.extension/metadata"];
-    setMetadata(metadataGet);
     let messages = [];
     const keys = Object.keys(metadataGet);
 
@@ -527,7 +525,9 @@ function App() {
     return str.substring(char1, char2);
   }
 
-  const clearChat = () => {
+  const clearChat = async () => {
+    const metadataGet = await OBR.scene.getMetadata();
+    const metadata = metadataGet["last.fable.extension/metadata"];
     const keys = Object.keys(metadata);
 
     let clearedMetaData = { ...metadata };
@@ -541,7 +541,7 @@ function App() {
     });
   };
 
-  const addMessage = () => {
+  const addMessage = async () => {
     if (text !== "") {
       if (role === "GM") {
         if (text.charAt(0) === "[") {
@@ -560,6 +560,9 @@ function App() {
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
       const newChat = [...myChat, newMessage].splice(-messageLimit);
 
+      const metadataGet = await OBR.scene.getMetadata();
+      const metadata = metadataGet["last.fable.extension/metadata"];
+
       let metadataChange = { ...metadata };
       metadataChange[id] = newChat;
 
@@ -576,7 +579,7 @@ function App() {
     }
   };
 
-  const addWhisper = (target) => {
+  const addWhisper = async (target) => {
     if (text !== "") {
       const message = target ? text.replace("[" + target + "]", "") : text;
 
@@ -589,6 +592,9 @@ function App() {
       };
       const newChat = [...myChat, newMessage];
 
+      const metadataGet = await OBR.scene.getMetadata();
+      const metadata = metadataGet["last.fable.extension/metadata"];
+
       let metadataChange = { ...metadata };
       metadataChange[id] = newChat;
 
@@ -605,7 +611,7 @@ function App() {
     }
   };
 
-  const addSkillMessage = (skill) => {
+  const addSkillMessage = async (skill) => {
     const newMessage = {
       id: Date.now(),
       user: name,
@@ -614,6 +620,9 @@ function App() {
       detail: skill.detail,
     };
     const newChat = [...myChat, newMessage].splice(-messageLimit);
+
+    const metadataGet = await OBR.scene.getMetadata();
+    const metadata = metadataGet["last.fable.extension/metadata"];
 
     let metadataChange = { ...metadata };
     metadataChange[id] = newChat;
@@ -674,7 +683,7 @@ function App() {
     setBonus(roll.bonus);
   };
 
-  const addRoll = () => {
+  const addRoll = async () => {
     const newMessage = {
       id: Date.now(),
       user: name,
@@ -691,6 +700,8 @@ function App() {
     };
     const newChat = [...myChat, newMessage].splice(-messageLimit);
 
+    const metadataGet = await OBR.scene.getMetadata();
+    const metadata = metadataGet["last.fable.extension/metadata"];
     let metadataChange = { ...metadata };
     metadataChange[id] = newChat;
 
