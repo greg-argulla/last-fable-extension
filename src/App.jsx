@@ -418,7 +418,7 @@ function App() {
           setUnreadCount(0);
           OBR.action.setBadgeText(undefined);
 
-          if (currentChat.length === 0) {
+          if (chat.length === 0) {
             const metadata = await OBR.scene.getMetadata();
             if (metadata["last.fable.extension/metadata"]) {
               const currentChat = createChatArray(metadata);
