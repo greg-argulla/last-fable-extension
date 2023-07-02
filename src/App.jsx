@@ -44,6 +44,7 @@ function App() {
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
+  const [cookiesNotEnabled, setCookiesNotEnabled] = useState(false);
 
   const toggleHR = () => {
     setUseHR(!useHR);
@@ -280,7 +281,9 @@ function App() {
       setIsOBRReady(true);
       setTimeout(() => {
         var objDiv = document.getElementById("chatbox");
-        objDiv.scrollTop = objDiv.scrollHeight;
+        if (objDiv) {
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }
       }, 100);
 
       OBR.action.setBadgeBackgroundColor("orange");
@@ -293,6 +296,12 @@ function App() {
 
       setRole(await OBR.player.getRole());
     });
+
+    try {
+      localStorage.getItem("last.fable.extension/rolldata");
+    } catch {
+      setCookiesNotEnabled(true);
+    }
   }, []);
 
   const clearAllDice = () => {
@@ -344,6 +353,12 @@ function App() {
   };
 
   useEffect(() => {
+    try {
+      localStorage.getItem("last.fable.extension/rolldata");
+    } catch {
+      setCookiesNotEnabled(true);
+      return;
+    }
     if (rollData) {
       if (rollData.userId === id) {
         const localRollData = JSON.parse(
@@ -367,6 +382,12 @@ function App() {
   }, [rollData]);
 
   useEffect(() => {
+    try {
+      localStorage.getItem("last.fable.extension/rolldata");
+    } catch {
+      setCookiesNotEnabled(true);
+      return;
+    }
     if (skillData) {
       if (skillData.userId === id) {
         const localSkillData = JSON.parse(
@@ -401,7 +422,9 @@ function App() {
 
         setTimeout(() => {
           var objDiv = document.getElementById("chatbox");
-          objDiv.scrollTop = objDiv.scrollHeight;
+          if (objDiv) {
+            objDiv.scrollTop = objDiv.scrollHeight;
+          }
         }, 100);
 
         setChatToCheckChanges(currentChat);
@@ -427,6 +450,13 @@ function App() {
           }
         }
       });
+
+      try {
+        localStorage.getItem("last.fable.extension/rolldata");
+      } catch {
+        setCookiesNotEnabled(true);
+        return;
+      }
 
       const stats = JSON.parse(
         localStorage.getItem("last.fable.extension/metadata")
@@ -516,7 +546,10 @@ function App() {
         setCoolDown(false);
       }, 4000);
     };
-    updateMessages();
+
+    if (isOBRReady) {
+      updateMessages();
+    }
   }, [chat]);
 
   function getSubstring(str, start, end) {
@@ -574,7 +607,9 @@ function App() {
 
       setTimeout(() => {
         var objDiv = document.getElementById("chatbox");
-        objDiv.scrollTop = objDiv.scrollHeight;
+        if (objDiv) {
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }
       }, 100);
     }
   };
@@ -606,7 +641,9 @@ function App() {
 
       setTimeout(() => {
         var objDiv = document.getElementById("chatbox");
-        objDiv.scrollTop = objDiv.scrollHeight;
+        if (objDiv) {
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }
       }, 100);
     }
   };
@@ -633,7 +670,9 @@ function App() {
 
     setTimeout(() => {
       var objDiv = document.getElementById("chatbox");
-      objDiv.scrollTop = objDiv.scrollHeight;
+      if (objDiv) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
     }, 100);
   };
 
@@ -711,7 +750,9 @@ function App() {
 
     setTimeout(() => {
       var objDiv = document.getElementById("chatbox");
-      objDiv.scrollTop = objDiv.scrollHeight;
+      if (objDiv) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
     }, 100);
   };
 
@@ -1042,6 +1083,37 @@ function App() {
     // Return a function to disconnect the event listener
     return () => window.removeEventListener("resize", autoResize);
   }, []);
+
+  if (cookiesNotEnabled) {
+    return (
+      <div
+        style={{
+          backgroundImage: `url(${landingBG})`,
+          backgroundSize: "contain",
+          height: 600,
+          width: 400,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            paddingLeft: 30,
+            paddingRight: 20,
+            paddingTop: 40,
+          }}
+        >
+          <div className="outline" style={{ color: "red", font: 14 }}>
+            Error:
+          </div>
+          <div className="outline" style={{ fontSize: 14 }}>
+            You need to enable 3rd Party cookies for this extention to work.
+            This is because some chat data is stored in the browser localstorage
+            that enables to cache some user data and settings.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
