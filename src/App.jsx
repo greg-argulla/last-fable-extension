@@ -166,8 +166,19 @@ function App() {
     );
   };
 
+  const getImage = (str) => {
+    return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
+  };
+
   const ChatInstance = (props) => {
-    const { item, index } = props;
+    let propsString = JSON.stringify(props);
+    const imageURL = getImage(propsString);
+
+    if (imageURL) {
+      propsString = propsString.replace("<" + imageURL + ">", "");
+    }
+
+    const { item, index } = JSON.parse(propsString);
 
     if (item.skillName) {
       return (
@@ -191,6 +202,20 @@ function App() {
             ></hr>
             <div>{item.detail}</div>
             {item.diceOneResult && rollInstance(item, index)}
+            {imageURL && (
+              <div
+                style={{
+                  backgroundImage: `url(${imageURL})`,
+                  backgroundSize: "cover",
+                  height: 100,
+                  width: 200,
+                  overflow: "hidden",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  borderRadius: 5,
+                }}
+              ></div>
+            )}
           </div>
         </div>
       );
@@ -205,6 +230,18 @@ function App() {
             <span style={{ color: "#D2691E" }}>
               {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
             </span>
+            {imageURL && (
+              <div
+                style={{
+                  backgroundImage: `url(${imageURL})`,
+                  backgroundSize: "cover",
+                  height: 100,
+                  width: 200,
+                  overflow: "hidden",
+                  borderRadius: 5,
+                }}
+              ></div>
+            )}
           </div>
         );
       }
@@ -219,6 +256,19 @@ function App() {
               {item.whisperTarget ? " - " + item.whisperTarget : ""}
               {item.whisper ? "*" : ""}
             </span>
+            {imageURL && (
+              <div
+                style={{
+                  backgroundImage: `url(${imageURL})`,
+                  backgroundSize: "cover",
+                  height: 100,
+                  width: 200,
+                  overflow: "hidden",
+                  borderRadius: 5,
+                  marginLeft: "auto",
+                }}
+              ></div>
+            )}
           </div>
         );
       }
