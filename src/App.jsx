@@ -207,7 +207,7 @@ function App() {
                 style={{
                   backgroundImage: `url(${imageURL})`,
                   backgroundSize: "cover",
-                  height: 100,
+                  height: 150,
                   width: 200,
                   overflow: "hidden",
                   marginLeft: "auto",
@@ -261,7 +261,7 @@ function App() {
                 style={{
                   backgroundImage: `url(${imageURL})`,
                   backgroundSize: "cover",
-                  height: 100,
+                  height: 150,
                   width: 200,
                   overflow: "hidden",
                   borderRadius: 5,
@@ -282,6 +282,18 @@ function App() {
               {item.message}
               {item.whisper ? "*" : ""}
             </span>
+            {imageURL && (
+              <div
+                style={{
+                  backgroundImage: `url(${imageURL})`,
+                  backgroundSize: "cover",
+                  height: 150,
+                  width: 200,
+                  overflow: "hidden",
+                  borderRadius: 5,
+                }}
+              ></div>
+            )}
           </div>
         );
       }
