@@ -19,6 +19,7 @@ manifest: https://fabula-ultima-extension.onrender.com/manifest.json
 - Chat with your friends, uses notifications to show messages as well even if its collapsed
 - Whisper to GM
 - calculator feature by prefixing = to your message. Example: =61-26
+- Message image by pasting the image URL between <> example (`<https://image.website/image.gif>`)
 - As GM you can use brackets [] [usernamehere] message here to whisper to a player or click the player name to whisper to player
 - As gm, you can type /clearchat to remove all messages
 

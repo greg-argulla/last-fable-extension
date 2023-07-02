@@ -221,7 +221,7 @@ function App() {
       );
     }
 
-    if (item.message) {
+    if (item.message || imageURL) {
       if (item.message.charAt(0) === "=") {
         const mathToEvaluate = item.message.substring(1, item.message.length);
         return (
@@ -490,14 +490,6 @@ function App() {
         if (isOpen) {
           setUnreadCount(0);
           OBR.action.setBadgeText(undefined);
-
-          if (chat.length === 0) {
-            const metadata = await OBR.scene.getMetadata();
-            if (metadata["last.fable.extension/metadata"]) {
-              const currentChat = createChatArray(metadata);
-              setChat(currentChat);
-            }
-          }
         }
       });
 
