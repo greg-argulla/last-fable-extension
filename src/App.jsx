@@ -316,7 +316,7 @@ function App() {
     }
   };
 
-  const clickPrepareDice = () => {
+  const savePrepareDice = () => {
     if (preparedDice.length > 1) preparedDice.pop();
     const newPreparedDice = [...preparedDice];
     newPreparedDice.unshift({
@@ -741,8 +741,10 @@ function App() {
       const result2 = getRandomNumberByDice(prepared.diceTwo);
       setDiceTwoResult(result2);
     }
+
     setDiceOne(prepared.diceOne);
     setDiceTwo(prepared.diceTwo);
+    setUseHR(prepared.useHR);
     setDiceLabelOne(prepared.diceLabelOne);
     setDiceLabelTwo(prepared.diceLabelTwo);
     setDamage(prepared.damage);
@@ -827,7 +829,7 @@ function App() {
   const rollDice = () => {
     rollDiceOne();
     rollDiceTwo();
-    clickPrepareDice();
+    savePrepareDice();
   };
 
   useEffect(() => {
@@ -1062,7 +1064,8 @@ function App() {
                 rollPreparedDice(index);
               }}
             >
-              【{item.diceLabelOne} + {item.diceLabelTwo}
+              【{item.diceLabelOne}
+              {item.diceLabelTwo ? " + " + item.diceLabelTwo : ""}
               {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
                 ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
                   Math.abs(item.bonus)
