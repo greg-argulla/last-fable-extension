@@ -235,7 +235,7 @@ function App() {
                 style={{
                   backgroundImage: `url(${imageURL})`,
                   backgroundSize: "cover",
-                  height: 100,
+                  height: 150,
                   width: 200,
                   overflow: "hidden",
                   borderRadius: 5,
