@@ -23,6 +23,11 @@ manifest: https://fabula-ultima-extension.onrender.com/manifest.json
 - As GM you can use brackets [] [usernamehere] message here to whisper to a player or click the player name to whisper to player
 - As gm, you can type /clearchat to remove all messages
 
+# UI Kit
+
+- Use the UI kit to add more theme to your games!
+- Link here: https://drive.google.com/file/d/1MylP4_eH-fSpLs9FufgCIdCIPr__F4QH/view?usp=drive_link
+
 # Ultimate Fable Extension Support
 
 - If you want to gain the full feature of prepared actions and sending skills to chat, use this extension along with the Ultimate fable extension (character sheet extension for fabula ultima)
