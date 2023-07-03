@@ -35,6 +35,7 @@ function App() {
   const [cooldown, setCoolDown] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [name, setName] = useState("");
+  const [characterName, setCharacterName] = useState("");
   const [id, setId] = useState("");
   const [preparedDice, setPreparedDice] = useState([]);
   const [useHR, setUseHR] = useState(true);
@@ -182,9 +183,11 @@ function App() {
 
     if (item.skillName) {
       return (
-        <div>
+        <div style={{ marginTop: 4 }}>
           <div className="outline">
-            <div onClick={() => setToPM(item.user)}>{item.user}</div>
+            <div onClick={() => setToPM(item.user)}>
+              {item.user} ({item.characterName})
+            </div>
           </div>
           <div className="skill-detail">
             <div style={{ fontSize: 13, color: "darkorange" }}>
@@ -377,6 +380,7 @@ function App() {
     setBonus("");
     setInfo("");
     setSkillName("");
+    setCharacterName("");
     setDetail("");
   };
 
@@ -707,6 +711,7 @@ function App() {
       id: Date.now(),
       user: name,
       skillName: skill.skillName,
+      characterName: skill.characterName,
       info: skill.info,
       detail: skill.detail,
     };
@@ -763,6 +768,7 @@ function App() {
     }
 
     setSkillName(roll.skillName);
+    setCharacterName(roll.characterName);
     setInfo(roll.info);
     setDetail(roll.detail);
     setDex(roll.dex);
@@ -792,6 +798,7 @@ function App() {
       info,
       skillName,
       detail,
+      characterName,
     };
     const newChat = [...myChat, newMessage].splice(-messageLimit);
 
