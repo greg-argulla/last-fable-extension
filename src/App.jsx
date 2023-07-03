@@ -79,7 +79,7 @@ function App() {
         : item.diceTwoResult;
     return (
       <div className="roll-detail" style={{ textAlign: "center" }}>
-        * {item.user} Rolled{" "}
+        * {item.characterName ? `${item.characterName}` : item.user} Rolled{" "}
         <span style={{ color: "#FFF" }}>{item.result}</span>
         {item.diceOneResult} {item.diceLabelOne}
         {item.diceTwoResult !== 0 ? (
