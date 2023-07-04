@@ -228,7 +228,7 @@ function App() {
       if (item.message.charAt(0) === "=") {
         const mathToEvaluate = item.message.substring(1, item.message.length);
         return (
-          <div className="outline">
+          <div className="outline" style={{ marginTop: 4 }}>
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: "#D2691E" }}>
               {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
@@ -251,7 +251,7 @@ function App() {
 
       if (item.user === name) {
         return (
-          <div className="outline" style={{ textAlign: "right" }}>
+          <div className="outline" style={{ textAlign: "right", marginTop: 4 }}>
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
@@ -278,7 +278,7 @@ function App() {
 
       if (!item.whisper || role === "GM") {
         return (
-          <div className="outline">
+          <div className="outline" style={{ marginTop: 4 }}>
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
@@ -303,7 +303,7 @@ function App() {
 
       if (item.whisper && item.whisperTarget === name) {
         return (
-          <div className="outline">
+          <div className="outline" style={{ marginTop: 4 }}>
             <div onClick={() => setToPM(item.user)}>{item.user}</div>
             <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
               {item.whisper ? "*" : ""}
