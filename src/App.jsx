@@ -1406,7 +1406,7 @@ function App() {
               ))
             : ""}
         </div>
-        <div style={{ marginTop: 5, display: "inline-flex" }}>
+        <div style={{ marginTop: 5, display: "flex", alignItems: "center" }}>
           <input
             id="chatbox"
             style={{
@@ -1424,21 +1424,20 @@ function App() {
             }}
             onKeyDown={handleKeyDown}
           ></input>
-          <div style={{ marginTop: -5 }}>
-            <button
-              style={{
-                width: 48,
-                height: 32,
-                fontSize: 10,
-                padding: 0,
-                color: "#ffd433",
-                backgroundColor: "#222",
-              }}
-              onClick={() => addWhisper()}
-            >
-              Whisper GM
-            </button>
-          </div>
+          <button
+            style={{
+              width: 48,
+              height: 32,
+              fontSize: 10,
+              padding: 0,
+              color: "#ffd433",
+              backgroundColor: "#222",
+              marginTop: -2,
+            }}
+            onClick={() => addWhisper()}
+          >
+            Whisper GM
+          </button>
         </div>
       </div>
     </div>
