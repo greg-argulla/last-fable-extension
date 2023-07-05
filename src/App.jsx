@@ -178,9 +178,7 @@ function App() {
           )}
         {item.diceOneResult === item.diceTwoResult &&
           item.diceOneResult < 6 &&
-          item.diceOneResult > 1 && (
-            <span style={{ color: "orange" }}>FRENZY</span>
-          )}
+          item.diceOneResult > 1 && <span style={{ color: "orange" }}>*</span>}
         {item.diceOneResult === item.diceTwoResult &&
           item.diceOneResult === 1 && (
             <span
