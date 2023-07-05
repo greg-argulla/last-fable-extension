@@ -902,7 +902,6 @@ function App() {
     const newPreparedDice = [...preparedDice];
     newPreparedDice.unshift(roll);
     setPreparedDice(newPreparedDice);
-    setPlayer(metadata[roll.characterID]);
   };
 
   const addRoll = async () => {
