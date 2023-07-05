@@ -13,8 +13,6 @@ const Text = (props) => {
 };
 
 function App() {
-  const messageLimit = 100;
-
   const [skillName, setSkillName] = useState("");
   const [info, setInfo] = useState("");
   const [detail, setDetail] = useState("");
@@ -22,10 +20,8 @@ function App() {
   const [ins, setIns] = useState("d8");
   const [mig, setMig] = useState("d8");
   const [wil, setWil] = useState("d8");
-  const [diceOne, setDiceOne] = useState("");
   const [diceOneResult, setDiceOneResult] = useState(0);
   const [diceTwoResult, setDiceTwoResult] = useState(0);
-  const [diceTwo, setDiceTwo] = useState("");
   const [diceLabelOne, setDiceLabelOne] = useState("");
   const [diceLabelTwo, setDiceLabelTwo] = useState("");
   const [bonus, setBonus] = useState(0);
@@ -35,17 +31,48 @@ function App() {
   const [cooldown, setCoolDown] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [name, setName] = useState("");
-  const [characterName, setCharacterName] = useState("");
   const [id, setId] = useState("");
   const [preparedDice, setPreparedDice] = useState([]);
   const [useHR, setUseHR] = useState(true);
   const [role, setRole] = useState("PLAYER");
   const [rollData, setRollData] = useState(null);
   const [skillData, setSkillData] = useState(null);
+  const [characterData, setCharacterData] = useState(null);
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
   const [cookiesNotEnabled, setCookiesNotEnabled] = useState(false);
+  const [characterName, setCharacterName] = useState("");
+  const [metadata, setMetadata] = useState(null);
+  const [player, setPlayer] = useState(null);
+  const [ignoreFirstUpdate, setIgnoreFirstUpdate] = useState(false);
+
+  const updateNoteItem = async (id, value, key, max) => {
+    if (id === "") return;
+    const valueGet = isNaN(value) ? 0 : value;
+    const maxGet = isNaN(max) ? 0 : max;
+    await OBR.scene.items.updateItems([id], (images) => {
+      for (let image of images) {
+        if (key === "defense" || key === "mDefense") {
+          const format =
+            valueGet > 9 ? valueGet.toString() : " " + valueGet.toString();
+
+          const fontSize = valueGet > 9 ? 16 : 18;
+          image.text.richText[0].children[0].text = format;
+          image.text.style.fontSize = fontSize;
+        } else if (key === "fabula") {
+          const format =
+            valueGet > 9 ? valueGet.toString() : " " + valueGet.toString();
+          image.text.richText[0].children[0].text = format;
+        } else if (maxGet) {
+          image.text.richText[0].children[0].text =
+            valueGet.toString() + "/" + maxGet.toString();
+        } else {
+          image.text.richText[0].children[0].text = valueGet.toString();
+        }
+      }
+    });
+  };
 
   const toggleHR = () => {
     setUseHR(!useHR);
@@ -323,26 +350,30 @@ function App() {
     if (preparedDice.length > 1) preparedDice.pop();
     const newPreparedDice = [...preparedDice];
     newPreparedDice.unshift({
-      diceOne,
-      diceTwo,
       diceLabelOne,
       diceLabelTwo,
       damage,
       bonus,
+      skillName,
     });
 
     setPreparedDice(newPreparedDice);
-    saveStats({ preparedDice: newPreparedDice });
   };
 
   const clearPreparedDice = () => {
+    setCharacterName("");
+    setPlayer(null);
     setPreparedDice([]);
-    saveStats({ preparedDice: [] });
     clearAllDice();
   };
 
   useEffect(() => {
     OBR.onReady(async () => {
+      const metadata = await OBR.scene.getMetadata();
+      if (metadata["ultimate.story.extension/metadata"]) {
+        setMetadata(metadata["ultimate.story.extension/metadata"]);
+      }
+
       setIsOBRReady(true);
       setTimeout(() => {
         var objDiv = document.getElementById("chatbox");
@@ -370,8 +401,6 @@ function App() {
   }, []);
 
   const clearAllDice = () => {
-    setDiceOne("");
-    setDiceTwo("");
     setDiceLabelOne("");
     setDiceLabelTwo("");
     setDiceOneResult(0);
@@ -380,7 +409,6 @@ function App() {
     setBonus("");
     setInfo("");
     setSkillName("");
-    setCharacterName("");
     setDetail("");
   };
 
@@ -416,6 +444,11 @@ function App() {
   const checkForSkills = async (metadata) => {
     const skillData = metadata["ultimate.story.extension/sendskill"];
     setSkillData(skillData);
+  };
+
+  const checkForCharacter = async (metadata) => {
+    const characterData = metadata["ultimate.story.extension/sendcharacter"];
+    setCharacterData(characterData);
   };
 
   useEffect(() => {
@@ -475,9 +508,86 @@ function App() {
     }
   }, [skillData]);
 
+  const observePlayerList = async (metadata) => {
+    const metadataGet = metadata["ultimate.story.extension/metadata"];
+    setMetadata(metadataGet);
+  };
+
+  const [timeoutID, setTimeoutID] = useState(null);
+
+  const updatePlayer = (playerGet) => {
+    if (!timeoutID) {
+      const myTimeout = setTimeout(() => {
+        savePlayer();
+      }, 500);
+      setTimeoutID(myTimeout);
+    } else {
+      clearTimeout(timeoutID);
+      const myTimeout = setTimeout(() => {
+        savePlayer();
+      }, 500);
+      setTimeoutID(myTimeout);
+    }
+    setIgnoreFirstUpdate(true);
+    setPlayer(playerGet);
+  };
+
+  const savePlayer = async () => {
+    if (player) {
+      const metadataData = await OBR.scene.getMetadata();
+      const metadata = metadataData["ultimate.story.extension/metadata"];
+      let metadataChange = { ...metadata };
+      metadataChange[player.id] = { ...player, lastEdit: id + "-chat" };
+
+      OBR.scene.setMetadata({
+        "ultimate.story.extension/metadata": metadataChange,
+      });
+      setTimeoutID(null);
+    }
+  };
+
+  useEffect(() => {
+    if (player && !ignoreFirstUpdate) {
+      if (metadata[player.id].lastEdit !== id + "-chat") {
+        setPlayer(metadata[player.id]);
+      }
+    }
+    if (ignoreFirstUpdate) {
+      setIgnoreFirstUpdate(false);
+    }
+  }, [metadata]);
+
+  useEffect(() => {
+    if (player) {
+      setDex(player.attributes.currentdex);
+      setIns(player.attributes.currentins);
+      setMig(player.attributes.currentmig);
+      setWil(player.attributes.currentwil);
+    }
+  }, [player]);
+
+  useEffect(() => {
+    if (characterData) {
+      if (characterData.userId === id) {
+        setPlayer(metadata[characterData.characterID]);
+        setCharacterName(characterData.characterName);
+        setDex(characterData.dex);
+        setIns(characterData.ins);
+        setMig(characterData.mig);
+        setWil(characterData.wil);
+      }
+    }
+  }, [characterData]);
+
   useEffect(() => {
     if (chatToCheckChanges.length !== chat.length) {
       setChat(chatToCheckChanges);
+      setTimeout(() => {
+        var objDiv = document.getElementById("chatbox");
+        if (objDiv) {
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }
+      }, 100);
     }
   }, [chatToCheckChanges]);
 
@@ -485,20 +595,14 @@ function App() {
     if (isOBRReady) {
       OBR.scene.onMetadataChange(async (metadata) => {
         const currentChat = await createChatArray(metadata);
-
-        setTimeout(() => {
-          var objDiv = document.getElementById("chatbox");
-          if (objDiv) {
-            objDiv.scrollTop = objDiv.scrollHeight;
-          }
-        }, 100);
-
         setChatToCheckChanges(currentChat);
+        observePlayerList(metadata);
       });
 
       OBR.room.onMetadataChange(async (metadata) => {
         checkForRolls(metadata);
         checkForSkills(metadata);
+        checkForCharacter(metadata);
       });
 
       OBR.action.onOpenChange(async (isOpen) => {
@@ -527,7 +631,6 @@ function App() {
         setWil(stats.wil);
         setDamage(stats.damage);
         setBonus(stats.bonus);
-        setPreparedDice(stats.preparedDice);
       }
     }
   }, [isOBRReady]);
@@ -649,7 +752,7 @@ function App() {
       }
 
       const newMessage = { id: Date.now(), user: name, message: text.trim() };
-      const newChat = [...myChat, newMessage].splice(-messageLimit);
+      const newChat = [...myChat, newMessage];
 
       const metadataGet = await OBR.scene.getMetadata();
       const metadata = metadataGet["last.fable.extension/metadata"];
@@ -715,7 +818,7 @@ function App() {
       info: skill.info,
       detail: skill.detail,
     };
-    const newChat = [...myChat, newMessage].splice(-messageLimit);
+    const newChat = [...myChat, newMessage];
 
     const metadataGet = await OBR.scene.getMetadata();
     const metadata = metadataGet["last.fable.extension/metadata"];
@@ -737,18 +840,19 @@ function App() {
 
   const rollPreparedDice = (index) => {
     const prepared = preparedDice[index];
-    if (prepared.diceOne != "") {
-      const result1 = getRandomNumberByDice(prepared.diceOne);
+    if (prepared.diceLabelOne != "") {
+      const result1 = getRandomNumberByDice(prepared.diceLabelOne);
       setDiceOneResult(result1);
     }
 
-    if (prepared.diceTwo != "") {
-      const result2 = getRandomNumberByDice(prepared.diceTwo);
+    if (prepared.diceLabelTwo != "") {
+      const result2 = getRandomNumberByDice(prepared.diceLabelTwo);
       setDiceTwoResult(result2);
     }
 
-    setDiceOne(prepared.diceOne);
-    setDiceTwo(prepared.diceTwo);
+    setSkillName(prepared.skillName);
+    setInfo(prepared.info);
+    setDetail(prepared.detail);
     setUseHR(prepared.useHR);
     setDiceLabelOne(prepared.diceLabelOne);
     setDiceLabelTwo(prepared.diceLabelTwo);
@@ -757,13 +861,13 @@ function App() {
   };
 
   const rollSkillDice = (roll) => {
-    if (roll.diceOne != "") {
-      const result1 = getRandomNumberByDice(roll.diceOne);
+    if (roll.diceLabelOne != "") {
+      const result1 = getRandomNumberByDice(roll.diceLabelOne);
       setDiceOneResult(result1);
     }
 
     if (roll.diceTwo != "") {
-      const result2 = getRandomNumberByDice(roll.diceTwo);
+      const result2 = getRandomNumberByDice(roll.diceLabelTwo);
       setDiceTwoResult(result2);
     }
 
@@ -776,12 +880,14 @@ function App() {
     setMig(roll.mig);
     setWil(roll.wil);
     setUseHR(roll.useHR);
-    setDiceOne(roll.diceOne);
-    setDiceTwo(roll.diceTwo);
     setDiceLabelOne(roll.diceLabelOne);
     setDiceLabelTwo(roll.diceLabelTwo);
     setDamage(roll.damage);
     setBonus(roll.bonus);
+    if (preparedDice.length > 1) preparedDice.pop();
+    const newPreparedDice = [...preparedDice];
+    newPreparedDice.unshift(roll);
+    setPreparedDice(newPreparedDice);
   };
 
   const addRoll = async () => {
@@ -800,7 +906,7 @@ function App() {
       detail,
       characterName,
     };
-    const newChat = [...myChat, newMessage].splice(-messageLimit);
+    const newChat = [...myChat, newMessage];
 
     const metadataGet = await OBR.scene.getMetadata();
     const metadata = metadataGet["last.fable.extension/metadata"];
@@ -820,15 +926,15 @@ function App() {
   };
 
   const rollDiceOne = () => {
-    if (diceOne != "") {
-      const result1 = getRandomNumberByDice(diceOne);
+    if (diceLabelOne != "") {
+      const result1 = getRandomNumberByDice(diceLabelOne);
       setDiceOneResult(result1);
     }
   };
 
   const rollDiceTwo = () => {
-    if (diceTwo != "") {
-      const result2 = getRandomNumberByDice(diceTwo);
+    if (diceLabelTwo != "") {
+      const result2 = getRandomNumberByDice(diceLabelTwo);
       setDiceTwoResult(result2);
     }
   };
@@ -851,23 +957,35 @@ function App() {
   };
 
   const getRandomNumberByDice = (dice) => {
-    if (dice === "d4") {
+    if (dice === "D4") {
       return generateRandomNumber(4);
     }
-    if (dice === "d6") {
+    if (dice === "D6") {
       return generateRandomNumber(6);
     }
-    if (dice === "d8") {
+    if (dice === "D8") {
       return generateRandomNumber(8);
     }
-    if (dice === "d10") {
+    if (dice === "D10") {
       return generateRandomNumber(10);
     }
-    if (dice === "d12") {
+    if (dice === "D12") {
       return generateRandomNumber(12);
     }
-    if (dice === "d20") {
+    if (dice === "D20") {
       return generateRandomNumber(20);
+    }
+    if (dice === "DEX") {
+      return generateRandomNumber(getDiceStat(dex));
+    }
+    if (dice === "INS") {
+      return generateRandomNumber(getDiceStat(ins));
+    }
+    if (dice === "MIG") {
+      return generateRandomNumber(getDiceStat(mig));
+    }
+    if (dice === "WIL") {
+      return generateRandomNumber(getDiceStat(wil));
     }
   };
 
@@ -881,7 +999,6 @@ function App() {
         wil,
         damage,
         bonus,
-        preparedDice,
         ...replace,
       })
     );
@@ -923,34 +1040,16 @@ function App() {
     }
   };
 
-  const setDice = (dice, label) => {
+  const setDice = (label) => {
     if (diceOneResult !== 0) {
-      setDiceOne(dice);
       setDiceLabelOne(label.toUpperCase());
-      setDiceTwo("");
       setDiceLabelTwo("");
       setDiceOneResult(0);
       setDiceTwoResult(0);
-    } else if (diceOne === "") {
-      setDiceOne(dice);
+    } else if (diceLabelOne === "") {
       setDiceLabelOne(label.toUpperCase());
-    } else if (diceTwo === "") {
-      setDiceTwo(dice);
+    } else if (diceLabelTwo === "") {
       setDiceLabelTwo(label.toUpperCase());
-    }
-  };
-
-  const clickDice = (stat) => {
-    if (stat === "dex") {
-      setDice(dex, stat);
-    } else if (stat === "ins") {
-      setDice(ins, stat);
-    } else if (stat === "mig") {
-      setDice(mig, stat);
-    } else if (stat === "wil") {
-      setDice(wil, stat);
-    } else {
-      setDice(stat, stat);
     }
   };
 
@@ -1071,13 +1170,19 @@ function App() {
                 rollPreparedDice(index);
               }}
             >
-              【{item.diceLabelOne}
-              {item.diceLabelTwo ? " + " + item.diceLabelTwo : ""}
-              {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
-                ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
-                  Math.abs(item.bonus)
-                : ""}
-              】{item.damage != "" ? "【HR +" + item.damage + "】" : ""}
+              {item.skillName ? (
+                <div style={{ padding: 4 }}>{item.skillName}</div>
+              ) : (
+                <>
+                  【{item.diceLabelOne}
+                  {item.diceLabelTwo ? " + " + item.diceLabelTwo : ""}
+                  {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
+                    ? (parseInt(item.bonus) > -1 ? " + " : " - ") +
+                      Math.abs(item.bonus)
+                    : ""}
+                  】{item.damage != "" ? "【HR +" + item.damage + "】" : ""}
+                </>
+              )}
             </button>
           );
         })}
@@ -1086,11 +1191,10 @@ function App() {
   };
 
   const RollInput = () => {
-    const hasDice = diceOne != "";
+    const hasDice = diceLabelOne != "";
     return (
       <div
         style={{
-          margin: 10,
           marginTop: 5,
           marginLeft: 30,
           marginRight: 30,
@@ -1180,16 +1284,8 @@ function App() {
     );
   }
 
-  return (
-    <div
-      style={{
-        backgroundImage: `url(${landingBG})`,
-        backgroundSize: "contain",
-        height: 600,
-        width: 400,
-        overflow: "hidden",
-      }}
-    >
+  const renderRoller = () => {
+    return (
       <div
         style={{
           display: "flex",
@@ -1219,7 +1315,7 @@ function App() {
                 <option value="d8">d8</option>
                 <option value="d6">d6</option>
               </select>
-              <button className="button-dice" onClick={() => clickDice("dex")}>
+              <button className="button-dice" onClick={() => setDice("dex")}>
                 DEX
               </button>
             </div>
@@ -1239,7 +1335,7 @@ function App() {
                 <option value="d8">d8</option>
                 <option value="d6">d6</option>
               </select>
-              <button className="button-dice" onClick={() => clickDice("ins")}>
+              <button className="button-dice" onClick={() => setDice("ins")}>
                 INS
               </button>
             </div>
@@ -1259,7 +1355,7 @@ function App() {
                 <option value="d8">d8</option>
                 <option value="d6">d6</option>
               </select>
-              <button className="button-dice" onClick={() => clickDice("mig")}>
+              <button className="button-dice" onClick={() => setDice("mig")}>
                 MIG
               </button>
             </div>
@@ -1279,7 +1375,7 @@ function App() {
                 <option value="d8">d8</option>
                 <option value="d6">d6</option>
               </select>
-              <button className="button-dice" onClick={() => clickDice("wil")}>
+              <button className="button-dice" onClick={() => setDice("wil")}>
                 WIL
               </button>
             </div>
@@ -1302,38 +1398,29 @@ function App() {
               marginTop: 5,
               display: "flex",
               flexDirection: "row",
+              alignItems: "center",
             }}
           >
-            <span className="dice-result">Bonus/Penalty</span>
+            <span className="dice-result">Modifier:</span>
             <input
+              className="input-stat"
               type="number"
               style={{
-                width: 38,
-                height: 17,
-                backgroundColor: "#333",
-                color: "#ffd433",
-                fontSize: 12,
-                border: 4,
-                paddingLeft: 4,
-                marginLeft: 6,
+                width: 20,
+                color: "lightblue",
               }}
               value={bonus}
               onChange={changeBonus}
             />
             <span className="dice-result" style={{ marginLeft: 6 }}>
-              Damage
+              Damage:
             </span>
             <input
+              className="input-stat"
               type="number"
               style={{
-                width: 38,
-                height: 17,
-                backgroundColor: "#333",
-                color: "#ffd433",
-                fontSize: 12,
-                border: 4,
-                paddingLeft: 4,
-                marginLeft: 6,
+                width: 20,
+                color: "red",
               }}
               value={damage}
               onChange={changeDamage}
@@ -1347,11 +1434,11 @@ function App() {
             <button
               className="button-dice"
               style={{ marginRight: 2 }}
-              onClick={() => clickDice("d4")}
+              onClick={() => setDice("d4")}
             >
               d4
             </button>
-            <button className="button-dice" onClick={() => clickDice("d6")}>
+            <button className="button-dice" onClick={() => setDice("d6")}>
               d6
             </button>
           </div>
@@ -1359,11 +1446,11 @@ function App() {
             <button
               className="button-dice"
               style={{ marginRight: 2 }}
-              onClick={() => clickDice("d8")}
+              onClick={() => setDice("d8")}
             >
               d8
             </button>
-            <button className="button-dice" onClick={() => clickDice("d10")}>
+            <button className="button-dice" onClick={() => setDice("d10")}>
               d10
             </button>
           </div>
@@ -1371,16 +1458,420 @@ function App() {
             <button
               className="button-dice"
               style={{ marginRight: 2 }}
-              onClick={() => clickDice("d12")}
+              onClick={() => setDice("d12")}
             >
               d12
             </button>
-            <button className="button-dice" onClick={() => clickDice("d20")}>
+            <button className="button-dice" onClick={() => setDice("d20")}>
               d20
             </button>
           </div>
         </div>
       </div>
+    );
+  };
+
+  const getDiceStat = (dice) => {
+    if (dice === "d6") {
+      return 6;
+    }
+    if (dice === "d8") {
+      return 8;
+    }
+    if (dice === "d10") {
+      return 10;
+    }
+    if (dice === "d12") {
+      return 12;
+    }
+  };
+
+  const getCurrentAttribute = (attr) => {
+    if (attr == "dex") {
+      let stat = getDiceStat(player.attributes.dex);
+      if (player.debuff.slow) {
+        stat = stat - 2;
+      }
+      if (player.debuff.enraged) {
+        stat = stat - 2;
+      }
+      if (stat < 6) stat = 6;
+      return "d" + stat;
+    }
+    if (attr == "ins") {
+      let stat = getDiceStat(player.attributes.ins);
+      if (player.debuff.dazed) {
+        stat = stat - 2;
+      }
+      if (player.debuff.enraged) {
+        stat = stat - 2;
+      }
+      if (stat < 6) stat = 6;
+      return "d" + stat;
+    }
+    if (attr == "mig") {
+      let stat = getDiceStat(player.attributes.mig);
+      if (player.debuff.weak) {
+        stat = stat - 2;
+      }
+      if (player.debuff.poisoned) {
+        stat = stat - 2;
+      }
+      if (stat < 6) stat = 6;
+      return "d" + stat;
+    }
+    if (attr == "wil") {
+      let stat = getDiceStat(player.attributes.wil);
+      if (player.debuff.shaken) {
+        stat = stat - 2;
+      }
+      if (player.debuff.poisoned) {
+        stat = stat - 2;
+      }
+      if (stat < 6) stat = 6;
+      return "d" + stat;
+    }
+  };
+
+  const conditionButton = (stat, condition) => {
+    return (
+      <button
+        className="button"
+        style={{
+          marginRight: 4,
+          marginTop: 4,
+          fontSize: 10,
+          width: 53,
+          textTransform: "capitalize",
+          backgroundColor: player.debuff[condition] ? "darkred" : "#222",
+          color: player.debuff[condition] ? "white" : "#ffd433",
+        }}
+        onClick={() => {
+          const playerGet = { ...player };
+          playerGet.debuff[condition] = !player.debuff[condition];
+          playerGet.attributes["current" + stat] = getCurrentAttribute(stat);
+          if (!playerGet.stats.martialDef) {
+            playerGet.stats.defense =
+              parseInt(playerGet.stats.defenseMod) +
+              getDiceStat(playerGet.attributes.currentdex);
+            if (playerGet.linkedStats) {
+              updateNoteItem(
+                playerGet.linkedStats.defense,
+                playerGet.stats.defense,
+                "defense"
+              );
+            }
+          }
+          playerGet.stats.mDefense =
+            parseInt(playerGet.stats.mDefenseMod) +
+            getDiceStat(playerGet.attributes.currentins);
+          if (playerGet.linkedStats) {
+            updateNoteItem(
+              playerGet.linkedStats.mDefense,
+              playerGet.stats.mDefense,
+              "mDefense"
+            );
+          }
+          updatePlayer(playerGet);
+        }}
+      >
+        {condition}
+      </button>
+    );
+  };
+
+  const renderCharacter = () => {
+    const stats = ["dex", "ins", "mig", "wil"];
+    return (
+      <div
+        style={{
+          paddingLeft: 30,
+          paddingRight: 20,
+          paddingTop: 15,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 1,
+          }}
+        >
+          <Text>Name: </Text>
+          <div
+            className="outline"
+            style={{
+              width: 100,
+              textAlign: "center",
+              borderBottom: "1px solid #AAA",
+              marginRight: 4,
+              color: "orange",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "inline-block",
+              paddingLeft: 4,
+              fontSize: 10,
+            }}
+          >
+            {characterName}
+          </div>
+          <Text>HP:</Text>
+          <input
+            className="input-stat"
+            type="number"
+            style={{
+              width: 20,
+              color: "Red",
+            }}
+            onChange={(evt) => {
+              const playerGet = { ...player };
+              const maxHP = player.stats.maxHP;
+              let value = parseInt(evt.target.value, 0);
+
+              if (!isNaN(value)) {
+                playerGet.stats.currentHP = maxHP > value ? value : maxHP;
+              } else {
+                playerGet.stats.currentHP = value;
+              }
+
+              if (playerGet.linkedStats) {
+                updateNoteItem(
+                  playerGet.linkedStats.currentHP,
+                  playerGet.stats.currentHP,
+                  "currentHP",
+                  maxHP
+                );
+              }
+
+              updatePlayer(playerGet);
+            }}
+            value={player.stats.currentHP}
+          />
+          <Text>MP: </Text>
+          <input
+            className="input-stat"
+            type="number"
+            style={{
+              width: 20,
+              color: "LightBlue",
+            }}
+            onChange={(evt) => {
+              const playerGet = { ...player };
+              const maxMP = player.stats.maxMP;
+              let value = parseInt(evt.target.value, 0);
+
+              if (!isNaN(value)) {
+                playerGet.stats.currentMP = maxMP > value ? value : maxMP;
+              } else {
+                playerGet.stats.currentMP = value;
+              }
+
+              if (playerGet.linkedStats) {
+                updateNoteItem(
+                  playerGet.linkedStats.currentMP,
+                  playerGet.stats.currentMP,
+                  "currentMP",
+                  maxMP
+                );
+              }
+
+              updatePlayer(playerGet);
+            }}
+            value={player.stats.currentMP}
+          />
+          <Text>IP: </Text>
+          <input
+            className="input-stat"
+            type="number"
+            style={{
+              width: 20,
+              color: "Orange",
+            }}
+            onChange={(evt) => {
+              const playerGet = { ...player };
+              const maxIP = player.stats.maxIP;
+
+              let value = parseInt(evt.target.value, 0);
+              if (!isNaN(value)) {
+                playerGet.stats.currentIP = maxIP > value ? value : maxIP;
+              } else {
+                playerGet.stats.currentIP = value;
+              }
+              if (playerGet.linkedStats) {
+                updateNoteItem(
+                  playerGet.linkedStats.currentIP,
+                  playerGet.stats.currentIP,
+                  "currentIP"
+                );
+              }
+
+              updatePlayer(playerGet);
+            }}
+            value={player.stats.currentIP}
+          />
+          <Text>FP: </Text>
+          <input
+            className="input-stat"
+            type="number"
+            style={{
+              width: 20,
+              color: "white",
+            }}
+            onChange={(evt) => {
+              const playerGet = { ...player };
+              playerGet.stats.fabula = parseInt(evt.target.value);
+              if (playerGet.linkedStats) {
+                updateNoteItem(
+                  playerGet.linkedStats.fabula,
+                  playerGet.stats.fabula,
+                  "fabula"
+                );
+              }
+              updatePlayer(playerGet);
+            }}
+            value={player.stats.fabula}
+          />
+        </div>
+        <div>
+          {conditionButton("dex", "slow")}
+          {conditionButton("ins", "dazed")}
+          {conditionButton("mig", "weak")}
+          {conditionButton("wil", "shaken")}
+          <button
+            className="button"
+            style={{
+              marginRight: 4,
+              marginTop: 4,
+              fontSize: 10,
+              width: 53,
+              textTransform: "capitalize",
+              backgroundColor: player.debuff.enraged ? "darkred" : "#222",
+              color: player.debuff.enraged ? "white" : "#ffd433",
+            }}
+            onClick={() => {
+              const playerGet = { ...player };
+              playerGet.debuff.enraged = !player.debuff.enraged;
+              playerGet.attributes["currentdex"] = getCurrentAttribute("dex");
+              playerGet.attributes["currentins"] = getCurrentAttribute("ins");
+              if (!playerGet.stats.martialDef) {
+                playerGet.stats.defense =
+                  parseInt(playerGet.stats.defenseMod) +
+                  getDiceStat(playerGet.attributes.currentdex);
+                if (playerGet.linkedStats) {
+                  updateNoteItem(
+                    playerGet.linkedStats.defense,
+                    playerGet.stats.defense,
+                    "defense"
+                  );
+                }
+              }
+
+              playerGet.stats.mDefense =
+                parseInt(playerGet.stats.mDefenseMod) +
+                getDiceStat(playerGet.attributes.currentins);
+              if (playerGet.linkedStats) {
+                updateNoteItem(
+                  playerGet.linkedStats.mDefense,
+                  playerGet.stats.mDefense,
+                  "mDefense"
+                );
+              }
+              updatePlayer(playerGet);
+            }}
+          >
+            Enraged
+          </button>
+          <button
+            className="button"
+            style={{
+              marginRight: 4,
+              marginTop: 4,
+              fontSize: 10,
+              width: 53,
+              textTransform: "capitalize",
+              backgroundColor: player.debuff.poisoned ? "darkred" : "#222",
+              color: player.debuff.poisoned ? "white" : "#ffd433",
+            }}
+            onClick={() => {
+              const playerGet = { ...player };
+              playerGet.debuff.poisoned = !player.debuff.poisoned;
+              playerGet.attributes["currentmig"] = getCurrentAttribute("mig");
+              playerGet.attributes["currentwil"] = getCurrentAttribute("wil");
+              updatePlayer(playerGet);
+            }}
+          >
+            Poisoned
+          </button>
+        </div>
+        <div style={{ marginTop: 4, marginRight: 8, marginBottom: 4 }}>
+          {stats.map((item, index) => {
+            return (
+              <button
+                className="button-dice"
+                style={{ marginRight: 4, width: 45 }}
+                onClick={() => {
+                  setDice(item);
+                }}
+                key={index}
+              >
+                {item.toUpperCase()}
+              </button>
+            );
+          })}
+          <span style={{ display: "inline-block" }}>
+            <Text>Modifier:</Text>
+            <input
+              className="input-stat"
+              type="number"
+              style={{
+                width: 20,
+                color: "lightblue",
+              }}
+              value={bonus}
+              onChange={(evt) => {
+                if (evt.target.value != "") {
+                  setBonus(parseInt(evt.target.value, ""));
+                  saveStats({ bonus: parseInt(evt.target.value) });
+                } else {
+                  setBonus("");
+                  saveStats({ bonus: "" });
+                }
+              }}
+            />
+          </span>
+          <button
+            className="button-dice"
+            style={{
+              marginRight: 4,
+              width: 40,
+              color: "red",
+              float: "right",
+              marginTop: 2,
+            }}
+            onClick={() => {
+              clearPreparedDice();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div
+      style={{
+        backgroundImage: `url(${landingBG})`,
+        backgroundSize: "contain",
+        height: 600,
+        width: 400,
+        overflow: "hidden",
+      }}
+    >
+      {player ? renderCharacter() : renderRoller()}
       {diceOneResult !== 0 ? <Result /> : <RollInput />}
       <div
         style={{
