@@ -1861,6 +1861,7 @@ function App() {
                 style={{ marginRight: 4, width: 45 }}
                 onClick={() => {
                   setDice(item);
+                  setDamage(0);
                 }}
                 key={index}
               >
