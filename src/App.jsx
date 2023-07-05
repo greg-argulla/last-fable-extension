@@ -376,6 +376,11 @@ function App() {
             setMetadata(metadata["ultimate.story.extension/metadata"]);
           }
 
+          if (metadata["last.fable.extension/metadata"]) {
+            const currentChat = await createChatArray(metadata);
+            setChatToCheckChanges(currentChat);
+          }
+
           setIsOBRReady(true);
           setTimeout(() => {
             var objDiv = document.getElementById("chatbox");
