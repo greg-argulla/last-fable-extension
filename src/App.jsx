@@ -355,6 +355,7 @@ function App() {
       damage,
       bonus,
       skillName,
+      characterName,
     });
 
     setPreparedDice(newPreparedDice);
@@ -424,6 +425,9 @@ function App() {
     setInfo("");
     setSkillName("");
     setDetail("");
+    if (player && player.isGMPlayer) {
+      setCharacterName("");
+    }
   };
 
   const handleKeyDown = (event) => {
@@ -872,6 +876,7 @@ function App() {
     setDiceLabelTwo(prepared.diceLabelTwo);
     setDamage(prepared.damage);
     setBonus(prepared.bonus);
+    setCharacterName(prepared.characterName);
   };
 
   const rollSkillDice = (roll) => {
@@ -1914,7 +1919,7 @@ function App() {
         overflow: "hidden",
       }}
     >
-      {player ? renderCharacter() : renderRoller()}
+      {player && !player.isGMPlayer ? renderCharacter() : renderRoller()}
       {diceOneResult !== 0 ? <Result /> : <RollInput />}
       <div
         style={{
