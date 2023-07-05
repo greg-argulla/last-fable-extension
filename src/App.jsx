@@ -1352,6 +1352,7 @@ function App() {
                   color: "#ffd433",
                   fontSize: 12,
                   padding: 1,
+                  borderRadius: 3,
                 }}
                 value={dex}
                 onChange={changeDex}
@@ -1372,6 +1373,7 @@ function App() {
                   color: "#ffd433",
                   fontSize: 12,
                   padding: 1,
+                  borderRadius: 3,
                 }}
                 value={ins}
                 onChange={changeIns}
@@ -1392,6 +1394,7 @@ function App() {
                   color: "#ffd433",
                   fontSize: 12,
                   padding: 1,
+                  borderRadius: 3,
                 }}
                 value={mig}
                 onChange={changeMig}
@@ -1412,6 +1415,7 @@ function App() {
                   color: "#ffd433",
                   fontSize: 12,
                   padding: 1,
+                  borderRadius: 3,
                 }}
                 value={wil}
                 onChange={changeWil}
