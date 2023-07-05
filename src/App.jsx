@@ -369,28 +369,34 @@ function App() {
 
   useEffect(() => {
     OBR.onReady(async () => {
-      const metadata = await OBR.scene.getMetadata();
-      if (metadata["ultimate.story.extension/metadata"]) {
-        setMetadata(metadata["ultimate.story.extension/metadata"]);
-      }
+      OBR.scene.onReadyChange(async (ready) => {
+        if (ready) {
+          const metadata = await OBR.scene.getMetadata();
+          if (metadata["ultimate.story.extension/metadata"]) {
+            setMetadata(metadata["ultimate.story.extension/metadata"]);
+          }
 
-      setIsOBRReady(true);
-      setTimeout(() => {
-        var objDiv = document.getElementById("chatbox");
-        if (objDiv) {
-          objDiv.scrollTop = objDiv.scrollHeight;
+          setIsOBRReady(true);
+          setTimeout(() => {
+            var objDiv = document.getElementById("chatbox");
+            if (objDiv) {
+              objDiv.scrollTop = objDiv.scrollHeight;
+            }
+          }, 100);
+
+          OBR.action.setBadgeBackgroundColor("orange");
+          setName(await OBR.player.getName());
+          setId(await OBR.player.getId());
+
+          OBR.player.onChange(async (player) => {
+            setName(await OBR.player.getName());
+          });
+
+          setRole(await OBR.player.getRole());
+        } else {
+          setIsOBRReady(false);
         }
-      }, 100);
-
-      OBR.action.setBadgeBackgroundColor("orange");
-      setName(await OBR.player.getName());
-      setId(await OBR.player.getId());
-
-      OBR.player.onChange(async (player) => {
-        setName(await OBR.player.getName());
       });
-
-      setRole(await OBR.player.getRole());
     });
 
     try {
@@ -1278,6 +1284,35 @@ function App() {
             You need to enable 3rd Party cookies for this extention to work.
             This is because some chat data is stored in the browser localstorage
             that enables to cache some user data and settings.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isOBRReady) {
+    return (
+      <div
+        style={{
+          backgroundImage: `url(${landingBG})`,
+          backgroundSize: "contain",
+          height: 600,
+          width: 400,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            paddingLeft: 30,
+            paddingRight: 20,
+            paddingTop: 40,
+          }}
+        >
+          <div className="outline" style={{ color: "red", font: 14 }}>
+            No Scene found.
+          </div>
+          <div className="outline" style={{ fontSize: 14 }}>
+            You need to load a scene to start adding/updating characters.
           </div>
         </div>
       </div>
