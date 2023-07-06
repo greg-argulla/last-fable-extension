@@ -1323,7 +1323,8 @@ function App() {
             No Scene found.
           </div>
           <div className="outline" style={{ fontSize: 14 }}>
-            You need to load a scene to enable the chat and dice roller
+            You need to load a scene to enable the chat and dice roller. If a
+            scene is already loaded, kindly refresh the page.
           </div>
         </div>
       </div>
