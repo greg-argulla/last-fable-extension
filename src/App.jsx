@@ -1939,7 +1939,7 @@ function App() {
             id="chatbox"
             style={{
               color: "#FFF",
-              width: 280,
+              width: 285,
               height: 24,
               marginRight: 2,
               paddingLeft: 4,
