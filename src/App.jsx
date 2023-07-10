@@ -5,8 +5,6 @@ import landingBG from "./assets/bg.jpg";
 import refresh from "./assets/refresh.png";
 import "./App.css";
 
-document.body.style.overflow = "hidden";
-
 const Text = (props) => {
   const { children } = props;
   return <span className="outline">{children}</span>;
@@ -1252,25 +1250,6 @@ function App() {
     );
   };
 
-  const [windowInnerHeight, setWindowInnerHeight] = useState(
-    window.innerHeight
-  );
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    function autoResize() {
-      setWindowInnerHeight(window.innerHeight);
-    }
-
-    window.addEventListener("resize", autoResize);
-
-    // Return a function to disconnect the event listener
-    return () => window.removeEventListener("resize", autoResize);
-  }, []);
-
   if (cookiesNotEnabled) {
     return (
       <div
@@ -1945,7 +1924,7 @@ function App() {
             backgroundColor: "#333",
             padding: 10,
             overflow: "scroll",
-            height: windowInnerHeight - 280,
+            height: 320,
             border: "1px solid #222",
           }}
         >
