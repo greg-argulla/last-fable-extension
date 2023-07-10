@@ -1076,7 +1076,7 @@ function App() {
     return (
       <div
         style={{
-          marginLeft: 30,
+          marginLeft: 25,
           marginRight: 25,
           display: "flex",
           alignItems: "center",
@@ -1214,7 +1214,7 @@ function App() {
       <div
         style={{
           marginTop: 5,
-          marginLeft: 30,
+          marginLeft: 25,
           marginRight: 30,
           display: "flex",
           alignItems: "center",
@@ -1932,7 +1932,7 @@ function App() {
       {diceOneResult !== 0 ? <Result /> : <RollInput />}
       <div
         style={{
-          marginLeft: 30,
+          marginLeft: 25,
           marginRight: 30,
           marginTop: 10,
           height: "100%",
@@ -1946,7 +1946,7 @@ function App() {
             padding: 10,
             overflow: "scroll",
             height: windowInnerHeight - 280,
-            border: "2px solid #222",
+            border: "1px solid #222",
           }}
         >
           {chat.length
