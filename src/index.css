@@ -12,6 +12,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.root::-webkit-scrollbar {
+  display: none;
 }
 
 a {
@@ -32,6 +38,12 @@ body {
   font-family: "Roboto";
   transform: scale(1.1);
   transform-origin: 0% 0% 0px;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.root::-webkit-scrollbar {
+  display: none;
 }
 
 h1 {
