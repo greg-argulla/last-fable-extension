@@ -403,6 +403,36 @@ function App() {
           setChat([]);
         }
       });
+
+      if (await OBR.scene.isReady()) {
+        const metadata = await OBR.scene.getMetadata();
+        if (metadata["ultimate.story.extension/metadata"]) {
+          setMetadata(metadata["ultimate.story.extension/metadata"]);
+        }
+
+        if (metadata["last.fable.extension/metadata"]) {
+          const currentChat = await createChatArray(metadata);
+          setChatToCheckChanges(currentChat);
+        }
+
+        setIsOBRReady(true);
+        setTimeout(() => {
+          var objDiv = document.getElementById("chatbox");
+          if (objDiv) {
+            objDiv.scrollTop = objDiv.scrollHeight;
+          }
+        }, 100);
+
+        OBR.action.setBadgeBackgroundColor("orange");
+        setName(await OBR.player.getName());
+        setId(await OBR.player.getId());
+
+        OBR.player.onChange(async (player) => {
+          setName(await OBR.player.getName());
+        });
+
+        setRole(await OBR.player.getRole());
+      }
     });
 
     try {
