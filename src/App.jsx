@@ -354,6 +354,7 @@ function App() {
       bonus,
       skillName,
       characterName,
+      useHR,
     });
 
     setPreparedDice(newPreparedDice);
