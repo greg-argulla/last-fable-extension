@@ -1655,7 +1655,7 @@ function App() {
             style={{
               width: 100,
               textAlign: "center",
-              borderBottom: "1px solid #AAA",
+              borderBottom: "1px solid #222",
               marginRight: 4,
               color: "orange",
               whiteSpace: "nowrap",
