@@ -1284,7 +1284,7 @@ function App() {
       >
         <div
           style={{
-            paddingLeft: 30,
+            paddingLeft: 25,
             paddingRight: 20,
             paddingTop: 40,
           }}
@@ -1315,7 +1315,7 @@ function App() {
       >
         <div
           style={{
-            paddingLeft: 30,
+            paddingLeft: 25,
             paddingRight: 20,
             paddingTop: 40,
           }}
@@ -1338,7 +1338,7 @@ function App() {
         style={{
           display: "flex",
           flexDirection: "row",
-          paddingLeft: 30,
+          paddingLeft: 25,
           paddingRight: 20,
           paddingTop: 20,
         }}
@@ -1435,7 +1435,7 @@ function App() {
                 WIL
               </button>
             </div>
-            <div style={{ width: 45, marginLeft: 3 }}>
+            <div style={{ width: 45, marginLeft: 6 }}>
               <button
                 className="button-dice"
                 onClick={() => clearPreparedDice()}
@@ -1641,7 +1641,7 @@ function App() {
     return (
       <div
         style={{
-          paddingLeft: 30,
+          paddingLeft: 25,
           paddingRight: 20,
           paddingTop: 15,
         }}
