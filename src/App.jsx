@@ -1945,7 +1945,7 @@ function App() {
             backgroundColor: "#333",
             padding: 10,
             overflow: "scroll",
-            height: windowInnerHeight - 220,
+            height: windowInnerHeight - 280,
             border: "2px solid #222",
           }}
         >
