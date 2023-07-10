@@ -1941,6 +1941,7 @@ function App() {
             padding: 10,
             overflow: "scroll",
             height: windowInnerHeight - 220,
+            border: "2px solid #222",
           }}
         >
           {chat.length
