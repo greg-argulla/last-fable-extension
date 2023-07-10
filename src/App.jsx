@@ -1435,7 +1435,7 @@ function App() {
                 WIL
               </button>
             </div>
-            <div style={{ width: 45, marginLeft: 6 }}>
+            <div style={{ width: 45, marginLeft: 4 }}>
               <button
                 className="button-dice"
                 onClick={() => clearPreparedDice()}
