@@ -1308,7 +1308,7 @@ function App() {
         style={{
           backgroundImage: `url(${landingBG})`,
           backgroundSize: "contain",
-          height: 600,
+          height: 540,
           width: 400,
           overflow: "hidden",
         }}
@@ -1923,7 +1923,7 @@ function App() {
       style={{
         backgroundImage: `url(${landingBG})`,
         backgroundSize: "contain",
-        height: 600,
+        height: 540,
         width: 400,
         overflow: "hidden",
       }}
