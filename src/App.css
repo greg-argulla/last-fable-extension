@@ -93,6 +93,7 @@
   border: none;
   border-radius: 3px;
   border: 1px solid #222;
+  outline: none;
 }
 
 input::-webkit-outer-spin-button,

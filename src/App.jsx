@@ -1945,6 +1945,8 @@ function App() {
               paddingLeft: 4,
               backgroundColor: "#333",
               fontSize: 12,
+              border: "1px solid #222",
+              outline: "none",
             }}
             value={text}
             onChange={(evt) => {
