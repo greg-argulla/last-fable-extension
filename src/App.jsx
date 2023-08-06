@@ -337,6 +337,8 @@ function App() {
         );
       }
 
+      return "";
+    } else {
       if (imageURL) {
         return (
           <div className="outline" style={{ marginTop: 4 }}>
@@ -357,8 +359,6 @@ function App() {
         );
       }
 
-      return "";
-    } else {
       return rollInstance(item, index);
     }
   };
