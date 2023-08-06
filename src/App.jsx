@@ -247,7 +247,7 @@ function App() {
       );
     }
 
-    if (item.message || imageURL) {
+    if (item.message) {
       if (item.message.charAt(0) === "=") {
         const mathToEvaluate = item.message.substring(1, item.message.length);
         return (
