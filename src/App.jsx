@@ -336,6 +336,27 @@ function App() {
           </div>
         );
       }
+
+      if (imageURL) {
+        return (
+          <div className="outline" style={{ marginTop: 4 }}>
+            <div onClick={() => setToPM(item.user)}>{item.user}</div>
+            {imageURL && (
+              <div
+                style={{
+                  backgroundImage: `url(${imageURL})`,
+                  backgroundSize: "cover",
+                  height: 150,
+                  width: 200,
+                  overflow: "hidden",
+                  borderRadius: 5,
+                }}
+              ></div>
+            )}
+          </div>
+        );
+      }
+
       return "";
     } else {
       return rollInstance(item, index);
