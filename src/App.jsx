@@ -194,6 +194,38 @@ function App() {
     return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
   };
 
+  const parseTilde = (str) => {
+    const split = str.split("~");
+
+    return split.map((item, index) => {
+      if (index % 2 !== 0) {
+        return <span style={{ color: "moccasin" }}>{item}</span>;
+      }
+      return <span>{item}</span>;
+    });
+  };
+
+  const parseAsterisk = (str) => {
+    const split = str.split("*");
+
+    return split.map((item, index) => {
+      if (index % 2 !== 0) {
+        return <span style={{ color: "red", fontSize: 11 }}>{item}</span>;
+      }
+      return <span>{parseTilde(item)}</span>;
+    });
+  };
+
+  const parseDetail = (str) => {
+    if (str === undefined) return "";
+    const detailSplit = str.split("\n");
+    return detailSplit.map((item) => {
+      if (item === "") return <div>&#8205;</div>;
+
+      return <div>{parseAsterisk(item)}</div>;
+    });
+  };
+
   const ChatInstance = (props) => {
     let propsString = JSON.stringify(props);
     const imageURL = getImage(propsString);
@@ -226,7 +258,7 @@ function App() {
                 color: "grey",
               }}
             ></hr>
-            <div>{item.detail}</div>
+            <div>{parseDetail(item.detail)}</div>
             {item.diceOneResult && rollInstance(item, index)}
             {imageURL && (
               <div
