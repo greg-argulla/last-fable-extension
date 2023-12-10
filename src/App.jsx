@@ -858,7 +858,7 @@ function App() {
       let metadataChange = { ...metadata };
 
       if (newChat.length > 30) {
-        newChat.splice(0, 5);
+        newChat.splice(0, 2);
       }
 
       metadataChange[id] = newChat;
@@ -897,7 +897,7 @@ function App() {
       let metadataChange = { ...metadata };
 
       if (newChat.length > 30) {
-        newChat.splice(0, 5);
+        newChat.splice(0, 2);
       }
 
       metadataChange[id] = newChat;
@@ -934,7 +934,7 @@ function App() {
     let metadataChange = { ...metadata };
 
     if (newChat.length > 30) {
-      newChat.splice(0, 5);
+      newChat.splice(0, 2);
     }
 
     metadataChange[id] = newChat;
