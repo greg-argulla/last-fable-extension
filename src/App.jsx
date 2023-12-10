@@ -856,6 +856,11 @@ function App() {
       const metadata = metadataGet["last.fable.extension/metadata"];
 
       let metadataChange = { ...metadata };
+
+      if (newChat.length > 30) {
+        newChat.shift();
+      }
+
       metadataChange[id] = newChat;
 
       OBR.scene.setMetadata({
@@ -890,6 +895,11 @@ function App() {
       const metadata = metadataGet["last.fable.extension/metadata"];
 
       let metadataChange = { ...metadata };
+
+      if (newChat.length > 30) {
+        newChat.shift();
+      }
+
       metadataChange[id] = newChat;
 
       OBR.scene.setMetadata({
@@ -922,6 +932,11 @@ function App() {
     const metadata = metadataGet["last.fable.extension/metadata"];
 
     let metadataChange = { ...metadata };
+
+    if (newChat.length > 30) {
+      newChat.shift();
+    }
+
     metadataChange[id] = newChat;
 
     OBR.scene.setMetadata({
