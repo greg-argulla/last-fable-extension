@@ -2028,7 +2028,7 @@ function App() {
         >
           {chat.length
             ? chat
-                .sort((a, b) => b - a)
+                .sort((a, b) => b.id - a.id)
                 .map((item, index) => (
                   <ChatInstance key={index} item={item} index={index} />
                 ))
