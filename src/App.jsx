@@ -5,6 +5,8 @@ import landingBG from "./assets/bg.jpg";
 import refresh from "./assets/refresh.png";
 import "./App.css";
 
+const chatLimit = 100;
+
 const Text = (props) => {
   const { children } = props;
   return <span className="outline">{children}</span>;
@@ -857,7 +859,7 @@ function App() {
 
       let metadataChange = { ...metadata };
 
-      if (newChat.length > 60) {
+      if (newChat.length > chatLimit) {
         newChat.splice(0, 2);
       }
 
@@ -896,7 +898,7 @@ function App() {
 
       let metadataChange = { ...metadata };
 
-      if (newChat.length > 60) {
+      if (newChat.length > chatLimit) {
         newChat.splice(0, 2);
       }
 
@@ -933,7 +935,7 @@ function App() {
 
     let metadataChange = { ...metadata };
 
-    if (newChat.length > 60) {
+    if (newChat.length > chatLimit) {
       newChat.splice(0, 2);
     }
 
