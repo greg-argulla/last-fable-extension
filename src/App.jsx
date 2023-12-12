@@ -212,7 +212,7 @@ function App() {
 
     return split.map((item, index) => {
       if (index % 2 !== 0) {
-        return <span style={{ color: "red", fontSize: 11 }}>{item}</span>;
+        return <span style={{ color: "indianred", fontSize: 11 }}>{item}</span>;
       }
       return <span>{parseTilde(item)}</span>;
     });
