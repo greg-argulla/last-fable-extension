@@ -196,8 +196,8 @@ function App() {
     return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
   };
 
-  const parseTilde = (str) => {
-    const split = str.split("~");
+  const parseQuote = (str) => {
+    const split = str.split("`");
 
     return split.map((item, index) => {
       if (index % 2 !== 0) {
@@ -214,7 +214,7 @@ function App() {
       if (index % 2 !== 0) {
         return <span style={{ color: "red", fontSize: 11 }}>{item}</span>;
       }
-      return <span>{parseTilde(item)}</span>;
+      return <span>{parseQuote(item)}</span>;
     });
   };
 
