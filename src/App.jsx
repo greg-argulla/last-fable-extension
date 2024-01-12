@@ -5,7 +5,7 @@ import landingBG from "./assets/bg.jpg";
 import refresh from "./assets/refresh.png";
 import "./App.css";
 
-const chatLimit = 100;
+const chatLimit = 60;
 
 const Text = (props) => {
   const { children } = props;
