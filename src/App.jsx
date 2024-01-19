@@ -1784,6 +1784,13 @@ function App() {
               updatePlayer(playerGet);
             }}
             value={player.stats.currentHP}
+            onBlur={() => {
+              const playerGet = { ...player };
+              if (isNaN(playerGet.stats.currentHP)) {
+                playerGet.stats.currentHP = 0;
+                updatePlayer(playerGet);
+              }
+            }}
           />
           <Text>MP: </Text>
           <input
@@ -1816,6 +1823,13 @@ function App() {
               updatePlayer(playerGet);
             }}
             value={player.stats.currentMP}
+            onBlur={() => {
+              const playerGet = { ...player };
+              if (isNaN(playerGet.stats.currentMP)) {
+                playerGet.stats.currentMP = 0;
+                updatePlayer(playerGet);
+              }
+            }}
           />
           <Text>IP: </Text>
           <input
@@ -1846,6 +1860,13 @@ function App() {
               updatePlayer(playerGet);
             }}
             value={player.stats.currentIP}
+            onBlur={() => {
+              const playerGet = { ...player };
+              if (isNaN(playerGet.stats.currentIP)) {
+                playerGet.stats.currentIP = 0;
+                updatePlayer(playerGet);
+              }
+            }}
           />
           <Text>FP: </Text>
           <input
@@ -1868,6 +1889,13 @@ function App() {
               updatePlayer(playerGet);
             }}
             value={player.stats.fabula}
+            onBlur={() => {
+              const playerGet = { ...player };
+              if (isNaN(playerGet.stats.fabula)) {
+                playerGet.stats.fabula = 0;
+                updatePlayer(playerGet);
+              }
+            }}
           />
         </div>
         <div>
