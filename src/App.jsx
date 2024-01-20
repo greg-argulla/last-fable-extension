@@ -649,8 +649,10 @@ function App() {
 
   useEffect(() => {
     if (player && !ignoreFirstUpdate) {
-      if (metadata[player.id].lastEdit !== id + "-chat") {
-        setPlayer(metadata[player.id]);
+      if (metadata[player.id]) {
+        if (metadata[player.id].lastEdit !== id + "-chat") {
+          setPlayer(metadata[player.id]);
+        }
       }
     }
     if (ignoreFirstUpdate) {
