@@ -260,7 +260,9 @@ function App() {
                 color: "grey",
               }}
             ></hr>
-            <div>{parseDetail(item.detail)}</div>
+            <div style={{ marginBottom: 10 }}>
+              {parseDetail(item.detail.trim())}
+            </div>
             {item.diceOneResult && rollInstance(item, index)}
             {imageURL && (
               <div
@@ -274,6 +276,7 @@ function App() {
                   marginLeft: "auto",
                   marginRight: "auto",
                   borderRadius: 5,
+                  marginTop: 10,
                 }}
               ></div>
             )}
