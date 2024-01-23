@@ -260,7 +260,7 @@ function App() {
                 color: "grey",
               }}
             ></hr>
-            <div>{parseDetail(item.detail)}</div>
+            <div>{parseDetail(item.detail).trim()}</div>
             {item.diceOneResult && rollInstance(item, index)}
             {imageURL && (
               <div
