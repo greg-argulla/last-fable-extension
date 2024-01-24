@@ -238,7 +238,7 @@ function App() {
 
     const { item, index } = JSON.parse(propsString);
 
-    const detail = item.detail.trim();
+    const detail = item.detail ? item.detail.trim() : "";
 
     if (item.skillName) {
       return (
