@@ -238,6 +238,8 @@ function App() {
 
     const { item, index } = JSON.parse(propsString);
 
+    const detail = item.detail.trim();
+
     if (item.skillName) {
       return (
         <div style={{ marginTop: 4 }}>
@@ -260,9 +262,11 @@ function App() {
                 color: "grey",
               }}
             ></hr>
-            <div style={{ marginBottom: 10 }}>
-              {parseDetail(item.detail.trim())}
-            </div>
+            {detail && (
+              <div style={{ marginBottom: item.diceOneResult ? 10 : 0 }}>
+                {parseDetail(detail)}
+              </div>
+            )}
             {item.diceOneResult && rollInstance(item, index)}
             {imageURL && (
               <div
