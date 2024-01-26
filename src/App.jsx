@@ -762,7 +762,7 @@ function App() {
 
             await OBR.popover.open({
               id: "chat/popover",
-              url: "/dialog",
+              url: "https://fabula-ultima-extension.onrender.com/dialog",
               height: chatElement.getBoundingClientRect().height + 30,
               disableClickAway: true,
               width: 365,
