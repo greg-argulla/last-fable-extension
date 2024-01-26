@@ -174,7 +174,9 @@ const rollInstance = (item, index, chatLength) => {
               fontSize: 10,
             }}
           >
-            {item.useHR ? (HR + item.damage) / 2 : item.damage / 2}
+            {item.useHR
+              ? Math.floor((HR + item.damage) / 2)
+              : Math.floor(item.damage / 2)}
           </span>
         ) : (
           ""
