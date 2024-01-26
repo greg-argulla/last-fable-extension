@@ -12,6 +12,361 @@ const Text = (props) => {
   return <span className="outline">{children}</span>;
 };
 
+const parseQuote = (str) => {
+  const split = str.split("`");
+
+  return split.map((item, index) => {
+    if (index % 2 !== 0) {
+      return (
+        <span key={item.id + "quote" + index} style={{ color: "moccasin" }}>
+          {item}
+        </span>
+      );
+    }
+    return <span key={item.id + "quote" + index}>{item}</span>;
+  });
+};
+
+function evaluateMath(str) {
+  for (var i = 0; i < str.length; i++) {
+    if (isNaN(str[i]) && !["+", "-", "/", "*"].includes(str[i])) {
+      return NaN;
+    }
+  }
+
+  try {
+    return eval(str);
+  } catch (e) {
+    if (e.name !== "SyntaxError") throw e;
+    return NaN;
+  }
+}
+
+const parseAsterisk = (str) => {
+  const split = str.split("*");
+
+  return split.map((item, index) => {
+    if (index % 2 !== 0) {
+      return (
+        <span
+          key={item.id + "asterisk" + index}
+          style={{ color: "red", fontSize: 11 }}
+        >
+          {item}
+        </span>
+      );
+    }
+    return <span key={item.id + "asterisk" + index}>{parseQuote(item)}</span>;
+  });
+};
+
+const rollInstance = (item, index, chatLength) => {
+  const HR =
+    item.diceOneResult > item.diceTwoResult
+      ? item.diceOneResult
+      : item.diceTwoResult;
+  return (
+    <div className="roll-detail" style={{ textAlign: "center" }}>
+      * {item.characterName ? `${item.characterName}` : item.user} Rolled{" "}
+      <span style={{ color: "#FFF" }}>{item.result}</span>
+      {item.diceOneResult} {item.diceLabelOne}
+      {item.diceTwoResult !== 0 ? (
+        <>{` + ${item.diceTwoResult} ${item.diceLabelTwo}`}</>
+      ) : (
+        ""
+      )}
+      {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
+        ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
+        : ""}
+      {(item.diceTwoResult !== 0 ||
+        (!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0)) &&
+        ` = `}
+      {item.diceTwoResult === 0 &&
+        !isNaN(parseInt(item.bonus)) &&
+        parseInt(item.bonus) !== 0 && (
+          <span
+            style={{
+              marginRight: 2,
+              marginLeft: 2,
+              fontSize: 11,
+            }}
+          >
+            {item.diceOneResult + item.bonus}
+          </span>
+        )}
+      {item.diceTwoResult !== 0 && (
+        <span
+          style={{
+            color:
+              (item.diceOneResult + item.diceTwoResult + item.bonus) % 2 === 0
+                ? "lightgreen"
+                : "lightblue",
+            marginRight: 2,
+            marginLeft: 2,
+            fontSize: 11,
+          }}
+        >
+          {item.diceOneResult + item.diceTwoResult + item.bonus}
+        </span>
+      )}
+      {parseInt(item.damage) > 0
+        ? (item.useHR ? ` HR: ${HR} ` : " ") + "DMG:"
+        : ""}
+      {parseInt(item.damage) > 0 ? (
+        <span
+          style={{
+            color: "red",
+            marginRight: 2,
+            marginLeft: 2,
+            fontSize: 11,
+          }}
+        >
+          {item.useHR ? HR + item.damage : item.damage}
+        </span>
+      ) : (
+        ""
+      )}
+      {item.diceOneResult === item.diceTwoResult && item.diceOneResult > 5 && (
+        <>
+          <span
+            style={{ color: "#FF4500" }}
+            className={index > chatLength - 8 ? "crit" : ""}
+          >
+            CRITICAL
+          </span>
+        </>
+      )}
+      {item.diceOneResult === item.diceTwoResult &&
+        item.diceOneResult < 6 &&
+        item.diceOneResult > 1 && <span style={{ color: "orange" }}>*</span>}
+      {item.diceOneResult === item.diceTwoResult &&
+        item.diceOneResult === 1 && (
+          <span
+            style={{ color: "lightgrey" }}
+            className={index > chatLength - 8 ? "crit" : ""}
+          >
+            FUMBLE
+          </span>
+        )}
+    </div>
+  );
+};
+
+const parseDetail = (str, id) => {
+  if (str === undefined) return "";
+  const detailSplit = str.split("\n");
+  return detailSplit.map((item, index) => {
+    if (item === "") return <div key={index + id}>&#8205;</div>;
+
+    return <div key={index + id}>{parseAsterisk(item)}</div>;
+  });
+};
+
+const getImage = (str) => {
+  return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
+};
+
+export const ChatInstance = (props) => {
+  let propsString = JSON.stringify(props);
+  const imageURL = getImage(propsString);
+
+  if (imageURL) {
+    propsString = propsString.replace("<" + imageURL + ">", "");
+  }
+
+  const { item, index } = JSON.parse(propsString);
+
+  const detail = item.detail ? item.detail.trim() : "";
+
+  if (item.skillName) {
+    return (
+      <div style={{ marginTop: 4 }} id={"chat_" + item.id}>
+        <div className="outline">
+          <div onClick={() => props.setToPM(item.user)}>
+            {item.user} ({item.characterName})
+          </div>
+        </div>
+        <div className="skill-detail">
+          <div style={{ fontSize: 13, color: "darkorange" }}>
+            {item.skillName}
+          </div>
+          <div style={{ color: "darkgrey" }}>{item.info}</div>
+          <hr
+            style={{
+              marginTop: 4,
+              marginBottom: 4,
+              borderColor: "grey",
+              backgroundColor: "grey",
+              color: "grey",
+            }}
+          ></hr>
+          {detail && (
+            <div style={{ marginBottom: item.diceOneResult ? 10 : 0 }}>
+              {parseDetail(detail, item.id)}
+            </div>
+          )}
+          {item.diceOneResult && rollInstance(item, index, props.chatLength)}
+          {imageURL && (
+            <div
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: 150,
+                width: 200,
+                overflow: "hidden",
+                marginLeft: "auto",
+                marginRight: "auto",
+                borderRadius: 5,
+                marginTop: 10,
+              }}
+            ></div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (item.message) {
+    if (item.message.charAt(0) === "=") {
+      const mathToEvaluate = item.message.substring(1, item.message.length);
+      return (
+        <div
+          className="outline"
+          style={{ marginTop: 4 }}
+          id={"chat_" + item.id}
+        >
+          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          <span style={{ color: "#D2691E" }}>
+            {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
+          </span>
+          {imageURL && (
+            <div
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: "cover",
+                height: 150,
+                width: 200,
+                overflow: "hidden",
+                borderRadius: 5,
+              }}
+            ></div>
+          )}
+        </div>
+      );
+    }
+
+    if (item.user === props.name) {
+      return (
+        <div
+          className="outline"
+          style={{ textAlign: "right", marginTop: 4 }}
+          id={"chat_" + item.id}
+        >
+          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+            {item.whisper ? "*" : ""}
+            {item.message}
+            {item.whisperTarget ? " - " + item.whisperTarget : ""}
+            {item.whisper ? "*" : ""}
+          </span>
+          {imageURL && (
+            <div
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: "cover",
+                height: 150,
+                width: 200,
+                overflow: "hidden",
+                borderRadius: 5,
+                marginLeft: "auto",
+              }}
+            ></div>
+          )}
+        </div>
+      );
+    }
+
+    if (!item.whisper || props.role === "GM") {
+      return (
+        <div
+          className="outline"
+          style={{ marginTop: 4 }}
+          id={"chat_" + item.id}
+        >
+          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+            {item.whisper ? "*" : ""}
+            {item.message}
+            {item.whisper ? "*" : ""}
+          </span>
+          {imageURL && (
+            <div
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: "cover",
+                height: 150,
+                width: 200,
+                overflow: "hidden",
+                borderRadius: 5,
+              }}
+            ></div>
+          )}
+        </div>
+      );
+    }
+
+    if (item.whisper && item.whisperTarget === props.name) {
+      return (
+        <div
+          className="outline"
+          style={{ marginTop: 4 }}
+          id={"chat_" + item.id}
+        >
+          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
+            {item.whisper ? "*" : ""}
+            {item.message}
+            {item.whisper ? "*" : ""}
+          </span>
+        </div>
+      );
+    }
+
+    return "";
+  } else {
+    if (imageURL) {
+      return (
+        <div
+          className="outline"
+          style={{ marginTop: 4 }}
+          id={"chat_" + item.id}
+        >
+          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          {imageURL && (
+            <div
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: "cover",
+                height: 150,
+                width: 200,
+                overflow: "hidden",
+                borderRadius: 5,
+              }}
+            ></div>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div id={"chat_" + item.id}>
+        {rollInstance(item, index, props.chatLength)}
+      </div>
+    );
+  }
+};
+
 function App() {
   const [skillName, setSkillName] = useState("");
   const [info, setInfo] = useState("");
@@ -28,7 +383,6 @@ function App() {
   const [damage, setDamage] = useState("");
   const [text, setText] = useState("");
   const [isOBRReady, setIsOBRReady] = useState(false);
-  const [cooldown, setCoolDown] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [name, setName] = useState("");
   const [id, setId] = useState("");
@@ -81,327 +435,6 @@ function App() {
   const setToPM = (user) => {
     if (role === "GM") {
       setText("[" + user + "]");
-    }
-  };
-
-  function evaluateMath(str) {
-    for (var i = 0; i < str.length; i++) {
-      if (isNaN(str[i]) && !["+", "-", "/", "*"].includes(str[i])) {
-        return NaN;
-      }
-    }
-
-    try {
-      return eval(str);
-    } catch (e) {
-      if (e.name !== "SyntaxError") throw e;
-      return NaN;
-    }
-  }
-
-  const rollInstance = (item, index) => {
-    const HR =
-      item.diceOneResult > item.diceTwoResult
-        ? item.diceOneResult
-        : item.diceTwoResult;
-    return (
-      <div className="roll-detail" style={{ textAlign: "center" }}>
-        * {item.characterName ? `${item.characterName}` : item.user} Rolled{" "}
-        <span style={{ color: "#FFF" }}>{item.result}</span>
-        {item.diceOneResult} {item.diceLabelOne}
-        {item.diceTwoResult !== 0 ? (
-          <>{` + ${item.diceTwoResult} ${item.diceLabelTwo}`}</>
-        ) : (
-          ""
-        )}
-        {!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0
-          ? (parseInt(item.bonus) > -1 ? " + " : " - ") + Math.abs(item.bonus)
-          : ""}
-        {(item.diceTwoResult !== 0 ||
-          (!isNaN(parseInt(item.bonus)) && parseInt(item.bonus) !== 0)) &&
-          ` = `}
-        {item.diceTwoResult === 0 &&
-          !isNaN(parseInt(item.bonus)) &&
-          parseInt(item.bonus) !== 0 && (
-            <span
-              style={{
-                marginRight: 2,
-                marginLeft: 2,
-                fontSize: 11,
-              }}
-            >
-              {item.diceOneResult + item.bonus}
-            </span>
-          )}
-        {item.diceTwoResult !== 0 && (
-          <span
-            style={{
-              color:
-                (item.diceOneResult + item.diceTwoResult + item.bonus) % 2 === 0
-                  ? "lightgreen"
-                  : "lightblue",
-              marginRight: 2,
-              marginLeft: 2,
-              fontSize: 11,
-            }}
-          >
-            {item.diceOneResult + item.diceTwoResult + item.bonus}
-          </span>
-        )}
-        {parseInt(item.damage) > 0
-          ? (item.useHR ? ` HR: ${HR} ` : " ") + "DMG:"
-          : ""}
-        {parseInt(item.damage) > 0 ? (
-          <span
-            style={{
-              color: "red",
-              marginRight: 2,
-              marginLeft: 2,
-              fontSize: 11,
-            }}
-          >
-            {item.useHR ? HR + item.damage : item.damage}
-          </span>
-        ) : (
-          ""
-        )}
-        {item.diceOneResult === item.diceTwoResult &&
-          item.diceOneResult > 5 && (
-            <>
-              <span
-                style={{ color: "#FF4500" }}
-                className={index > chat.length - 8 ? "crit" : ""}
-              >
-                CRITICAL
-              </span>
-            </>
-          )}
-        {item.diceOneResult === item.diceTwoResult &&
-          item.diceOneResult < 6 &&
-          item.diceOneResult > 1 && <span style={{ color: "orange" }}>*</span>}
-        {item.diceOneResult === item.diceTwoResult &&
-          item.diceOneResult === 1 && (
-            <span
-              style={{ color: "lightgrey" }}
-              className={index > chat.length - 8 ? "crit" : ""}
-            >
-              FUMBLE
-            </span>
-          )}
-      </div>
-    );
-  };
-
-  const getImage = (str) => {
-    return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
-  };
-
-  const parseQuote = (str) => {
-    const split = str.split("`");
-
-    return split.map((item, index) => {
-      if (index % 2 !== 0) {
-        return <span style={{ color: "moccasin" }}>{item}</span>;
-      }
-      return <span>{item}</span>;
-    });
-  };
-
-  const parseAsterisk = (str) => {
-    const split = str.split("*");
-
-    return split.map((item, index) => {
-      if (index % 2 !== 0) {
-        return <span style={{ color: "red", fontSize: 11 }}>{item}</span>;
-      }
-      return <span>{parseQuote(item)}</span>;
-    });
-  };
-
-  const parseDetail = (str) => {
-    if (str === undefined) return "";
-    const detailSplit = str.split("\n");
-    return detailSplit.map((item) => {
-      if (item === "") return <div>&#8205;</div>;
-
-      return <div>{parseAsterisk(item)}</div>;
-    });
-  };
-
-  const ChatInstance = (props) => {
-    let propsString = JSON.stringify(props);
-    const imageURL = getImage(propsString);
-
-    if (imageURL) {
-      propsString = propsString.replace("<" + imageURL + ">", "");
-    }
-
-    const { item, index } = JSON.parse(propsString);
-
-    const detail = item.detail ? item.detail.trim() : "";
-
-    if (item.skillName) {
-      return (
-        <div style={{ marginTop: 4 }}>
-          <div className="outline">
-            <div onClick={() => setToPM(item.user)}>
-              {item.user} ({item.characterName})
-            </div>
-          </div>
-          <div className="skill-detail">
-            <div style={{ fontSize: 13, color: "darkorange" }}>
-              {item.skillName}
-            </div>
-            <div style={{ color: "darkgrey" }}>{item.info}</div>
-            <hr
-              style={{
-                marginTop: 4,
-                marginBottom: 4,
-                borderColor: "grey",
-                backgroundColor: "grey",
-                color: "grey",
-              }}
-            ></hr>
-            {detail && (
-              <div style={{ marginBottom: item.diceOneResult ? 10 : 0 }}>
-                {parseDetail(detail)}
-              </div>
-            )}
-            {item.diceOneResult && rollInstance(item, index)}
-            {imageURL && (
-              <div
-                style={{
-                  backgroundImage: `url(${imageURL})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  height: 150,
-                  width: 200,
-                  overflow: "hidden",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  borderRadius: 5,
-                  marginTop: 10,
-                }}
-              ></div>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    if (item.message) {
-      if (item.message.charAt(0) === "=") {
-        const mathToEvaluate = item.message.substring(1, item.message.length);
-        return (
-          <div className="outline" style={{ marginTop: 4 }}>
-            <div onClick={() => setToPM(item.user)}>{item.user}</div>
-            <span style={{ color: "#D2691E" }}>
-              {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
-            </span>
-            {imageURL && (
-              <div
-                style={{
-                  backgroundImage: `url(${imageURL})`,
-                  backgroundSize: "cover",
-                  height: 150,
-                  width: 200,
-                  overflow: "hidden",
-                  borderRadius: 5,
-                }}
-              ></div>
-            )}
-          </div>
-        );
-      }
-
-      if (item.user === name) {
-        return (
-          <div className="outline" style={{ textAlign: "right", marginTop: 4 }}>
-            <div onClick={() => setToPM(item.user)}>{item.user}</div>
-            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*" : ""}
-              {item.message}
-              {item.whisperTarget ? " - " + item.whisperTarget : ""}
-              {item.whisper ? "*" : ""}
-            </span>
-            {imageURL && (
-              <div
-                style={{
-                  backgroundImage: `url(${imageURL})`,
-                  backgroundSize: "cover",
-                  height: 150,
-                  width: 200,
-                  overflow: "hidden",
-                  borderRadius: 5,
-                  marginLeft: "auto",
-                }}
-              ></div>
-            )}
-          </div>
-        );
-      }
-
-      if (!item.whisper || role === "GM") {
-        return (
-          <div className="outline" style={{ marginTop: 4 }}>
-            <div onClick={() => setToPM(item.user)}>{item.user}</div>
-            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*" : ""}
-              {item.message}
-              {item.whisper ? "*" : ""}
-            </span>
-            {imageURL && (
-              <div
-                style={{
-                  backgroundImage: `url(${imageURL})`,
-                  backgroundSize: "cover",
-                  height: 150,
-                  width: 200,
-                  overflow: "hidden",
-                  borderRadius: 5,
-                }}
-              ></div>
-            )}
-          </div>
-        );
-      }
-
-      if (item.whisper && item.whisperTarget === name) {
-        return (
-          <div className="outline" style={{ marginTop: 4 }}>
-            <div onClick={() => setToPM(item.user)}>{item.user}</div>
-            <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-              {item.whisper ? "*" : ""}
-              {item.message}
-              {item.whisper ? "*" : ""}
-            </span>
-          </div>
-        );
-      }
-
-      return "";
-    } else {
-      if (imageURL) {
-        return (
-          <div className="outline" style={{ marginTop: 4 }}>
-            <div onClick={() => setToPM(item.user)}>{item.user}</div>
-            {imageURL && (
-              <div
-                style={{
-                  backgroundImage: `url(${imageURL})`,
-                  backgroundSize: "cover",
-                  height: 150,
-                  width: 200,
-                  overflow: "hidden",
-                  borderRadius: 5,
-                }}
-              ></div>
-            )}
-          </div>
-        );
-      }
-
-      return rollInstance(item, index);
     }
   };
 
@@ -689,13 +722,53 @@ function App() {
     }
   }, [characterData]);
 
+  const [chatTimeoutId, setChatTimeoutId] = useState(0);
+
   useEffect(() => {
     if (chatToCheckChanges.length !== chat.length) {
       setChat(chatToCheckChanges);
-      setTimeout(() => {
+      const chatToSend = chatToCheckChanges[chatToCheckChanges.length - 1];
+
+      if (chatToSend) {
+        if (chatToSend.skillName || chatToSend.diceOneResult) {
+          OBR.popover.close("chat/popover");
+          clearTimeout(chatTimeoutId);
+
+          const newTimeout = setTimeout(async () => {
+            OBR.popover.close("chat/popover");
+          }, 10000);
+          setChatTimeoutId(newTimeout);
+        }
+      }
+      setTimeout(async () => {
         var objDiv = document.getElementById("chatbox");
         if (objDiv) {
           objDiv.scrollTop = objDiv.scrollHeight;
+        }
+
+        if (chatToSend) {
+          if (chatToSend.skillName || chatToSend.diceOneResult) {
+            const chatElement = document.getElementById(
+              "chat_" + chatToSend.id
+            );
+
+            localStorage.setItem(
+              "last.fable.extension/lastmessage",
+              JSON.stringify({
+                ...chatToSend,
+                height: chatElement.getBoundingClientRect().height,
+              })
+            );
+
+            await OBR.popover.open({
+              id: "chat/popover",
+              url: "/dialog",
+              height: chatElement.getBoundingClientRect().height + 30,
+              disableClickAway: true,
+              width: 365,
+              anchorOrigin: { horizontal: "RIGHT", vertical: "BOTTOM" },
+            });
+          }
         }
       }, 100);
     }
@@ -751,61 +824,12 @@ function App() {
 
       const isOpen = await OBR.action.isOpen();
 
-      if (lastMessage && !cooldown && isOBRReady && !isOpen) {
-        if (lastMessage.message) {
-          if (!lastMessage.whisper || role === "GM") {
-            OBR.notification.show(
-              lastMessage.user +
-                ": " +
-                lastMessage.message +
-                (lastMessage.whisper ? " (WHISPER)" : ""),
-              "DEFAULT"
-            );
-          }
-        } else if (lastMessage.diceOneResult) {
-          const HR =
-            lastMessage.diceOneResult > lastMessage.diceTwoResult
-              ? lastMessage.diceOneResult
-              : lastMessage.diceTwoResult;
-
-          const isCrit =
-            lastMessage.diceOneResult === lastMessage.diceTwoResult &&
-            lastMessage.diceOneResult > 5;
-
-          const isFumble =
-            lastMessage.diceOneResult === lastMessage.diceTwoResult &&
-            lastMessage.diceOneResult === 1;
-
-          OBR.notification.show(
-            lastMessage.user +
-              " Rolled " +
-              (isCrit
-                ? "CRITICAL"
-                : isFumble
-                ? "FUMBLE"
-                : lastMessage.diceOneResult +
-                  lastMessage.diceTwoResult +
-                  lastMessage.bonus) +
-              (lastMessage.damage !== 0 &&
-              lastMessage.damage !== "" &&
-              !isFumble
-                ? " DMG: " +
-                  (lastMessage.useHR
-                    ? HR + lastMessage.damage
-                    : lastMessage.damage)
-                : ""),
-            isCrit ? "WARNING" : isFumble ? "ERROR" : "INFO"
-          );
-          setCoolDown(true);
-        }
+      if (lastMessage && isOBRReady && !isOpen) {
         if (isOBRReady) {
           const isOpen = await OBR.action.isOpen();
           if (!isOpen) {
             if (!lastMessage.whisper || role === "GM") {
-              if (
-                lastMessage.message !== "/line" &&
-                lastMessage.message !== "/newround"
-              ) {
+              if (lastMessage.user !== name) {
                 setUnreadCount(unreadCount + 1);
                 OBR.action.setBadgeText("" + (unreadCount + 1));
               }
@@ -813,9 +837,6 @@ function App() {
           }
         }
       }
-      setTimeout(() => {
-        setCoolDown(false);
-      }, 4000);
     };
 
     if (isOBRReady) {
@@ -2070,7 +2091,15 @@ function App() {
             ? chat
                 .sort((a, b) => a.id - b.id)
                 .map((item, index) => (
-                  <ChatInstance key={index} item={item} index={index} />
+                  <ChatInstance
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    name={name}
+                    role={role}
+                    setToPM={setToPM}
+                    chatLength={chat.length}
+                  />
                 ))
             : ""}
         </div>
