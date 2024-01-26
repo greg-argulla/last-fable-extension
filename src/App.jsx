@@ -29,7 +29,7 @@ const parseQuote = (str) => {
 
 function evaluateMath(str) {
   for (var i = 0; i < str.length; i++) {
-    if (isNaN(str[i]) && !["+", "-", "/", "*"].includes(str[i])) {
+    if (isNaN(str[i]) && !["+", "-", "/", "*", "."].includes(str[i])) {
       return NaN;
     }
   }
@@ -148,6 +148,38 @@ const rollInstance = (item, index, chatLength) => {
             FUMBLE
           </span>
         )}
+      <div style={{ fontSize: 9 }}>
+        {parseInt(item.damage) > 0 ? "VU:" : ""}
+        {parseInt(item.damage) > 0 ? (
+          <span
+            style={{
+              color: "darkred",
+              marginRight: 2,
+              marginLeft: 2,
+              fontSize: 10,
+            }}
+          >
+            {item.useHR ? (HR + item.damage) * 2 : item.damage * 2}
+          </span>
+        ) : (
+          ""
+        )}
+        {parseInt(item.damage) > 0 ? "RS:" : ""}
+        {parseInt(item.damage) > 0 ? (
+          <span
+            style={{
+              color: "darkred",
+              marginRight: 2,
+              marginLeft: 2,
+              fontSize: 10,
+            }}
+          >
+            {item.useHR ? (HR + item.damage) / 2 : item.damage / 2}
+          </span>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };
