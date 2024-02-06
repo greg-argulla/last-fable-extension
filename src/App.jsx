@@ -1775,11 +1775,12 @@ function App() {
           }
           updatePlayer(playerGet);
           addSkillMessage({
-            name:
+            skillName:
               playerGet.traits.name +
               (playerGet.debuff[condition] ? " suffers " : " recovers from ") +
               condition +
               "!",
+            characterName: playerGet.traits.name,
             info: "",
             detail:
               "Bringing their `" +
@@ -2022,10 +2023,11 @@ function App() {
               }
               updatePlayer(playerGet);
               addSkillMessage({
-                name:
+                skillName:
                   player.traits.name +
                   (playerGet.debuff.enraged ? " suffers" : " recovers from") +
                   " enraged!",
+                characterName: player.traits.name,
                 info: "",
                 detail:
                   "Bringing their `DEX` to `" +
@@ -2056,10 +2058,11 @@ function App() {
               playerGet.attributes["currentwil"] = getCurrentAttribute("wil");
               updatePlayer(playerGet);
               addSkillMessage({
-                name:
+                skillName:
                   player.traits.name +
                   (playerGet.debuff.poisoned ? " suffers" : " recovers from") +
                   " poisoned!",
+                characterName: player.traits.name,
                 info: "",
                 detail:
                   "Bringing their `MIG` to `" +
