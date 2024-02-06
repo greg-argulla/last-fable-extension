@@ -662,6 +662,7 @@ function App() {
       setCookiesNotEnabled(true);
       return;
     }
+
     if (skillData) {
       if (skillData.userId === id) {
         const localSkillData = JSON.parse(
@@ -1773,6 +1774,19 @@ function App() {
             );
           }
           updatePlayer(playerGet);
+          addSkillMessage({
+            name:
+              playerGet.traits.name +
+              (playerGet.debuff[condition] ? " suffers " : " recovers from ") +
+              condition +
+              "!",
+            info: "",
+            detail:
+              "Bringing their `" +
+              stat.toUpperCase() +
+              "` one die size " +
+              (playerGet.debuff[condition] ? "lower." : "higher."),
+          });
         }}
       >
         {condition}
@@ -2007,6 +2021,19 @@ function App() {
                 );
               }
               updatePlayer(playerGet);
+              addSkillMessage({
+                name:
+                  player.traits.name +
+                  (playerGet.debuff.enraged ? " suffers" : " recovers from") +
+                  " enraged!",
+                info: "",
+                detail:
+                  "Bringing their `DEX` to `" +
+                  playerGet.attributes["currentdex"] +
+                  "` and `INS` to `" +
+                  playerGet.attributes["currentins"] +
+                  "`",
+              });
             }}
           >
             Enraged
@@ -2028,6 +2055,19 @@ function App() {
               playerGet.attributes["currentmig"] = getCurrentAttribute("mig");
               playerGet.attributes["currentwil"] = getCurrentAttribute("wil");
               updatePlayer(playerGet);
+              addSkillMessage({
+                name:
+                  player.traits.name +
+                  (playerGet.debuff.poisoned ? " suffers" : " recovers from") +
+                  " poisoned!",
+                info: "",
+                detail:
+                  "Bringing their `MIG` to `" +
+                  playerGet.attributes["currentmig"] +
+                  "` and `WIL` to `" +
+                  playerGet.attributes["currentwil"] +
+                  "`",
+              });
             }}
           >
             Poisoned
