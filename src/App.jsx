@@ -216,7 +216,7 @@ export const ChatInstance = (props) => {
     return (
       <div style={{ marginTop: 4 }} id={"chat_" + item.id}>
         <div className="outline">
-          <div onClick={() => props.setToPM(item.user)}>
+          <div>
             {item.user} ({item.characterName})
           </div>
         </div>
@@ -261,6 +261,51 @@ export const ChatInstance = (props) => {
     );
   }
 
+  if (item.inCharacter) {
+    return (
+      <div style={{ marginTop: 4 }} id={"chat_" + item.id}>
+        <div className="outline">
+          <div>{item.user}</div>
+        </div>
+        <div
+          className="skill-detail"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <div
+            style={{
+              backgroundImage: `url(${item.avatar})`,
+              textAlign: "center",
+              width: 40,
+              height: 40,
+              backgroundSize: "cover",
+              fontSize: 18,
+            }}
+          ></div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 12, color: "darkorange" }}>
+              {item.characterName}
+            </div>
+            <div style={{ color: "darkgrey" }}>{item.info}</div>
+            <hr
+              style={{
+                marginTop: 4,
+                marginBottom: 4,
+                borderColor: "grey",
+                backgroundColor: "grey",
+                color: "grey",
+              }}
+            ></hr>
+            <div style={{ fontSize: 11, color: "white" }}>{item.message}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (item.message) {
     if (item.message.charAt(0) === "=") {
       const mathToEvaluate = item.message.substring(1, item.message.length);
@@ -270,7 +315,7 @@ export const ChatInstance = (props) => {
           style={{ marginTop: 4 }}
           id={"chat_" + item.id}
         >
-          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          <div>{item.user}</div>
           <span style={{ color: "#D2691E" }}>
             {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
           </span>
@@ -290,84 +335,24 @@ export const ChatInstance = (props) => {
       );
     }
 
-    if (item.user === props.name) {
-      return (
-        <div
-          className="outline"
-          style={{ textAlign: "right", marginTop: 4 }}
-          id={"chat_" + item.id}
-        >
-          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
-          <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-            {item.whisper ? "*" : ""}
-            {item.message}
-            {item.whisperTarget ? " - " + item.whisperTarget : ""}
-            {item.whisper ? "*" : ""}
-          </span>
-          {imageURL && (
-            <div
-              style={{
-                backgroundImage: `url(${imageURL})`,
-                backgroundSize: "cover",
-                height: 150,
-                width: 200,
-                overflow: "hidden",
-                borderRadius: 5,
-                marginLeft: "auto",
-              }}
-            ></div>
-          )}
-        </div>
-      );
-    }
-
-    if (!item.whisper || props.role === "GM") {
-      return (
-        <div
-          className="outline"
-          style={{ marginTop: 4 }}
-          id={"chat_" + item.id}
-        >
-          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
-          <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-            {item.whisper ? "*" : ""}
-            {item.message}
-            {item.whisper ? "*" : ""}
-          </span>
-          {imageURL && (
-            <div
-              style={{
-                backgroundImage: `url(${imageURL})`,
-                backgroundSize: "cover",
-                height: 150,
-                width: 200,
-                overflow: "hidden",
-                borderRadius: 5,
-              }}
-            ></div>
-          )}
-        </div>
-      );
-    }
-
-    if (item.whisper && item.whisperTarget === props.name) {
-      return (
-        <div
-          className="outline"
-          style={{ marginTop: 4 }}
-          id={"chat_" + item.id}
-        >
-          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
-          <span style={{ color: item.whisper ? "violet" : "#FFF" }}>
-            {item.whisper ? "*" : ""}
-            {item.message}
-            {item.whisper ? "*" : ""}
-          </span>
-        </div>
-      );
-    }
-
-    return "";
+    return (
+      <div className="outline" style={{ marginTop: 4 }} id={"chat_" + item.id}>
+        <div>{item.user}</div>
+        <span style={{ color: "#FFF" }}>{item.message}</span>
+        {imageURL && (
+          <div
+            style={{
+              backgroundImage: `url(${imageURL})`,
+              backgroundSize: "cover",
+              height: 150,
+              width: 200,
+              overflow: "hidden",
+              borderRadius: 5,
+            }}
+          ></div>
+        )}
+      </div>
+    );
   } else {
     if (imageURL) {
       return (
@@ -376,7 +361,7 @@ export const ChatInstance = (props) => {
           style={{ marginTop: 4 }}
           id={"chat_" + item.id}
         >
-          <div onClick={() => props.setToPM(item.user)}>{item.user}</div>
+          <div>{item.user}</div>
           {imageURL && (
             <div
               style={{
@@ -464,12 +449,6 @@ function App() {
 
   const toggleHR = () => {
     setUseHR(!useHR);
-  };
-
-  const setToPM = (user) => {
-    if (role === "GM") {
-      setText("[" + user + "]");
-    }
   };
 
   const savePrepareDice = () => {
@@ -765,7 +744,11 @@ function App() {
       const chatToSend = chatToCheckChanges[chatToCheckChanges.length - 1];
 
       if (chatToSend) {
-        if (chatToSend.skillName || chatToSend.diceOneResult) {
+        if (
+          chatToSend.skillName ||
+          chatToSend.diceOneResult ||
+          chatToSend.inCharacter
+        ) {
           OBR.popover.close("chat/popover");
           clearTimeout(chatTimeoutId);
 
@@ -797,11 +780,32 @@ function App() {
 
             await OBR.popover.open({
               id: "chat/popover",
-              url: "/dialog",
+              url: "/show",
               height: chatElement.getBoundingClientRect().height + 30,
               disableClickAway: true,
+              hidePaper: true,
               width: 365,
               anchorOrigin: { horizontal: "RIGHT", vertical: "BOTTOM" },
+            });
+          }
+
+          if (chatToSend.inCharacter) {
+            localStorage.setItem(
+              "last.fable.extension/lastmessage",
+              JSON.stringify({
+                ...chatToSend,
+              })
+            );
+
+            await OBR.popover.open({
+              id: "chat/popover",
+              url: "/dialog",
+              height: 190,
+              width: 630,
+              anchorOrigin: { horizontal: "CENTER", vertical: "BOTTOM" },
+              hidePaper: true,
+              marginThreshold: 150,
+              disableClickAway: true,
             });
           }
         }
@@ -863,7 +867,7 @@ function App() {
         if (isOBRReady) {
           const isOpen = await OBR.action.isOpen();
           if (!isOpen) {
-            if (!lastMessage.whisper || role === "GM") {
+            if (role === "GM") {
               if (lastMessage.user !== name) {
                 setUnreadCount(unreadCount + 1);
                 OBR.action.setBadgeText("" + (unreadCount + 1));
@@ -904,12 +908,6 @@ function App() {
   const addMessage = async () => {
     if (text !== "") {
       if (role === "GM") {
-        if (text.charAt(0) === "[") {
-          const target = getSubstring(text, "[", "]");
-          addWhisper(target);
-          return;
-        }
-
         if (text === "/clearchat") {
           clearChat();
           setText("");
@@ -946,16 +944,15 @@ function App() {
     }
   };
 
-  const addWhisper = async (target) => {
-    if (text !== "") {
-      const message = target ? text.replace("[" + target + "]", "") : text;
-
+  const addDialog = async () => {
+    if (text !== "" && player) {
       const newMessage = {
         id: Date.now(),
         user: name,
-        message: message.trim(),
-        whisper: true,
-        whisperTarget: target,
+        characterName: characterName,
+        avatar: player.traits.avatar,
+        message: text.trim(),
+        inCharacter: true,
       };
       const newChat = [...myChat, newMessage];
 
@@ -2174,7 +2171,6 @@ function App() {
                     index={index}
                     name={name}
                     role={role}
-                    setToPM={setToPM}
                     chatLength={chat.length}
                   />
                 ))
@@ -2185,35 +2181,41 @@ function App() {
             id="chatbox"
             style={{
               color: "#FFF",
-              width: 285,
+              width: player ? 285 : 350,
               height: 24,
-              marginRight: 2,
+              marginRight: player ? 2 : 0,
               paddingLeft: 4,
               backgroundColor: "#333",
               fontSize: 12,
               border: "1px solid #222",
               outline: "none",
             }}
+            role="presentation"
+            autocomplete="off"
             value={text}
             onChange={(evt) => {
               setText(evt.target.value);
             }}
             onKeyDown={handleKeyDown}
           ></input>
-          <button
-            style={{
-              width: 48,
-              height: 32,
-              fontSize: 10,
-              padding: 0,
-              color: "#ffd433",
-              backgroundColor: "#222",
-              marginTop: -2,
-            }}
-            onClick={() => addWhisper()}
-          >
-            Whisper GM
-          </button>
+          {player && (
+            <button
+              style={{
+                width: 48,
+                height: 25,
+                fontSize: 10,
+                padding: 0,
+                color: "#ffd433",
+                backgroundColor: "#222",
+                marginTop: -2,
+              }}
+              onClick={async () => {
+                addDialog();
+              }}
+            >
+              In Dialog
+            </button>
+          )}
         </div>
       </div>
     </div>

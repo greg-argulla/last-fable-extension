@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
+import Show from "./Show.jsx";
 import Dialog from "./Dialog.jsx";
 import "./index.css";
 
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/show",
+    element: <Show />,
   },
   {
     path: "/dialog",
