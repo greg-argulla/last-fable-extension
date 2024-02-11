@@ -419,6 +419,7 @@ function App() {
   const [metadata, setMetadata] = useState(null);
   const [player, setPlayer] = useState(null);
   const [ignoreFirstUpdate, setIgnoreFirstUpdate] = useState(false);
+  const [inDialog, setInDialog] = useState(false);
 
   const updateNoteItem = async (id, value, key, max) => {
     if (id === "") return;
@@ -568,7 +569,11 @@ function App() {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      addMessage();
+      if (player && inDialog) {
+        addDialog();
+      } else {
+        addMessage();
+      }
     }
   };
 
@@ -2206,14 +2211,15 @@ function App() {
                 fontSize: 10,
                 padding: 0,
                 color: "#ffd433",
-                backgroundColor: "#222",
+                backgroundColor: inDialog ? "darkred" : "#222",
+                color: inDialog ? "white" : "#ffd433",
                 marginTop: -2,
               }}
               onClick={async () => {
-                addDialog();
+                setInDialog(!inDialog);
               }}
             >
-              In Dialog
+              Dialog
             </button>
           )}
         </div>
