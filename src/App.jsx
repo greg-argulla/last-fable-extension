@@ -754,7 +754,7 @@ function App() {
 
           const newTimeout = setTimeout(async () => {
             OBR.popover.close("chat/popover");
-          }, 10000);
+          }, 7000);
           setChatTimeoutId(newTimeout);
         }
       }
@@ -804,7 +804,7 @@ function App() {
               width: 630,
               anchorOrigin: { horizontal: "CENTER", vertical: "BOTTOM" },
               hidePaper: true,
-              marginThreshold: 150,
+              marginThreshold: 100,
               disableClickAway: true,
             });
           }

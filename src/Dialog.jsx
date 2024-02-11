@@ -58,16 +58,15 @@ function Dialog() {
         ></div>
         <div style={{ flex: 1 }}>
           <div
-            className="outline"
+            className="outline-strong"
             style={{
-              color: "brown",
               fontSize: 18,
             }}
           >
             {chat.characterName}
           </div>
           <div
-            className="outline"
+            className="outline-strong"
             style={{
               color: "white",
               fontSize: 18,
