@@ -2382,7 +2382,6 @@ function App() {
                 height: 25,
                 fontSize: 10,
                 padding: 0,
-                color: "#ffd433",
                 backgroundColor: inDialog ? "darkred" : "#222",
                 color: inDialog ? "white" : "#ffd433",
                 marginTop: -2,
