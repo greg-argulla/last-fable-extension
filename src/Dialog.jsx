@@ -25,7 +25,6 @@ function Dialog() {
   if (lastMessage) {
     const chat = JSON.parse(lastMessage);
 
-    console.log(chat);
     return (
       <div
         style={{

@@ -286,19 +286,23 @@ export const ChatInstance = (props) => {
             }}
           ></div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 12, color: "darkorange" }}>
-              {item.characterName}
-            </div>
-            <div style={{ color: "darkgrey" }}>{item.info}</div>
-            <hr
-              style={{
-                marginTop: 4,
-                marginBottom: 4,
-                borderColor: "grey",
-                backgroundColor: "grey",
-                color: "grey",
-              }}
-            ></hr>
+            {item.characterName && (
+              <>
+                <div style={{ fontSize: 12, color: "darkorange" }}>
+                  {item.characterName}
+                </div>
+                <hr
+                  style={{
+                    marginTop: 4,
+                    marginBottom: 4,
+                    borderColor: "grey",
+                    backgroundColor: "grey",
+                    color: "grey",
+                  }}
+                ></hr>
+              </>
+            )}
+
             <div style={{ fontSize: 11, color: "white" }}>{item.message}</div>
           </div>
         </div>
@@ -422,6 +426,15 @@ function App() {
   const [ignoreFirstUpdate, setIgnoreFirstUpdate] = useState(false);
   const [inDialog, setInDialog] = useState(false);
   const [damageTypeSelected, setSelectedDamageType] = useState("physical");
+  const [message, setMessage] = useState("");
+
+  const showMessage = (messageGet) => {
+    setMessage(messageGet);
+
+    setTimeout(() => {
+      setMessage("");
+    }, 2500);
+  };
 
   const updateNoteItem = async (id, value, key, max) => {
     if (id === "") return;
@@ -454,7 +467,6 @@ function App() {
     if (id === "") return;
     const hpGet = isNaN(hp) ? 0 : hp;
     const mpGet = isNaN(mp) ? 0 : mp;
-    console.log(name);
     await OBR.scene.items.updateItems([id], (images) => {
       for (let image of images) {
         image.text.richText[0] = {
@@ -591,10 +603,18 @@ function App() {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      if (player && inDialog) {
-        addDialog();
+      if (role === "GM") {
+        if (inDialog) {
+          addDialog();
+        } else {
+          addMessage();
+        }
       } else {
-        addMessage();
+        if (inDialog && player) {
+          addDialog();
+        } else {
+          addMessage();
+        }
       }
     }
   };
@@ -753,7 +773,6 @@ function App() {
   useEffect(() => {
     if (characterData) {
       if (characterData.userId === id) {
-        console.log(characterData);
         setPlayer(metadata[characterData.characterID]);
         setCharacterName(characterData.characterName);
         setDex(characterData.dex);
@@ -978,15 +997,35 @@ function App() {
   };
 
   const addDialog = async () => {
-    if (text !== "" && player) {
+    if (text !== "") {
       const newMessage = {
         id: Date.now(),
         user: name,
         characterName: characterName,
-        avatar: player.traits.avatar,
+        avatar: player ? player.traits.avatar : "",
         message: text.trim(),
         inCharacter: true,
       };
+
+      if (role === "GM") {
+        if (text === "/clearchat") {
+          clearChat();
+          setText("");
+          return;
+        }
+
+        const selected = await OBR.player.getSelection();
+        if (selected && selected[0]) {
+          const selected = await OBR.player.getSelection();
+          const itemsGet = await OBR.scene.items.getItems([selected[0]]);
+          newMessage.avatar = itemsGet[0].image.url;
+          newMessage.characterName = itemsGet[0].text.plainText;
+        } else {
+          showMessage("Select an item to use dialog with.");
+          return;
+        }
+      }
+
       const newChat = [...myChat, newMessage];
 
       const metadataGet = await OBR.scene.getMetadata();
@@ -1833,7 +1872,6 @@ function App() {
               );
             }
           }
-          console.log(playerGet.stats);
           updatePlayer(playerGet);
           addSkillMessage({
             skillName:
@@ -1934,7 +1972,6 @@ function App() {
 
               if (playerGet.linkedStats) {
                 if (playerGet.isGMPlayer) {
-                  console.log(playerGet.stats);
                   updateGMNoteItem(
                     playerGet.linkedStats.currentStats,
                     playerGet.stats.currentHP,
@@ -2321,9 +2358,9 @@ function App() {
             id="chatbox"
             style={{
               color: "#FFF",
-              width: player ? 285 : 350,
+              width: player || role === "GM" ? 285 : 350,
               height: 24,
-              marginRight: player ? 2 : 0,
+              marginRight: player || role === "GM" ? 2 : 0,
               paddingLeft: 4,
               backgroundColor: "#333",
               fontSize: 12,
@@ -2331,14 +2368,14 @@ function App() {
               outline: "none",
             }}
             role="presentation"
-            autocomplete="off"
+            autoComplete="off"
             value={text}
             onChange={(evt) => {
               setText(evt.target.value);
             }}
             onKeyDown={handleKeyDown}
           ></input>
-          {player && (
+          {(player || role === "GM") && (
             <button
               style={{
                 width: 48,
@@ -2358,6 +2395,28 @@ function App() {
             </button>
           )}
         </div>
+        {message !== "" && (
+          <div
+            style={{
+              position: "absolute",
+              background: "#222",
+              borderRadius: 4,
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              margin: "auto",
+              width: 200,
+              height: 28,
+              padding: 8,
+              textAlign: "center",
+            }}
+          >
+            <span className="outline" style={{ fontSize: 12 }}>
+              {message}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
