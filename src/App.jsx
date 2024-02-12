@@ -411,6 +411,7 @@ function App() {
   const [rollData, setRollData] = useState(null);
   const [skillData, setSkillData] = useState(null);
   const [characterData, setCharacterData] = useState(null);
+  const [characterDataPrev, setCharacterDataPrev] = useState(null);
   const [chat, setChat] = useState([]);
   const [chatToCheckChanges, setChatToCheckChanges] = useState([]);
   const [myChat, setMyChat] = useState([]);
@@ -420,6 +421,7 @@ function App() {
   const [player, setPlayer] = useState(null);
   const [ignoreFirstUpdate, setIgnoreFirstUpdate] = useState(false);
   const [inDialog, setInDialog] = useState(false);
+  const [damageTypeSelected, setSelectedDamageType] = useState("physical");
 
   const updateNoteItem = async (id, value, key, max) => {
     if (id === "") return;
@@ -444,6 +446,29 @@ function App() {
         } else {
           image.text.richText[0].children[0].text = valueGet.toString();
         }
+      }
+    });
+  };
+
+  const updateGMNoteItem = async (id, hp, mp, name) => {
+    if (id === "") return;
+    const hpGet = isNaN(hp) ? 0 : hp;
+    const mpGet = isNaN(mp) ? 0 : mp;
+    console.log(name);
+    await OBR.scene.items.updateItems([id], (images) => {
+      for (let image of images) {
+        image.text.richText[0] = {
+          type: "paragraph",
+          children: [{ text: name }],
+        };
+        image.text.richText[1] = {
+          type: "paragraph",
+          children: [{ text: "           " + hpGet.toString() }],
+        };
+        image.text.richText[2] = {
+          type: "paragraph",
+          children: [{ text: "           " + mpGet.toString() }],
+        };
       }
     });
   };
@@ -562,9 +587,6 @@ function App() {
     setInfo("");
     setSkillName("");
     setDetail("");
-    if (player && player.isGMPlayer) {
-      setCharacterName("");
-    }
   };
 
   const handleKeyDown = (event) => {
@@ -731,15 +753,27 @@ function App() {
   useEffect(() => {
     if (characterData) {
       if (characterData.userId === id) {
+        console.log(characterData);
         setPlayer(metadata[characterData.characterID]);
         setCharacterName(characterData.characterName);
         setDex(characterData.dex);
         setIns(characterData.ins);
         setMig(characterData.mig);
         setWil(characterData.wil);
+
+        setCharacterDataPrev(characterData);
       }
     }
   }, [characterData]);
+
+  const reOpenCharacter = () => {
+    setPlayer(metadata[characterDataPrev.characterID]);
+    setCharacterName(characterDataPrev.characterName);
+    setDex(characterDataPrev.dex);
+    setIns(characterDataPrev.ins);
+    setMig(characterDataPrev.mig);
+    setWil(characterDataPrev.wil);
+  };
 
   const [chatTimeoutId, setChatTimeoutId] = useState(0);
 
@@ -887,12 +921,6 @@ function App() {
       updateMessages();
     }
   }, [chat]);
-
-  function getSubstring(str, start, end) {
-    const char1 = str.indexOf(start) + 1;
-    const char2 = str.lastIndexOf(end);
-    return str.substring(char1, char2);
-  }
 
   const clearChat = async () => {
     const metadataGet = await OBR.scene.getMetadata();
@@ -1235,6 +1263,21 @@ function App() {
     } else if (diceLabelTwo === "") {
       setDiceLabelTwo(label.toUpperCase());
     }
+  };
+
+  const sendAffinity = (targetName, type, affinity) => {
+    const skillData = {
+      skillName: targetName,
+      detail: affinityDictionary[affinity] + `\`${type}\``,
+      characterName: player.traits.name,
+      userId: id,
+      username: name,
+      characterID: player.id,
+      id: Date.now(),
+    };
+    OBR.room.setMetadata({
+      "ultimate.story.extension/sendskill": skillData,
+    });
   };
 
   const Result = () => {
@@ -1628,7 +1671,19 @@ function App() {
               value={damage}
               onChange={changeDamage}
             />
-            <span className="checkbox-container"></span>
+            {characterDataPrev && (
+              <button
+                className="button-dice"
+                style={{
+                  width: 80,
+                  marginLeft: 6,
+                  color: "orange",
+                }}
+                onClick={() => reOpenCharacter()}
+              >
+                Open Character
+              </button>
+            )}
           </div>
         </div>
 
@@ -1753,28 +1808,32 @@ function App() {
           const playerGet = { ...player };
           playerGet.debuff[condition] = !player.debuff[condition];
           playerGet.attributes["current" + stat] = getCurrentAttribute(stat);
-          if (!playerGet.stats.martialDef) {
-            playerGet.stats.defense =
-              parseInt(playerGet.stats.defenseMod) +
-              getDiceStat(playerGet.attributes.currentdex);
+
+          if (!playerGet.isGMPlayer) {
+            if (!playerGet.stats.martialDef) {
+              playerGet.stats.defense =
+                parseInt(playerGet.stats.defenseMod) +
+                getDiceStat(playerGet.attributes.currentdex);
+              if (playerGet.linkedStats) {
+                updateNoteItem(
+                  playerGet.linkedStats.defense,
+                  playerGet.stats.defense,
+                  "defense"
+                );
+              }
+            }
+            playerGet.stats.mDefense =
+              parseInt(playerGet.stats.mDefenseMod) +
+              getDiceStat(playerGet.attributes.currentins);
             if (playerGet.linkedStats) {
               updateNoteItem(
-                playerGet.linkedStats.defense,
-                playerGet.stats.defense,
-                "defense"
+                playerGet.linkedStats.mDefense,
+                playerGet.stats.mDefense,
+                "mDefense"
               );
             }
           }
-          playerGet.stats.mDefense =
-            parseInt(playerGet.stats.mDefenseMod) +
-            getDiceStat(playerGet.attributes.currentins);
-          if (playerGet.linkedStats) {
-            updateNoteItem(
-              playerGet.linkedStats.mDefense,
-              playerGet.stats.mDefense,
-              "mDefense"
-            );
-          }
+          console.log(playerGet.stats);
           updatePlayer(playerGet);
           addSkillMessage({
             skillName:
@@ -1795,6 +1854,26 @@ function App() {
         {condition}
       </button>
     );
+  };
+
+  const damageTypes = [
+    "physical",
+    "wind",
+    "bolt",
+    "dark",
+    "earth",
+    "fire",
+    "ice",
+    "light",
+    "poison",
+  ];
+
+  const affinityDictionary = {
+    vu: "*Vulnerable* to ",
+    na: "`Neutral` to ",
+    rs: "*Resistant* to ",
+    im: "*Immune* to ",
+    ab: "*Absorbs* ",
   };
 
   const renderCharacter = () => {
@@ -1847,19 +1926,29 @@ function App() {
               const maxHP = player.stats.maxHP;
               let value = parseInt(evt.target.value, 0);
 
-              if (!isNaN(value)) {
+              if (!isNaN(value) && !playerGet.isGMPlayer) {
                 playerGet.stats.currentHP = maxHP > value ? value : maxHP;
               } else {
                 playerGet.stats.currentHP = value;
               }
 
               if (playerGet.linkedStats) {
-                updateNoteItem(
-                  playerGet.linkedStats.currentHP,
-                  playerGet.stats.currentHP,
-                  "currentHP",
-                  maxHP
-                );
+                if (playerGet.isGMPlayer) {
+                  console.log(playerGet.stats);
+                  updateGMNoteItem(
+                    playerGet.linkedStats.currentStats,
+                    playerGet.stats.currentHP,
+                    playerGet.stats.currentMP,
+                    playerGet.traits.name
+                  );
+                } else {
+                  updateNoteItem(
+                    playerGet.linkedStats.currentHP,
+                    playerGet.stats.currentHP,
+                    "currentHP",
+                    maxHP
+                  );
+                }
               }
 
               updatePlayer(playerGet);
@@ -1886,19 +1975,28 @@ function App() {
               const maxMP = player.stats.maxMP;
               let value = parseInt(evt.target.value, 0);
 
-              if (!isNaN(value)) {
+              if (!isNaN(value) && !playerGet.isGMPlayer) {
                 playerGet.stats.currentMP = maxMP > value ? value : maxMP;
               } else {
                 playerGet.stats.currentMP = value;
               }
 
               if (playerGet.linkedStats) {
-                updateNoteItem(
-                  playerGet.linkedStats.currentMP,
-                  playerGet.stats.currentMP,
-                  "currentMP",
-                  maxMP
-                );
+                if (playerGet.isGMPlayer) {
+                  updateGMNoteItem(
+                    playerGet.linkedStats.currentStats,
+                    playerGet.stats.currentHP,
+                    playerGet.stats.currentMP,
+                    playerGet.traits.name
+                  );
+                } else {
+                  updateNoteItem(
+                    playerGet.linkedStats.currentMP,
+                    playerGet.stats.currentMP,
+                    "currentMP",
+                    maxMP
+                  );
+                }
               }
 
               updatePlayer(playerGet);
@@ -1912,72 +2010,106 @@ function App() {
               }
             }}
           />
-          <Text>IP: </Text>
-          <input
-            className="input-stat"
-            type="number"
-            style={{
-              width: 20,
-              color: "Orange",
-            }}
-            onChange={(evt) => {
-              const playerGet = { ...player };
-              const maxIP = player.stats.maxIP;
+          {!player.isGMPlayer ? (
+            <>
+              <Text>IP: </Text>
+              <input
+                className="input-stat"
+                type="number"
+                style={{
+                  width: 20,
+                  color: "Orange",
+                }}
+                onChange={(evt) => {
+                  const playerGet = { ...player };
+                  const maxIP = player.stats.maxIP;
 
-              let value = parseInt(evt.target.value, 0);
-              if (!isNaN(value)) {
-                playerGet.stats.currentIP = maxIP > value ? value : maxIP;
-              } else {
-                playerGet.stats.currentIP = value;
-              }
-              if (playerGet.linkedStats) {
-                updateNoteItem(
-                  playerGet.linkedStats.currentIP,
-                  playerGet.stats.currentIP,
-                  "currentIP"
-                );
-              }
+                  let value = parseInt(evt.target.value, 0);
+                  if (!isNaN(value)) {
+                    playerGet.stats.currentIP = maxIP > value ? value : maxIP;
+                  } else {
+                    playerGet.stats.currentIP = value;
+                  }
+                  if (playerGet.linkedStats) {
+                    updateNoteItem(
+                      playerGet.linkedStats.currentIP,
+                      playerGet.stats.currentIP,
+                      "currentIP"
+                    );
+                  }
 
-              updatePlayer(playerGet);
-            }}
-            value={player.stats.currentIP}
-            onBlur={() => {
-              const playerGet = { ...player };
-              if (isNaN(playerGet.stats.currentIP)) {
-                playerGet.stats.currentIP = 0;
-                updatePlayer(playerGet);
-              }
-            }}
-          />
-          <Text>FP: </Text>
-          <input
-            className="input-stat"
-            type="number"
-            style={{
-              width: 20,
-              color: "white",
-            }}
-            onChange={(evt) => {
-              const playerGet = { ...player };
-              playerGet.stats.fabula = parseInt(evt.target.value);
-              if (playerGet.linkedStats) {
-                updateNoteItem(
-                  playerGet.linkedStats.fabula,
-                  playerGet.stats.fabula,
-                  "fabula"
-                );
-              }
-              updatePlayer(playerGet);
-            }}
-            value={player.stats.fabula}
-            onBlur={() => {
-              const playerGet = { ...player };
-              if (isNaN(playerGet.stats.fabula)) {
-                playerGet.stats.fabula = 0;
-                updatePlayer(playerGet);
-              }
-            }}
-          />
+                  updatePlayer(playerGet);
+                }}
+                value={player.stats.currentIP}
+                onBlur={() => {
+                  const playerGet = { ...player };
+                  if (isNaN(playerGet.stats.currentIP)) {
+                    playerGet.stats.currentIP = 0;
+                    updatePlayer(playerGet);
+                  }
+                }}
+              />
+              <Text>FP: </Text>
+              <input
+                className="input-stat"
+                type="number"
+                style={{
+                  width: 20,
+                  color: "white",
+                }}
+                onChange={(evt) => {
+                  const playerGet = { ...player };
+                  playerGet.stats.fabula = parseInt(evt.target.value);
+                  if (playerGet.linkedStats) {
+                    updateNoteItem(
+                      playerGet.linkedStats.fabula,
+                      playerGet.stats.fabula,
+                      "fabula"
+                    );
+                  }
+                  updatePlayer(playerGet);
+                }}
+                value={player.stats.fabula}
+                onBlur={() => {
+                  const playerGet = { ...player };
+                  if (isNaN(playerGet.stats.fabula)) {
+                    playerGet.stats.fabula = 0;
+                    updatePlayer(playerGet);
+                  }
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <Text>Affinity: </Text>
+              <select
+                className="attribute-stat"
+                style={{ color: "orange", marginLeft: 4, width: 45 }}
+                value={damageTypeSelected}
+                onChange={(evt) => {
+                  sendAffinity(
+                    player.traits.name,
+                    evt.target.value,
+                    player.affinities[evt.target.value]
+                      ? player.affinities[evt.target.value]
+                      : "na"
+                  );
+                  setSelectedDamageType(evt.target.value);
+                }}
+              >
+                {damageTypes.map((item) => (
+                  <option value={item}>
+                    {item}
+                    {player.affinities &&
+                    player.affinities[item] &&
+                    player.affinities[item] != "N/A"
+                      ? "*"
+                      : ""}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
         </div>
         <div>
           {conditionButton("dex", "slow")}
@@ -2000,28 +2132,31 @@ function App() {
               playerGet.debuff.enraged = !player.debuff.enraged;
               playerGet.attributes["currentdex"] = getCurrentAttribute("dex");
               playerGet.attributes["currentins"] = getCurrentAttribute("ins");
-              if (!playerGet.stats.martialDef) {
-                playerGet.stats.defense =
-                  parseInt(playerGet.stats.defenseMod) +
-                  getDiceStat(playerGet.attributes.currentdex);
+
+              if (!playerGet.isGMPlayer) {
+                if (!playerGet.stats.martialDef) {
+                  playerGet.stats.defense =
+                    parseInt(playerGet.stats.defenseMod) +
+                    getDiceStat(playerGet.attributes.currentdex);
+                  if (playerGet.linkedStats) {
+                    updateNoteItem(
+                      playerGet.linkedStats.defense,
+                      playerGet.stats.defense,
+                      "defense"
+                    );
+                  }
+                }
+
+                playerGet.stats.mDefense =
+                  parseInt(playerGet.stats.mDefenseMod) +
+                  getDiceStat(playerGet.attributes.currentins);
                 if (playerGet.linkedStats) {
                   updateNoteItem(
-                    playerGet.linkedStats.defense,
-                    playerGet.stats.defense,
-                    "defense"
+                    playerGet.linkedStats.mDefense,
+                    playerGet.stats.mDefense,
+                    "mDefense"
                   );
                 }
-              }
-
-              playerGet.stats.mDefense =
-                parseInt(playerGet.stats.mDefenseMod) +
-                getDiceStat(playerGet.attributes.currentins);
-              if (playerGet.linkedStats) {
-                updateNoteItem(
-                  playerGet.linkedStats.mDefense,
-                  playerGet.stats.mDefense,
-                  "mDefense"
-                );
               }
               updatePlayer(playerGet);
               addSkillMessage({
@@ -2145,7 +2280,7 @@ function App() {
         overflow: "hidden",
       }}
     >
-      {player && !player.isGMPlayer ? renderCharacter() : renderRoller()}
+      {player ? renderCharacter() : renderRoller()}
       {diceOneResult !== 0 ? <Result /> : <RollInput />}
       <div
         style={{
