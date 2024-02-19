@@ -967,7 +967,11 @@ function App() {
         }
       }
 
-      const newMessage = { id: Date.now(), user: name, message: text.trim() };
+      const newMessage = {
+        id: new Date().getTime(),
+        user: name,
+        message: text.trim(),
+      };
       const newChat = [...myChat, newMessage];
 
       const metadataGet = await OBR.scene.getMetadata();
@@ -999,7 +1003,7 @@ function App() {
   const addDialog = async () => {
     if (text !== "") {
       const newMessage = {
-        id: Date.now(),
+        id: new Date().getTime(),
         user: name,
         characterName: characterName,
         avatar: player ? player.traits.avatar : "",
@@ -1056,7 +1060,7 @@ function App() {
 
   const addSkillMessage = async (skill) => {
     const newMessage = {
-      id: Date.now(),
+      id: new Date().getTime(),
       user: name,
       skillName: skill.skillName,
       characterName: skill.characterName,
@@ -1143,7 +1147,7 @@ function App() {
 
   const addRoll = async () => {
     const newMessage = {
-      id: Date.now(),
+      id: new Date().getTime(),
       user: name,
       diceOneResult,
       diceTwoResult,
@@ -1312,7 +1316,7 @@ function App() {
       userId: id,
       username: name,
       characterID: player.id,
-      id: Date.now(),
+      id: new Date().getTime(),
     };
     OBR.room.setMetadata({
       "ultimate.story.extension/sendskill": skillData,
