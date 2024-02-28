@@ -2502,8 +2502,6 @@ function App() {
     );
   };
 
-  console.log(chat);
-
   return (
     <div
       style={{
