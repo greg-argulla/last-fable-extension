@@ -381,9 +381,7 @@ export const ChatInstance = (props) => {
           id={"chat_" + item.id}
         >
           <div>{item.user}</div>
-          <span style={{ color: "#D2691E" }}>
-            {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
-          </span>
+          <span style={{ color: "#FFF" }}>{item.message}</span>
           {imageURL && (
             <div
               style={{
