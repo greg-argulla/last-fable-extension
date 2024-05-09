@@ -234,13 +234,28 @@ const getImage = (str) => {
   return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
 };
 
+const getSFX = (str) => {
+  return str.substring(str.indexOf("$") + 1, str.lastIndexOf("$"));
+};
+
 export const ChatInstance = (props) => {
   let propsString = JSON.stringify(props);
   const imageURL = getImage(propsString);
+  const sfxURL = getSFX(propsString);
 
   if (imageURL) {
     propsString = propsString.replace("<" + imageURL + ">", "");
   }
+
+  if (sfxURL) {
+    propsString = propsString.replace("$" + sfxURL + "$", "");
+  }
+
+  useEffect(() => {
+    const audio = new Audio(sfxURL);
+    audio.volume = 0.2;
+    audio.play();
+  }, []);
 
   const { item, index } = JSON.parse(propsString);
 
