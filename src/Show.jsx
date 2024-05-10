@@ -44,6 +44,7 @@ function Show() {
           index={30}
           chatLength={10}
           setToPm={() => {}}
+          noSFX={true}
         />
       </div>
     );

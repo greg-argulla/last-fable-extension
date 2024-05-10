@@ -247,8 +247,8 @@ export const ChatInstance = (props) => {
     propsString = propsString.replace("<" + imageURL + ">", "");
   }
 
-  if (sfxURL) {
-    propsString = propsString.replace("$" + sfxURL + "$", "");
+  if (sfxURL && !props.noSFX) {
+    propsString = propsString.replace("$" + sfxURL + "$", " ♫ ");
   }
 
   useEffect(() => {
