@@ -312,6 +312,36 @@ export const ChatInstance = (props) => {
     );
   }
 
+  if (item.message) {
+    if (item.message.charAt(0) === "=") {
+      const mathToEvaluate = item.message.substring(1, item.message.length);
+      return (
+        <div
+          className="outline"
+          style={{ marginTop: 4 }}
+          id={"chat_" + item.id}
+        >
+          <div>{item.user}</div>
+          <span style={{ color: "#D2691E" }}>
+            {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
+          </span>
+          {imageURL && (
+            <div
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: "cover",
+                height: 150,
+                width: 200,
+                overflow: "hidden",
+                borderRadius: 5,
+              }}
+            ></div>
+          )}
+        </div>
+      );
+    }
+  }
+
   if (item.inCharacter) {
     return (
       <div style={{ marginTop: 4 }} id={"chat_" + item.id}>
@@ -362,34 +392,6 @@ export const ChatInstance = (props) => {
   }
 
   if (item.message) {
-    if (item.message.charAt(0) === "=") {
-      const mathToEvaluate = item.message.substring(1, item.message.length);
-      return (
-        <div
-          className="outline"
-          style={{ marginTop: 4 }}
-          id={"chat_" + item.id}
-        >
-          <div>{item.user}</div>
-          <span style={{ color: "#D2691E" }}>
-            {mathToEvaluate + " = " + evaluateMath(mathToEvaluate)}
-          </span>
-          {imageURL && (
-            <div
-              style={{
-                backgroundImage: `url(${imageURL})`,
-                backgroundSize: "cover",
-                height: 150,
-                width: 200,
-                overflow: "hidden",
-                borderRadius: 5,
-              }}
-            ></div>
-          )}
-        </div>
-      );
-    }
-
     if (item.user === props.name) {
       return (
         <div
