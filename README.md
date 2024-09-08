@@ -9,6 +9,8 @@ tags:
 manifest: https://fabula-ultima-extension.onrender.com/manifest.json
 ---
 
+![image](https://media.discordapp.net/attachments/1209736150814695434/1282239155782422568/image.png?ex=66dea1c5&is=66dd5045&hm=19db45852750c4bc33380a16ea127dee2ed7cc3b8d72315d6a7a1cbeb55b3be1&=&format=webp&quality=lossless&width=501&height=701)
+
 # Last Fable Extension
 
 - Be able to see your recent rolls for convenience
