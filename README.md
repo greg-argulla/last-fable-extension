@@ -34,6 +34,8 @@ manifest: https://fabula-ultima-extension.onrender.com/manifest.json
 
 - If you want to gain the full feature of prepared actions and sending skills to chat, use this extension along with the Ultimate fable extension (character sheet extension for fabula ultima)
 
+![image](https://media.discordapp.net/attachments/1209736150814695434/1282240010791293000/image.png?ex=66dea291&is=66dd5111&hm=374e4ee463957726cf40201ee79ac8ecef53ec04686a3b4c162c70770a42fcfc&=&format=webp&quality=lossless&width=1735&height=630)
+
 **Support**
 
 If you need support for this extension you can reach me in discord Alyx (username: alyx323) Special thanks to kirachi and xio for testing!
