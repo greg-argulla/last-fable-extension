@@ -6,6 +6,8 @@ import refresh from "./assets/refresh.png";
 import "./App.css";
 import animations from "./animations.json";
 
+let animationIndex = -1;
+
 const debuffList = [
   {
     name: "slow",
@@ -231,6 +233,73 @@ const parseDetail = (str, id) => {
   });
 };
 
+const playAnimation = async (index) => {
+  const videoURL = animations[index];
+
+  if (animationIndex !== -1) {
+    return;
+  }
+
+  animationIndex = setTimeout(() => {
+    OBR.scene.items.deleteItems(["last-fable-animated-fx"]);
+    animationIndex = -1;
+  }, 3000);
+
+  await OBR.scene.items.addItems([
+    {
+      type: "IMAGE",
+      id: "last-fable-animated-fx",
+      name: "animated-fx",
+      position: {
+        x: 2027.7606267080855,
+        y: 1277.0036409115596,
+      },
+      rotation: 0,
+      scale: {
+        x: 2.5825770823757987,
+        y: 2.5825770823757987,
+      },
+      visible: true,
+      locked: true,
+      createdUserId: "691aa845-022d-4c0f-948f-4bfc5a4037f3",
+      zIndex: 0,
+      lastModified: "2025-08-01T16:24:31.584Z",
+      lastModifiedUserId: "691aa845-022d-4c0f-948f-4bfc5a4037f3",
+      metadata: {},
+      image: {
+        width: 854,
+        height: 480,
+        mime: "video/webm",
+        url: videoURL,
+      },
+      grid: { dpi: 150, offset: { x: 427, y: 240 } },
+      text: {
+        richText: [{ type: "paragraph", children: [{ text: "" }] }],
+        plainText: "",
+        style: {
+          padding: 8,
+          fontFamily: "Roboto",
+          fontSize: 24,
+          fontWeight: 400,
+          textAlign: "CENTER",
+          textAlignVertical: "BOTTOM",
+          fillColor: "#ffffff",
+          fillOpacity: 1,
+          strokeColor: "#ffffff",
+          strokeOpacity: 1,
+          strokeWidth: 0,
+          lineHeight: 1.5,
+        },
+        type: "PLAIN",
+        width: "AUTO",
+        height: "AUTO",
+      },
+      textItemType: "LABEL",
+      layer: "PROP",
+    },
+  ]);
+};
+
 const getImage = (str) => {
   return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
 };
@@ -239,11 +308,15 @@ const getSFX = (str) => {
   return str.substring(str.indexOf("$") + 1, str.lastIndexOf("$"));
 };
 
+const getAnimation = (str) => {
+  return str.substring(str.indexOf("@") + 1, str.lastIndexOf("@"));
+};
+
 export const ChatInstance = (props) => {
   let propsString = JSON.stringify(props);
   const imageURL = getImage(propsString);
   const sfxURL = getSFX(propsString);
-
+  const animation = getAnimation(propsString);
   if (imageURL) {
     propsString = propsString.replace("<" + imageURL + ">", "");
   }
@@ -252,15 +325,22 @@ export const ChatInstance = (props) => {
     propsString = propsString.replace("$" + sfxURL + "$", " ♫ ");
   }
 
+  if (animation) {
+    propsString = propsString.replace("@" + animation + "@", "");
+  }
+
+  const { item, index } = JSON.parse(propsString);
+
   useEffect(() => {
     if (sfxURL && !props.noSFX) {
       const audio = new Audio(sfxURL);
       audio.volume = 0.2;
       audio.play();
     }
+    if (animation && item.user === props.name) {
+      playAnimation(parseInt(animation));
+    }
   }, []);
-
-  const { item, index } = JSON.parse(propsString);
 
   const detail = item.detail ? item.detail.trim() : "";
 
@@ -506,7 +586,6 @@ function App() {
   const [inDialog, setInDialog] = useState(false);
   const [damageTypeSelected, setSelectedDamageType] = useState("physical");
   const [message, setMessage] = useState("");
-  const [animationIndex, setAnimationIndex] = useState(0);
   const [openAnimations, setOpenAnimations] = useState(false);
 
   const showMessage = (messageGet) => {
@@ -897,6 +976,7 @@ function App() {
           setChatTimeoutId(newTimeout);
         }
       }
+      setOpenAnimations(false);
       setTimeout(async () => {
         var objDiv = document.getElementById("chatbox");
         if (objDiv) {
@@ -2638,7 +2718,10 @@ function App() {
           >
             {animations.map((item, index) => {
               return (
-                <div style={{ position: "relative" }}>
+                <div
+                  style={{ position: "relative" }}
+                  key={index + "_animation"}
+                >
                   <div
                     style={{
                       position: "absolute",
@@ -2662,70 +2745,8 @@ function App() {
                       zIndex: 1000,
                     }}
                     className="button"
-                    onClick={async () => {
-                      const videoURL = item;
-                      clearTimeout(animationIndex);
-                      OBR.scene.items.deleteItems(["last-fable-animated-fx"]);
-                      await OBR.scene.items.addItems([
-                        {
-                          type: "IMAGE",
-                          id: "last-fable-animated-fx",
-                          name: "animated-fx",
-                          position: {
-                            x: 2027.7606267080855,
-                            y: 1277.0036409115596,
-                          },
-                          rotation: 0,
-                          scale: {
-                            x: 2.5825770823757987,
-                            y: 2.5825770823757987,
-                          },
-                          visible: true,
-                          locked: true,
-                          createdUserId: "691aa845-022d-4c0f-948f-4bfc5a4037f3",
-                          zIndex: 0,
-                          lastModified: "2025-08-01T16:24:31.584Z",
-                          lastModifiedUserId:
-                            "691aa845-022d-4c0f-948f-4bfc5a4037f3",
-                          metadata: {},
-                          image: {
-                            width: 854,
-                            height: 480,
-                            mime: "video/webm",
-                            url: videoURL,
-                          },
-                          grid: { dpi: 150, offset: { x: 427, y: 240 } },
-                          text: {
-                            richText: [
-                              { type: "paragraph", children: [{ text: "" }] },
-                            ],
-                            plainText: "",
-                            style: {
-                              padding: 8,
-                              fontFamily: "Roboto",
-                              fontSize: 24,
-                              fontWeight: 400,
-                              textAlign: "CENTER",
-                              textAlignVertical: "BOTTOM",
-                              fillColor: "#ffffff",
-                              fillOpacity: 1,
-                              strokeColor: "#ffffff",
-                              strokeOpacity: 1,
-                              strokeWidth: 0,
-                              lineHeight: 1.5,
-                            },
-                            type: "PLAIN",
-                            width: "AUTO",
-                            height: "AUTO",
-                          },
-                          textItemType: "LABEL",
-                          layer: "PROP",
-                        },
-                      ]);
-                      const timeout = setTimeout(() => {
-                        OBR.scene.items.deleteItems(["last-fable-animated-fx"]);
-                      }, 3000);
-                      setAnimationIndex(timeout);
+                    onClick={() => {
+                      playAnimation(index);
                     }}
                   >
                     Play
