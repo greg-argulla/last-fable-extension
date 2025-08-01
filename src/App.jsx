@@ -4,6 +4,7 @@ import OBR from "@owlbear-rodeo/sdk";
 import landingBG from "./assets/bg.jpg";
 import refresh from "./assets/refresh.png";
 import "./App.css";
+import animations from "./animations.json";
 
 const debuffList = [
   {
@@ -505,6 +506,8 @@ function App() {
   const [inDialog, setInDialog] = useState(false);
   const [damageTypeSelected, setSelectedDamageType] = useState("physical");
   const [message, setMessage] = useState("");
+  const [animationIndex, setAnimationIndex] = useState(0);
+  const [openAnimations, setOpenAnimations] = useState(false);
 
   const showMessage = (messageGet) => {
     setMessage(messageGet);
@@ -2546,6 +2549,207 @@ function App() {
     );
   };
 
+  if (openAnimations) {
+    return (
+      <div
+        style={{
+          backgroundImage: `url(${landingBG})`,
+          backgroundSize: "contain",
+          height: 540,
+          width: 400,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            marginLeft: 25,
+            marginRight: 30,
+            marginTop: 20,
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 10,
+              paddingTop: 5,
+            }}
+          >
+            {/* <button
+            style={{
+              width: 48,
+              height: 25,
+              fontSize: 10,
+              padding: 0,
+            }}
+            onClick={async () => {
+              const selected = await OBR.player.getSelection();
+              if (selected && selected[0]) {
+                const selected = await OBR.player.getSelection();
+                const itemsGet = await OBR.scene.items.getItems(selected);
+
+                let videoURLs = [];
+                itemsGet.forEach((item) => {
+                  videoURLs.push(item.image.url);
+                });
+                console.log(JSON.stringify(videoURLs));
+              } else {
+                showMessage("Select an item console log with.");
+                return;
+              }
+            }}
+          >
+            copy
+          </button> */}
+            <div className="outline" style={{ fontSize: 14 }}>
+              Effect Animations
+            </div>
+            <button
+              style={{
+                width: 48,
+                height: 25,
+                fontSize: 10,
+                padding: 0,
+              }}
+              className="button"
+              onClick={() => {
+                setOpenAnimations(false);
+              }}
+            >
+              back
+            </button>
+          </div>
+          <div
+            id="chatbox"
+            className="scrollable-container"
+            style={{
+              backgroundColor: "#333",
+              padding: 10,
+              overflow: "scroll",
+              height: 480,
+              border: "1px solid #222",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 4,
+              justifyContent: "center",
+            }}
+          >
+            {animations.map((item, index) => {
+              return (
+                <div style={{ position: "relative" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 2,
+                      left: 10,
+                      zIndex: 1000,
+                    }}
+                    className="outline"
+                  >
+                    {index}
+                  </div>
+                  <button
+                    style={{
+                      position: "absolute",
+                      top: 2,
+                      right: 10,
+                      width: 40,
+                      height: 20,
+                      fontSize: 10,
+                      padding: 0,
+                      zIndex: 1000,
+                    }}
+                    className="button"
+                    onClick={async () => {
+                      const videoURL = item;
+                      clearTimeout(animationIndex);
+                      OBR.scene.items.deleteItems(["last-fable-animated-fx"]);
+                      await OBR.scene.items.addItems([
+                        {
+                          type: "IMAGE",
+                          id: "last-fable-animated-fx",
+                          name: "animated-fx",
+                          position: {
+                            x: 2027.7606267080855,
+                            y: 1277.0036409115596,
+                          },
+                          rotation: 0,
+                          scale: {
+                            x: 2.5825770823757987,
+                            y: 2.5825770823757987,
+                          },
+                          visible: true,
+                          locked: true,
+                          createdUserId: "691aa845-022d-4c0f-948f-4bfc5a4037f3",
+                          zIndex: 0,
+                          lastModified: "2025-08-01T16:24:31.584Z",
+                          lastModifiedUserId:
+                            "691aa845-022d-4c0f-948f-4bfc5a4037f3",
+                          metadata: {},
+                          image: {
+                            width: 854,
+                            height: 480,
+                            mime: "video/webm",
+                            url: videoURL,
+                          },
+                          grid: { dpi: 150, offset: { x: 427, y: 240 } },
+                          text: {
+                            richText: [
+                              { type: "paragraph", children: [{ text: "" }] },
+                            ],
+                            plainText: "",
+                            style: {
+                              padding: 8,
+                              fontFamily: "Roboto",
+                              fontSize: 24,
+                              fontWeight: 400,
+                              textAlign: "CENTER",
+                              textAlignVertical: "BOTTOM",
+                              fillColor: "#ffffff",
+                              fillOpacity: 1,
+                              strokeColor: "#ffffff",
+                              strokeOpacity: 1,
+                              strokeWidth: 0,
+                              lineHeight: 1.5,
+                            },
+                            type: "PLAIN",
+                            width: "AUTO",
+                            height: "AUTO",
+                          },
+                          textItemType: "LABEL",
+                          layer: "PROP",
+                        },
+                      ]);
+                      const timeout = setTimeout(() => {
+                        OBR.scene.items.deleteItems(["last-fable-animated-fx"]);
+                      }, 3000);
+                      setAnimationIndex(timeout);
+                    }}
+                  >
+                    Play
+                  </button>
+                  <video
+                    style={{
+                      width: 158,
+                      height: 80,
+                      fontSize: 10,
+                      padding: 0,
+                    }}
+                    controls
+                  >
+                    <source src={item} />
+                  </video>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -2614,6 +2818,23 @@ function App() {
             }}
             onKeyDown={handleKeyDown}
           ></input>
+          <button
+            style={{
+              width: 30,
+              height: 25,
+              fontSize: 10,
+              padding: 0,
+              backgroundColor: "#222",
+              color: "#ffd433",
+              marginTop: -2,
+              marginRight: 2,
+            }}
+            onClick={async () => {
+              setOpenAnimations(true);
+            }}
+          >
+            FX
+          </button>
           {(player || role === "GM") && (
             <button
               style={{
