@@ -2744,17 +2744,20 @@ function App() {
                     key={index + "_sound"}
                     style={{
                       display: "flex",
-                      flexDirection: "column",
+                      flexDirection: "row",
                       alignItems: "center",
-                      width: 100,
+                      width: 400,
                     }}
                   >
-                    <div className="outline" style={{ fontSize: 10 }}>
+                    <div
+                      className="outline"
+                      style={{ fontSize: 10, marginRight: "auto" }}
+                    >
                       {item.name}
                     </div>
                     <button
                       style={{
-                        width: 40,
+                        width: 50,
                         height: 20,
                         fontSize: 9,
                       }}
@@ -2769,7 +2772,7 @@ function App() {
                     </button>
                     <button
                       style={{
-                        width: 40,
+                        width: 50,
                         height: 20,
                         fontSize: 9,
                       }}
@@ -2783,7 +2786,7 @@ function App() {
                     </button>
                     <button
                       style={{
-                        width: 40,
+                        width: 50,
                         height: 20,
                         fontSize: 9,
                       }}
@@ -2791,7 +2794,7 @@ function App() {
                       onClick={() => {
                         setOpenAnimations(false);
                         addSkillMessage({
-                          characterName: player.traits.name,
+                          characterName: player?.traits?.name ?? name,
                           skillName: item.name,
                           detail: "$" + index + "$",
                         });
@@ -2829,7 +2832,7 @@ function App() {
                         height: 20,
                         fontSize: 10,
                         padding: 0,
-                        zIndex: 1000,
+                        zIndex: 20,
                       }}
                       className="button"
                       onClick={() => {
@@ -2838,6 +2841,27 @@ function App() {
                     >
                       Play
                     </button>
+
+                    <button
+                      style={{
+                        position: "absolute",
+                        top: 24,
+                        right: 10,
+                        width: 40,
+                        height: 20,
+                        fontSize: 10,
+                        padding: 0,
+                        zIndex: 20,
+                      }}
+                      className="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText("@" + index + "@");
+                        showMessage("Copied to clipboard");
+                      }}
+                    >
+                      Copy
+                    </button>
+
                     <video
                       style={{
                         width: 158,
@@ -2869,6 +2893,7 @@ function App() {
               height: 28,
               padding: 8,
               textAlign: "center",
+              zIndex: 1000,
             }}
           >
             <span className="outline" style={{ fontSize: 12 }}>
