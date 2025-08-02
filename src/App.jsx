@@ -332,13 +332,15 @@ export const ChatInstance = (props) => {
   const { item, index } = JSON.parse(propsString);
 
   useEffect(() => {
-    if (sfxURL && !props.noSFX) {
-      const audio = new Audio(sfxURL);
-      audio.volume = 0.2;
-      audio.play();
-    }
-    if (animation && item.user === props.name) {
-      playAnimation(parseInt(animation));
+    if (Date.now() - 3000 < item.id) {
+      if (sfxURL && !props.noSFX) {
+        const audio = new Audio(sfxURL);
+        audio.volume = 0.2;
+        audio.play();
+      }
+      if (animation && item.user === props.name) {
+        playAnimation(parseInt(animation));
+      }
     }
   }, []);
 
