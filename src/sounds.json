@@ -1,0 +1,1002 @@
+[
+  {
+    "name": "Map_8",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/23/Map_8.flac"
+  },
+  {
+    "name": "Map_7",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/07/Map_7.flac"
+  },
+  {
+    "name": "Map_6",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/28/Map_6.flac"
+  },
+  {
+    "name": "Map_5",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6d/Map_5.flac"
+  },
+  {
+    "name": "Map_4",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/bb/Map_4.flac"
+  },
+  {
+    "name": "Map_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/56/Map_3.flac"
+  },
+  {
+    "name": "Map_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/00/Map_2.flac"
+  },
+  {
+    "name": "Map_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/a9/Map_1.flac"
+  },
+  {
+    "name": "Jingle_skillup",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8b/Jingle_skillup.flac"
+  },
+  {
+    "name": "Jingle_rarityup",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/3f/Jingle_rarityup.flac"
+  },
+  {
+    "name": "Jingle_lvup",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e1/Jingle_lvup.flac"
+  },
+  {
+    "name": "Common_5",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/04/Common_5.flac"
+  },
+  {
+    "name": "Common_4",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0f/Common_4.flac"
+  },
+  {
+    "name": "Common_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/20/Common_3.flac"
+  },
+  {
+    "name": "Common_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cd/Common_2.flac"
+  },
+  {
+    "name": "Common_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/fc/Common_1.flac"
+  },
+  {
+    "name": "summon_star04",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b8/Se_summon_star04.flac"
+  },
+  {
+    "name": "sys_home_board",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/1c/Se_sys_home_board.flac"
+  },
+  {
+    "name": "sys_home_friend",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/00/Se_sys_home_friend.flac"
+  },
+  {
+    "name": "sys_home_letter",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/75/Se_sys_home_letter.flac"
+  },
+  {
+    "name": "sys_home_mission",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/70/Se_sys_home_mission.flac"
+  },
+  {
+    "name": "sys_levelup1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/4f/Se_sys_levelup1.flac"
+  },
+  {
+    "name": "sys_point1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/79/Se_sys_point1.flac"
+  },
+  {
+    "name": "sys_point1_loop",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c0/Se_sys_point1_loop.flac"
+  },
+  {
+    "name": "sys_powerdown1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/08/Se_sys_powerdown1.flac"
+  },
+  {
+    "name": "sys_powerup1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/25/Se_sys_powerup1.flac"
+  },
+  {
+    "name": "sys_select1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6c/Se_sys_select1.flac"
+  },
+  {
+    "name": "sys_stageclear1_end",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/53/Se_sys_stageclear1_end.flac"
+  },
+  {
+    "name": "sys_warning",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/a9/Se_sys_warning.flac"
+  },
+  {
+    "name": "sys_wing_get",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/90/Se_sys_wing_get.flac"
+  },
+  {
+    "name": "sys_wing_get_add",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f7/Se_sys_wing_get_add.flac"
+  },
+  {
+    "name": "sys_zoom_in",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cf/Se_sys_zoom_in.flac"
+  },
+  {
+    "name": "sys_zoom_out",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/26/Se_sys_zoom_out.flac"
+  },
+  {
+    "name": "dash",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/20/Se_test_dash.flac"
+  },
+  {
+    "name": "jump",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/bf/Se_test_jump.flac"
+  },
+  {
+    "name": "shout",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/10/Se_test_shout.flac"
+  },
+  {
+    "name": "swing1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d9/Se_test_swing1.flac"
+  },
+  {
+    "name": "swing2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f5/Se_test_swing2.flac"
+  },
+  {
+    "name": "swing3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/9f/Se_test_swing3.flac"
+  },
+  {
+    "name": "swing4",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/66/Se_test_swing4.flac"
+  },
+  {
+    "name": "B_s_levelup1_point",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/92/B_s_levelup1_point.flac"
+  },
+  {
+    "name": "Battle_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/27/Battle_1.flac"
+  },
+  {
+    "name": "Battle_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/84/Battle_2.flac"
+  },
+  {
+    "name": "Battle_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/41/Battle_3.flac"
+  },
+  {
+    "name": "Battle_4",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/7d/Battle_4.flac"
+  },
+  {
+    "name": "Battle_5",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/db/Battle_5.flac"
+  },
+  {
+    "name": "Battle_6",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c2/Battle_6.flac"
+  },
+  {
+    "name": "sys_stageclear1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0c/Se_sys_stageclear1.flac"
+  },
+  {
+    "name": "sys_phase_player1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/ba/Se_sys_phase_player1.flac"
+  },
+  {
+    "name": "sys_phase_enemy1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f9/Se_sys_phase_enemy1.flac"
+  },
+  {
+    "name": "summon_stone_flash",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/07/Se_summon_stone_flash.flac"
+  },
+  {
+    "name": "summon_star05",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8c/Se_summon_star05.flac"
+  },
+  {
+    "name": "summon_star_sozai2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6f/Se_summon_star_sozai2.flac"
+  },
+  {
+    "name": "summon_star_sozai",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c1/Se_summon_star_sozai.flac"
+  },
+  {
+    "name": "summon_rare01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0d/Se_summon_rare01.flac"
+  },
+  {
+    "name": "summon_orb04",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/07/Se_summon_orb04.flac"
+  },
+  {
+    "name": "summon_orb03",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/09/Se_summon_orb03.flac"
+  },
+  {
+    "name": "summon_orb02",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/fb/Se_summon_orb02.flac"
+  },
+  {
+    "name": "summon_orb01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/17/Se_summon_orb01.flac"
+  },
+  {
+    "name": "summon_light_rare",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/69/Se_summon_light_rare.flac"
+  },
+  {
+    "name": "summon_light",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/59/Se_summon_light.flac"
+  },
+  {
+    "name": "summon_impact",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/85/Se_summon_impact.flac"
+  },
+  {
+    "name": "summon_herodic_ring",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/bb/Se_summon_herodic_ring.flac"
+  },
+  {
+    "name": "summon_gun",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/99/Se_summon_gun.flac"
+  },
+  {
+    "name": "summon_ambience",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/23/Se_summon_ambience.flac"
+  },
+  {
+    "name": "spa_dive1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/94/Se_spa_dive1.flac"
+  },
+  {
+    "name": "post_snare_roll",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/7e/Se_post_snare_roll.flac"
+  },
+  {
+    "name": "normal_water_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b6/Se_fs_normal_water_3.flac"
+  },
+  {
+    "name": "normal_water_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/75/Se_fs_normal_water_2.flac"
+  },
+  {
+    "name": "normal_water_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/bc/Se_fs_normal_water_1.flac"
+  },
+  {
+    "name": "normal_snow_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b7/Se_fs_normal_snow_3.flac"
+  },
+  {
+    "name": "normal_snow_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/76/Se_fs_normal_snow_2.flac"
+  },
+  {
+    "name": "normal_snow_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e3/Se_fs_normal_snow_1.flac"
+  },
+  {
+    "name": "normal_sand_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e5/Se_fs_normal_sand_3.flac"
+  },
+  {
+    "name": "normal_sand_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6e/Se_fs_normal_sand_2.flac"
+  },
+  {
+    "name": "normal_sand_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b2/Se_fs_normal_sand_1.flac"
+  },
+  {
+    "name": "normal_floor_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/31/Se_fs_normal_floor_3.flac"
+  },
+  {
+    "name": "normal_floor_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6a/Se_fs_normal_floor_2.flac"
+  },
+  {
+    "name": "normal_floor_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/25/Se_fs_normal_floor_1.flac"
+  },
+  {
+    "name": "normal_flat_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/60/Se_fs_normal_flat_3.flac"
+  },
+  {
+    "name": "normal_flat_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/ce/Se_fs_normal_flat_2.flac"
+  },
+  {
+    "name": "normal_flat_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/78/Se_fs_normal_flat_1.flac"
+  },
+  {
+    "name": "horse_water_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/ee/Se_fs_horse_water_3.flac"
+  },
+  {
+    "name": "horse_water_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/dd/Se_fs_horse_water_2.flac"
+  },
+  {
+    "name": "horse_water_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6e/Se_fs_horse_water_1.flac"
+  },
+  {
+    "name": "horse_snow_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2b/Se_fs_horse_snow_3.flac"
+  },
+  {
+    "name": "horse_snow_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/97/Se_fs_horse_snow_2.flac"
+  },
+  {
+    "name": "horse_snow_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6c/Se_fs_horse_snow_1.flac"
+  },
+  {
+    "name": "horse_sand_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/a3/Se_fs_horse_sand_3.flac"
+  },
+  {
+    "name": "horse_sand_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/ac/Se_fs_horse_sand_2.flac"
+  },
+  {
+    "name": "horse_sand_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/72/Se_fs_horse_sand_1.flac"
+  },
+  {
+    "name": "horse_flat_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0f/Se_fs_horse_flat_3.flac"
+  },
+  {
+    "name": "horse_flat_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b6/Se_fs_horse_flat_2.flac"
+  },
+  {
+    "name": "horse_flat_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/be/Se_fs_horse_flat_1.flac"
+  },
+  {
+    "name": "heavy_water_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/71/Se_fs_heavy_water_2.flac"
+  },
+  {
+    "name": "heavy_water_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/be/Se_fs_heavy_water_1.flac"
+  },
+  {
+    "name": "heavy_snow_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/7f/Se_fs_heavy_snow_2.flac"
+  },
+  {
+    "name": "heavy_snow_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/62/Se_fs_heavy_snow_1.flac"
+  },
+  {
+    "name": "heavy_floor_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/92/Se_fs_heavy_floor_2.flac"
+  },
+  {
+    "name": "heavy_floor_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e7/Se_fs_heavy_floor_1.flac"
+  },
+  {
+    "name": "heavy_flat_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/bb/Se_fs_heavy_flat_2.flac"
+  },
+  {
+    "name": "heavy_flat_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2a/Se_fs_heavy_flat_1.flac"
+  },
+  {
+    "name": "addchain_water_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/98/Se_fs_addchain_water_3.flac"
+  },
+  {
+    "name": "addchain_water_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/29/Se_fs_addchain_water_2.flac"
+  },
+  {
+    "name": "addchain_water_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0a/Se_fs_addchain_water_1.flac"
+  },
+  {
+    "name": "addchain_snow_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/ad/Se_fs_addchain_snow_3.flac"
+  },
+  {
+    "name": "addchain_snow_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/67/Se_fs_addchain_snow_2.flac"
+  },
+  {
+    "name": "addchain_snow_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2b/Se_fs_addchain_snow_1.flac"
+  },
+  {
+    "name": "addchain_sand_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/df/Se_fs_addchain_sand_3.flac"
+  },
+  {
+    "name": "addchain_sand_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/3a/Se_fs_addchain_sand_2.flac"
+  },
+  {
+    "name": "addchain_sand_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c3/Se_fs_addchain_sand_1.flac"
+  },
+  {
+    "name": "addchain_floor_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2d/Se_fs_addchain_floor_3.flac"
+  },
+  {
+    "name": "addchain_floor_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e2/Se_fs_addchain_floor_2.flac"
+  },
+  {
+    "name": "addchain_floor_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/20/Se_fs_addchain_floor_1.flac"
+  },
+  {
+    "name": "addchain_flat_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8c/Se_fs_addchain_flat_3.flac"
+  },
+  {
+    "name": "addchain_flat_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e4/Se_fs_addchain_flat_2.flac"
+  },
+  {
+    "name": "addchain_flat_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/5b/Se_fs_addchain_flat_1.flac"
+  },
+  {
+    "name": "friend_talk",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2c/Se_friend_talk.flac"
+  },
+  {
+    "name": "friend_notice",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/9a/Se_friend_notice.flac"
+  },
+  {
+    "name": "friend_happy",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0d/Se_friend_happy.flac"
+  },
+  {
+    "name": "wolf01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f6/Se_effect_wolf01.flac"
+  },
+  {
+    "name": "wind06",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/ab/Se_effect_wind06.flac"
+  },
+  {
+    "name": "wind_start_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c6/Se_effect_wind_start_fld.flac"
+  },
+  {
+    "name": "wind",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/36/Se_effect_wind.flac"
+  },
+  {
+    "name": "waterbreath",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/de/Se_effect_waterbreath.flac"
+  },
+  {
+    "name": "wall_break01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e8/Se_effect_wall_break01.flac"
+  },
+  {
+    "name": "volganon",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6d/Se_effect_volganon.flac"
+  },
+  {
+    "name": "thunderbreath",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b1/Se_effect_thunderbreath.flac"
+  },
+  {
+    "name": "thunder02",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/7f/Se_effect_thunder02.flac"
+  },
+  {
+    "name": "thunder01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/ae/Se_effect_thunder01.flac"
+  },
+  {
+    "name": "thunder_start_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/18/Se_effect_thunder_start_fld.flac"
+  },
+  {
+    "name": "thoron",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/a7/Se_effect_thoron.flac"
+  },
+  {
+    "name": "tenku",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/87/Se_effect_tenku.flac"
+  },
+  {
+    "name": "t_hummer",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6a/Se_effect_t_hummer.flac"
+  },
+  {
+    "name": "sword01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/89/Se_effect_sword01.flac"
+  },
+  {
+    "name": "sun",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/52/Se_effect_sun.flac"
+  },
+  {
+    "name": "song_hit",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/03/Se_effect_song_hit.flac"
+  },
+  {
+    "name": "song_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/78/Se_effect_song_fld.flac"
+  },
+  {
+    "name": "slow",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/45/Se_effect_slow.flac"
+  },
+  {
+    "name": "shield01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8a/Se_effect_shield01.flac"
+  },
+  {
+    "name": "serpent",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/50/Se_effect_serpent.flac"
+  },
+  {
+    "name": "saints",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cb/Se_effect_saints.flac"
+  },
+  {
+    "name": "ruin",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/67/Se_effect_ruin.flac"
+  },
+  {
+    "name": "roar_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f1/Se_effect_roar_fld.flac"
+  },
+  {
+    "name": "relive",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/26/Se_effect_relive.flac"
+  },
+  {
+    "name": "recover",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/66/Se_effect_recover.flac"
+  },
+  {
+    "name": "rainarok",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/fa/Se_effect_rainarok.flac"
+  },
+  {
+    "name": "pray",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d0/Se_effect_pray.flac"
+  },
+  {
+    "name": "post_count",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d0/Se_effect_post_count.flac"
+  },
+  {
+    "name": "poison",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/ac/Se_effect_poison.flac"
+  },
+  {
+    "name": "panic",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f3/Se_effect_panic.flac"
+  },
+  {
+    "name": "pain",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/5a/Se_effect_pain.flac"
+  },
+  {
+    "name": "orb_revive",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/76/Se_effect_orb_revive.flac"
+  },
+  {
+    "name": "orb_flash",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b3/Se_effect_orb_flash.flac"
+  },
+  {
+    "name": "orb_debuff",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/ba/Se_effect_orb_debuff.flac"
+  },
+  {
+    "name": "orb_buff",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/10/Se_effect_orb_buff.flac"
+  },
+  {
+    "name": "nosferatu",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b7/Se_effect_nosferatu.flac"
+  },
+  {
+    "name": "newchapter_flash",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e2/Se_effect_newchapter_flash.flac"
+  },
+  {
+    "name": "naglfar",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/56/Se_effect_naglfar.flac"
+  },
+  {
+    "name": "naga",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e0/Se_effect_naga.flac"
+  },
+  {
+    "name": "musica",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/7b/Se_effect_musica.flac"
+  },
+  {
+    "name": "moon",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/9b/Se_effect_moon.flac"
+  },
+  {
+    "name": "mil",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/18/Se_effect_mil.flac"
+  },
+  {
+    "name": "meteor",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d9/Se_effect_meteor.flac"
+  },
+  {
+    "name": "lopu",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f2/Se_effect_lopu.flac"
+  },
+  {
+    "name": "live",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/1d/Se_effect_live.flac"
+  },
+  {
+    "name": "lightbreath",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/9b/Se_effect_lightbreath.flac"
+  },
+  {
+    "name": "light05",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e0/Se_effect_light05.flac"
+  },
+  {
+    "name": "light04",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/1f/Se_effect_light04.flac"
+  },
+  {
+    "name": "light03",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6a/Se_effect_light03.flac"
+  },
+  {
+    "name": "light02",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/32/Se_effect_light02.flac"
+  },
+  {
+    "name": "light01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/3d/Se_effect_light01.flac"
+  },
+  {
+    "name": "light_start_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c9/Se_effect_light_start_fld.flac"
+  },
+  {
+    "name": "lexcalibur",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/76/Se_effect_lexcalibur.flac"
+  },
+  {
+    "name": "izunn",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/f9/Se_effect_izunn.flac"
+  },
+  {
+    "name": "ivaldi",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/04/Se_effect_ivaldi.flac"
+  },
+  {
+    "name": "icewall_break01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cf/Se_effect_icewall_break01.flac"
+  },
+  {
+    "name": "iceflower",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/9e/Se_effect_iceflower.flac"
+  },
+  {
+    "name": "ice",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/22/Se_effect_ice.flac"
+  },
+  {
+    "name": "heart_appear",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/30/Se_effect_heart_appear.flac"
+  },
+  {
+    "name": "gravity",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/fe/Se_effect_gravity.flac"
+  },
+  {
+    "name": "gleipnir",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/9/9f/Se_effect_gleipnir.flac"
+  },
+  {
+    "name": "gimle",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/05/Se_effect_gimle.flac"
+  },
+  {
+    "name": "ghost01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cf/Se_effect_ghost01.flac"
+  },
+  {
+    "name": "forblaze",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/1a/Se_effect_forblaze.flac"
+  },
+  {
+    "name": "flower_nif",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d2/Se_effect_flower_nif.flac"
+  },
+  {
+    "name": "flower_mus",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/60/Se_effect_flower_mus.flac"
+  },
+  {
+    "name": "flower",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d7/Se_effect_flower.flac"
+  },
+  {
+    "name": "Fjalarflame01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0d/Se_effect_Fjalarflame01.flac"
+  },
+  {
+    "name": "fish01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/d7/Se_effect_fish01.flac"
+  },
+  {
+    "name": "firebreath03",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0d/Se_effect_firebreath03.flac"
+  },
+  {
+    "name": "firebreath02",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/4a/Se_effect_firebreath02.flac"
+  },
+  {
+    "name": "firebreath01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2d/Se_effect_firebreath01.flac"
+  },
+  {
+    "name": "fire02",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/87/Se_effect_fire02.flac"
+  },
+  {
+    "name": "fire01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c7/Se_effect_fire01.flac"
+  },
+  {
+    "name": "fire_start_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/05/Se_effect_fire_start_fld.flac"
+  },
+  {
+    "name": "fear",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/09/Se_effect_fear.flac"
+  },
+  {
+    "name": "excalibur_add",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/ba/Se_effect_excalibur_add.flac"
+  },
+  {
+    "name": "excalibur",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/53/Se_effect_excalibur.flac"
+  },
+  {
+    "name": "elwind",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/f/fe/Se_effect_elwind.flac"
+  },
+  {
+    "name": "dragon_return",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/45/Se_effect_dragon_return.flac"
+  },
+  {
+    "name": "dragon_change",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8a/Se_effect_dragon_change.flac"
+  },
+  {
+    "name": "dime_thunder",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0f/Se_effect_dime_thunder.flac"
+  },
+  {
+    "name": "darkbreath",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/28/Se_effect_darkbreath.flac"
+  },
+  {
+    "name": "dance_start",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/ec/Se_effect_dance_start.flac"
+  },
+  {
+    "name": "cymbeline",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cb/Se_effect_cymbeline.flac"
+  },
+  {
+    "name": "cure_fld",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/27/Se_effect_cure_fld.flac"
+  },
+  {
+    "name": "brunhild",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/dc/Se_effect_brunhild.flac"
+  },
+  {
+    "name": "bouquet",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/6f/Se_effect_bouquet.flac"
+  },
+  {
+    "name": "boot_rod",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/44/Se_effect_boot_rod.flac"
+  },
+  {
+    "name": "boot",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/dd/Se_effect_boot.flac"
+  },
+  {
+    "name": "blood",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/71/Se_effect_blood.flac"
+  },
+  {
+    "name": "blizzard01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/5d/Se_effect_blizzard01.flac"
+  },
+  {
+    "name": "blessing_wind",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/42/Se_effect_blessing_wind.flac"
+  },
+  {
+    "name": "blessing_water",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/56/Se_effect_blessing_water.flac"
+  },
+  {
+    "name": "blessing_fire",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/3f/Se_effect_blessing_fire.flac"
+  },
+  {
+    "name": "blessing_earth",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/67/Se_effect_blessing_earth.flac"
+  },
+  {
+    "name": "bird02",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/22/Se_effect_bird02.flac"
+  },
+  {
+    "name": "bird01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/7b/Se_effect_bird01.flac"
+  },
+  {
+    "name": "bat01",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/e0/Se_effect_bat01.flac"
+  },
+  {
+    "name": "aura",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8b/Se_effect_aura.flac"
+  },
+  {
+    "name": "anticounter",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/a/ac/Se_effect_anticounter.flac"
+  },
+  {
+    "name": "amaterasu",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/0c/Se_effect_amaterasu.flac"
+  },
+  {
+    "name": "dmg_hundred_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cd/Se_dmg_hundred_2.flac"
+  },
+  {
+    "name": "dmg_hundred_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/52/Se_dmg_hundred_1.flac"
+  },
+  {
+    "name": "btl_skill1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/87/Se_btl_skill1.flac"
+  },
+  {
+    "name": "btl_dmf2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/1b/Se_btl_dmf2.flac"
+  },
+  {
+    "name": "btl_dmf1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c8/Se_btl_dmf1.flac"
+  },
+  {
+    "name": "btl_dead1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/36/Se_btl_dead1.flac"
+  },
+  {
+    "name": "btl_damage0",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/d/dc/Se_btl_damage0.flac"
+  },
+  {
+    "name": "btl_cure1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/78/Se_btl_cure1.flac"
+  },
+  {
+    "name": "btl_blow2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/8/8a/Se_btl_blow2.flac"
+  },
+  {
+    "name": "btl_blow1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b3/Se_btl_blow1.flac"
+  },
+  {
+    "name": "swing_l_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/e/ea/Se_battle_swing_l_1.flac"
+  },
+  {
+    "name": "cloth_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cc/Se_battle_cloth_3.flac"
+  },
+  {
+    "name": "cloth_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/13/Se_battle_cloth_2.flac"
+  },
+  {
+    "name": "cloth_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/4/4f/Se_battle_cloth_1.flac"
+  },
+  {
+    "name": "bow_shot1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/06/Se_battle_bow_shot1.flac"
+  },
+  {
+    "name": "appear_horse_water_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/57/Se_battle_appear_horse_water_3.flac"
+  },
+  {
+    "name": "appear_horse_water_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/cc/Se_battle_appear_horse_water_2.flac"
+  },
+  {
+    "name": "appear_horse_water_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b4/Se_battle_appear_horse_water_1.flac"
+  },
+  {
+    "name": "appear_horse_snow_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/5/5a/Se_battle_appear_horse_snow_3.flac"
+  },
+  {
+    "name": "appear_horse_snow_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/6/61/Se_battle_appear_horse_snow_2.flac"
+  },
+  {
+    "name": "appear_horse_snow_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/c/c0/Se_battle_appear_horse_snow_1.flac"
+  },
+  {
+    "name": "appear_horse_sand_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/0/05/Se_battle_appear_horse_sand_3.flac"
+  },
+  {
+    "name": "appear_horse_sand_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/b/b2/Se_battle_appear_horse_sand_2.flac"
+  },
+  {
+    "name": "appear_horse_sand_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/3/3d/Se_battle_appear_horse_sand_1.flac"
+  },
+  {
+    "name": "appear_horse_flat_3",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/7/78/Se_battle_appear_horse_flat_3.flac"
+  },
+  {
+    "name": "appear_horse_flat_2",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/2/2e/Se_battle_appear_horse_flat_2.flac"
+  },
+  {
+    "name": "appear_horse_flat_1",
+    "src": "https://static.wikia.nocookie.net/feheroes_gamepedia_en/images/1/1d/Se_battle_appear_horse_flat_1.flac"
+  }
+]

@@ -5,6 +5,7 @@ import landingBG from "./assets/bg.jpg";
 import refresh from "./assets/refresh.png";
 import "./App.css";
 import animations from "./animations.json";
+import sounds from "./sounds.json";
 
 let animationIndex = -1;
 
@@ -332,9 +333,9 @@ export const ChatInstance = (props) => {
   const { item, index } = JSON.parse(propsString);
 
   useEffect(() => {
-    if (Date.now() - 3000 < item.id) {
-      if (sfxURL && !props.noSFX) {
-        const audio = new Audio(sfxURL);
+    if (Date.now() - 1000 < item.id) {
+      if (sfxURL && !props.noSFX && sounds[parseInt(sfxURL)]) {
+        const audio = new Audio(sounds[parseInt(sfxURL)].src);
         audio.volume = 0.2;
         audio.play();
       }
@@ -589,6 +590,7 @@ function App() {
   const [damageTypeSelected, setSelectedDamageType] = useState("physical");
   const [message, setMessage] = useState("");
   const [openAnimations, setOpenAnimations] = useState(false);
+  const [showSounds, setShowSounds] = useState(false);
 
   const showMessage = (messageGet) => {
     setMessage(messageGet);
@@ -2686,22 +2688,39 @@ function App() {
             copy
           </button> */}
             <div className="outline" style={{ fontSize: 14 }}>
-              Effect Animations
+              Effect Library
             </div>
-            <button
-              style={{
-                width: 48,
-                height: 25,
-                fontSize: 10,
-                padding: 0,
-              }}
-              className="button"
-              onClick={() => {
-                setOpenAnimations(false);
-              }}
-            >
-              back
-            </button>
+            <div>
+              <button
+                style={{
+                  width: 48,
+                  height: 25,
+                  fontSize: 10,
+                  padding: 0,
+                  marginRight: 4,
+                }}
+                className="button"
+                onClick={() => {
+                  setShowSounds(!showSounds);
+                }}
+              >
+                {showSounds ? "SFX" : "VFX"}
+              </button>
+              <button
+                style={{
+                  width: 48,
+                  height: 25,
+                  fontSize: 10,
+                  padding: 0,
+                }}
+                className="button"
+                onClick={() => {
+                  setOpenAnimations(false);
+                }}
+              >
+                back
+              </button>
+            </div>
           </div>
           <div
             id="chatbox"
@@ -2710,7 +2729,7 @@ function App() {
               backgroundColor: "#333",
               padding: 10,
               overflow: "scroll",
-              height: 480,
+              height: 450,
               border: "1px solid #222",
               display: "flex",
               flexWrap: "wrap",
@@ -2718,57 +2737,145 @@ function App() {
               justifyContent: "center",
             }}
           >
-            {animations.map((item, index) => {
-              return (
-                <div
-                  style={{ position: "relative" }}
-                  key={index + "_animation"}
-                >
+            {showSounds &&
+              sounds.map((item, index) => {
+                return (
                   <div
+                    key={index + "_sound"}
                     style={{
-                      position: "absolute",
-                      top: 2,
-                      left: 10,
-                      zIndex: 1000,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: 100,
                     }}
-                    className="outline"
                   >
-                    {index}
+                    <div className="outline" style={{ fontSize: 10 }}>
+                      {item.name}
+                    </div>
+                    <button
+                      style={{
+                        width: 40,
+                        height: 20,
+                        fontSize: 9,
+                      }}
+                      className="button"
+                      onClick={() => {
+                        const audio = new Audio(item.src);
+                        audio.volume = 0.2;
+                        audio.play();
+                      }}
+                    >
+                      Play
+                    </button>
+                    <button
+                      style={{
+                        width: 40,
+                        height: 20,
+                        fontSize: 9,
+                      }}
+                      className="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText("$" + index + "$");
+                        showMessage("Copied to clipboard");
+                      }}
+                    >
+                      Copy
+                    </button>
+                    <button
+                      style={{
+                        width: 40,
+                        height: 20,
+                        fontSize: 9,
+                      }}
+                      className="button"
+                      onClick={() => {
+                        setOpenAnimations(false);
+                        addSkillMessage({
+                          characterName: player.traits.name,
+                          skillName: item.name,
+                          detail: "$" + index + "$",
+                        });
+                      }}
+                    >
+                      Submit
+                    </button>
                   </div>
-                  <button
-                    style={{
-                      position: "absolute",
-                      top: 2,
-                      right: 10,
-                      width: 40,
-                      height: 20,
-                      fontSize: 10,
-                      padding: 0,
-                      zIndex: 1000,
-                    }}
-                    className="button"
-                    onClick={() => {
-                      playAnimation(index);
-                    }}
+                );
+              })}
+            {!showSounds &&
+              animations.map((item, index) => {
+                return (
+                  <div
+                    style={{ position: "relative" }}
+                    key={index + "_animation"}
                   >
-                    Play
-                  </button>
-                  <video
-                    style={{
-                      width: 158,
-                      height: 80,
-                      fontSize: 10,
-                      padding: 0,
-                    }}
-                    controls
-                  >
-                    <source src={item} />
-                  </video>
-                </div>
-              );
-            })}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 2,
+                        left: 10,
+                        zIndex: 1000,
+                      }}
+                      className="outline"
+                    >
+                      {index}
+                    </div>
+                    <button
+                      style={{
+                        position: "absolute",
+                        top: 2,
+                        right: 10,
+                        width: 40,
+                        height: 20,
+                        fontSize: 10,
+                        padding: 0,
+                        zIndex: 1000,
+                      }}
+                      className="button"
+                      onClick={() => {
+                        playAnimation(index);
+                      }}
+                    >
+                      Play
+                    </button>
+                    <video
+                      style={{
+                        width: 158,
+                        height: 80,
+                        fontSize: 10,
+                        padding: 0,
+                      }}
+                      controls
+                    >
+                      <source src={item} />
+                    </video>
+                  </div>
+                );
+              })}
           </div>
         </div>
+        {message !== "" && (
+          <div
+            style={{
+              position: "absolute",
+              background: "#222",
+              borderRadius: 4,
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              margin: "auto",
+              width: 200,
+              height: 28,
+              padding: 8,
+              textAlign: "center",
+            }}
+          >
+            <span className="outline" style={{ fontSize: 12 }}>
+              {message}
+            </span>
+          </div>
+        )}
       </div>
     );
   }
