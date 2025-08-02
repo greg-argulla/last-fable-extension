@@ -8,5 +8,11 @@
     "popover": "/",
     "height": 540,
     "width": 400
-  }
+  },
+  "permissions": [
+    {
+      "name": "clipboard-write",
+      "reason": "Copy sound effects to the clipboard"
+    }
+  ]
 }
