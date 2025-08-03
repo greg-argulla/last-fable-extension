@@ -263,7 +263,7 @@ const playAnimation = async (index) => {
       visible: true,
       locked: true,
       createdUserId: "691aa845-022d-4c0f-948f-4bfc5a4037f3",
-      zIndex: 0,
+      zIndex: 99999999999999999999999999,
       lastModified: "2025-08-01T16:24:31.584Z",
       lastModifiedUserId: "691aa845-022d-4c0f-948f-4bfc5a4037f3",
       metadata: {},
