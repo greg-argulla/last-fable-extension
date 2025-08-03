@@ -296,7 +296,7 @@ const playAnimation = async (index) => {
         height: "AUTO",
       },
       textItemType: "LABEL",
-      layer: "PROP",
+      layer: "MOUNT",
     },
   ]);
 };
