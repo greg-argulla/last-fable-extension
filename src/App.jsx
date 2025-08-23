@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import OBR from "@owlbear-rodeo/sdk";
-import landingBG from "./assets/bg.jpg";
+import landingFantasy from "./assets/bgfantasy.jpg";
+import landingTechno from "./assets/bgtechno.jpg";
+
 import refresh from "./assets/refresh.png";
 import "./App.css";
 import animations from "./animations.json";
@@ -591,6 +593,7 @@ function App() {
   const [message, setMessage] = useState("");
   const [openAnimations, setOpenAnimations] = useState(false);
   const [showSounds, setShowSounds] = useState(false);
+  const [theme, setTheme] = useState("fantasy");
 
   const showMessage = (messageGet) => {
     setMessage(messageGet);
@@ -690,6 +693,10 @@ function App() {
             setChatToCheckChanges(currentChat);
           }
 
+          if (metadata["ultimate.story.extension.theme"]) {
+            setTheme(metadata["ultimate.story.extension.theme"]);
+          }
+
           setIsOBRReady(true);
           setTimeout(() => {
             var objDiv = document.getElementById("chatbox");
@@ -724,6 +731,10 @@ function App() {
         if (metadata["last.fable.extension/metadata"]) {
           const currentChat = await createChatArray(metadata);
           setChatToCheckChanges(currentChat);
+        }
+
+        if (metadata["ultimate.story.extension.theme"]) {
+          setTheme(metadata["ultimate.story.extension.theme"]);
         }
 
         setIsOBRReady(true);
@@ -1673,7 +1684,9 @@ function App() {
     return (
       <div
         style={{
-          backgroundImage: `url(${landingBG})`,
+          backgroundImage: `url(${
+            theme === "fantasy" ? landingFantasy : landingTechno
+          })`,
           backgroundSize: "contain",
           height: 540,
           width: 400,
@@ -1704,7 +1717,9 @@ function App() {
     return (
       <div
         style={{
-          backgroundImage: `url(${landingBG})`,
+          backgroundImage: `url(${
+            theme === "fantasy" ? landingFantasy : landingTechno
+          })`,
           backgroundSize: "contain",
           height: 540,
           width: 400,
@@ -2637,7 +2652,9 @@ function App() {
     return (
       <div
         style={{
-          backgroundImage: `url(${landingBG})`,
+          backgroundImage: `url(${
+            theme === "fantasy" ? landingFantasy : landingTechno
+          })`,
           backgroundSize: "contain",
           height: 540,
           width: 400,
@@ -2908,7 +2925,9 @@ function App() {
   return (
     <div
       style={{
-        backgroundImage: `url(${landingBG})`,
+        backgroundImage: `url(${
+          theme === "fantasy" ? landingFantasy : landingTechno
+        })`,
         backgroundSize: "contain",
         height: 540,
         width: 400,
