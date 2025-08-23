@@ -680,6 +680,10 @@ function App() {
   };
 
   useEffect(() => {
+    localStorage.setItem("last.fable.extension/theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
     OBR.onReady(async () => {
       OBR.scene.onReadyChange(async (ready) => {
         if (ready) {

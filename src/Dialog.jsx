@@ -2,10 +2,13 @@
 import { useState, useEffect } from "react";
 import OBR from "@owlbear-rodeo/sdk";
 import "./App.css";
-import dialogBG from "./assets/dialog.webp";
+import dialogTechnoBG from "./assets/dialogtechno.webp";
+import dialogFantasyBG from "./assets/dialogfantasy.webp";
 
 function Dialog() {
   const [lastMessage, setLastMessage] = useState(undefined);
+  const [theme] = useState(localStorage.getItem("last.fable.extension/theme"));
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       try {
@@ -33,7 +36,9 @@ function Dialog() {
           padding: 10,
           overflow: "hidden",
           cursor: "pointer",
-          backgroundImage: `url(${dialogBG})`,
+          backgroundImage: `url(${
+            theme === "techno" ? dialogTechnoBG : dialogFantasyBG
+          })`,
           backgroundSize: "cover",
           margin: 5,
           display: "flex",
