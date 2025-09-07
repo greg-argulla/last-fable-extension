@@ -623,6 +623,10 @@ function App() {
         } else if (maxGet) {
           image.text.richText[0].children[0].text =
             valueGet.toString() + "/" + maxGet.toString();
+        } else if (key === "currentIP") {
+          image.text.richText[0].children[0].text = valueGet
+            .toString()
+            .padStart(2, "0");
         } else {
           image.text.richText[0].children[0].text = valueGet.toString();
         }
