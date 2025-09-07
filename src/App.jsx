@@ -613,7 +613,7 @@ function App() {
           const format =
             valueGet > 9 ? valueGet.toString() : " " + valueGet.toString();
 
-          const fontSize = theme === "fantasy" ? (valueGet > 9 ? 10 : 12) : 14;
+          const fontSize = theme === "fantasy" ? (valueGet > 9 ? 12 : 14) : 14;
           image.text.richText[0].children[0].text = format;
           image.text.style.fontSize = fontSize;
         } else if (key === "fabula") {
