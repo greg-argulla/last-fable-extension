@@ -34,7 +34,7 @@ body {
   overflow-x: scroll;
   height: 540px;
   width: 400px;
-  scrollbar-width: 0px;
+  scrollbar-width: none;
   color-scheme: dark;
 }
 
