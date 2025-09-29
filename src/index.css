@@ -8,6 +8,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  scrollbar-width: none !important; /* Firefox - with !important to override any conflicts */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.main-body {
+  scrollbar-width: none !important; /* Firefox - with !important to override any conflicts */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 a {
